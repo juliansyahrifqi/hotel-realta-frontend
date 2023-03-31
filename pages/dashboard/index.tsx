@@ -1,4 +1,5 @@
 import InputSelect from "@/components/Input/InputSelect";
+import Modal from "@/components/Modal/Modal";
 import Head from "next/head";
 import React from "react";
 
@@ -10,6 +11,8 @@ export default function Dashboard() {
       </Head>
       <div>Dashboard</div>
       <InputSelect />
+
+      <Modal />
     </>
   );
 }
