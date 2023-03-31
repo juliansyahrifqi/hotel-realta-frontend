@@ -1,4 +1,4 @@
-import InputText from "@/components/Input/InputText";
+import InputSelect from "@/components/Input/InputSelect";
 import Head from "next/head";
 import React from "react";
 
@@ -9,6 +9,7 @@ export default function Dashboard() {
         <title>Hotel Realta - Dashboard</title>
       </Head>
       <div>Dashboard</div>
+      <InputSelect />
     </>
   );
 }
