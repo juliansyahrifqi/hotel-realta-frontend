@@ -113,7 +113,7 @@ const listMenu = [
     name: "Master",
     submenu: [
       {
-        to: "",
+        to: "master/locations",
         path: "",
         title: "Location",
       },
