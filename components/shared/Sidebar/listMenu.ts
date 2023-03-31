@@ -43,6 +43,13 @@ const listMenu = [
     path: '',
     icon: MdRestaurant,
     name: 'Resto',
+    submenu: [
+      {
+        to: '',
+        path: '',
+        title: 'Resto Menu',
+      },
+    ],
   },
   {
     to: '#',
