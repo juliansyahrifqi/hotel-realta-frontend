@@ -24,8 +24,6 @@ export default function Navbar({ showSidebar, setShowSidebar }: any) {
                 onClick={() => setShowSidebar(!showSidebar)}
               />
             </a>
-
-            <p className="text-[#13293D] font-bold text-2xl">My Profile</p>
           </div>
 
           {/* <div className="user-profile flex items-center gap-3">
@@ -106,13 +104,18 @@ export default function Navbar({ showSidebar, setShowSidebar }: any) {
             <Menu as="div" className="relative inline-block text-left">
               <div>
                 <Menu.Button className="inline-flex w-full justify-center rounded-full items-center gap-3">
-                  <span className="font-medium">Hi, User</span>
+                  <div className="flex flex-col gap-1">
+                    <span className="font-medium text-sm">James Brown</span>
+                    <span className="font-light text-sm text-variant">
+                      Administrator
+                    </span>
+                  </div>
                   <picture>
                     <Image
                       src={Avatar}
                       alt="Picsum"
-                      width={30}
-                      height={30}
+                      width={50}
+                      height={50}
                       className="rounded-full"
                     />
                   </picture>
@@ -127,12 +130,12 @@ export default function Navbar({ showSidebar, setShowSidebar }: any) {
                 leaveFrom="transform scale-100"
                 leaveTo="transform scale-95"
               >
-                <Menu.Items className="absolute right-0 w-56 z-50 mt-2 origin-top-right bg-white rounded shadow-sm border border-gray-600">
+                <Menu.Items className="absolute right-0 w-56 z-50 mt-2 origin-top-right bg-white rounded shadow-sm border border-variant">
                   <div className="p-1">
                     <Menu.Item>
                       <button
                         type="button"
-                        className="flex text-gray-400 hover:bg-gray-100 hover:text-gray-700 p-2 w-full text-sm group transition-colors items-center"
+                        className="flex text-black hover:bg-gray-300 hover:rounded p-2 w-full text-sm group transition-colors items-center font-medium"
                       >
                         <BiLogOut className="h-4 w-4 mr-2" />
                         Logout

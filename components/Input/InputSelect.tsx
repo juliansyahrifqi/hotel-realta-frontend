@@ -9,7 +9,6 @@ const people = [
   { name: "Tom Cook" },
   { name: "Tanya Fox" },
   { name: "Hellen Schmidt" },
-
   { name: "Tanya Fox" },
   { name: "Hellen Schmidt" },
 ];
@@ -37,7 +36,7 @@ export default function InputSelect() {
             leaveTo="opacity-0"
           >
             <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded bg-white py-1 text-base  ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm border border-gray-300">
-              {(people || []).map((person, index) => (
+              {people.map((person, index) => (
                 <Listbox.Option
                   key={index}
                   className={({ active }) =>
@@ -45,7 +44,7 @@ export default function InputSelect() {
                       active ? "bg-primary text-white" : "text-black"
                     }`
                   }
-                  value={person}
+                  value={person.name}
                 >
                   {({ selected }) => (
                     <>
