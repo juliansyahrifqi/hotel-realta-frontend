@@ -10,9 +10,6 @@ export default function Dashboard() {
         <title>Hotel Realta - Dashboard</title>
       </Head>
       <div>Dashboard</div>
-      <InputSelect />
-
-      <Modal />
     </>
   );
 }
