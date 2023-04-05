@@ -22,18 +22,18 @@ const listMenu = [
     name: 'Hotel',
     submenu: [
       {
-        to: 'hotel/hotels',
-        path: 'hotels',
+        to: '/hotel/hotels',
+        path: '/hotel',
         title: 'Hotels',
       },
       {
-        to: 'hotel/facilities-support',
-        path: '/facilities-support',
+        to: '/hotel/facilities-support',
+        path: '/hotel',
         title: 'Facilities Support',
       },
       {
-        to: 'hotel-reviews',
-        path: 'hotel-reviews',
+        to: '/hotel/hotel-reviews',
+        path: '/hotel',
         title: 'Hotel Reviews',
       },
     ],

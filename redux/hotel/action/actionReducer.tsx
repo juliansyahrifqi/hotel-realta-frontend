@@ -1,9 +1,19 @@
 import ActionTypeHotel from './actionTypeHotel'
 
 //====================HOTELS=======================
-export const doRequestGetHotels = () => {
+export const doRequestGetHotels = (
+  pageNumber: number,
+  pageSize: number,
+  search: string
+) => {
+  const payload = {
+    pageNumber,
+    pageSize,
+    search,
+  }
   return {
     type: ActionTypeHotel.REQ_GET_HOTELS,
+    payload,
   }
 }
 export const doGetHotelsResponse = (payload: any) => {
@@ -12,13 +22,27 @@ export const doGetHotelsResponse = (payload: any) => {
     payload,
   }
 }
+export const doRequestGetSearchHotels = (payload: any) => {
+  return {
+    type: ActionTypeHotel.SEARCH_GET_HOTELS,
+    payload,
+  }
+}
+export const doGetSearchHotelsResponse = (payload: any) => {
+  return {
+    type: ActionTypeHotel.SEARCH_HOTELS_RESPONSE,
+    payload,
+  }
+}
 export const doAddHotels = (payload: any) => {
+  // console.log(payload)
   return {
     type: ActionTypeHotel.ADD_HOTELS,
     payload,
   }
 }
 export const doAddHotelsResponse = (payload: any) => {
+  console.log(payload)
   return {
     type: ActionTypeHotel.ADD_HOTELS_RESPONSE,
     payload,
@@ -49,15 +73,28 @@ export const doDeleteHotelsResponse = (payload: any) => {
   }
 }
 
+//====================CITY=======================
+export const doRequestGetCity = () => {
+  return {
+    type: ActionTypeHotel.REQ_GET_CITY,
+  }
+}
+export const doGetCityResponse = (payload: any) => {
+  return {
+    type: ActionTypeHotel.GET_CITY_RESPONSE,
+    payload,
+  }
+}
 //====================FACILITIES=======================
 export const doRequestGetFacilities = () => {
   return {
     type: ActionTypeHotel.REQ_GET_FACILITIES,
   }
 }
-export const doGetFacilitiesResponse = () => {
+export const doGetFacilitiesResponse = (payload: any) => {
   return {
     type: ActionTypeHotel.GET_FACILITIES_RESPONSE,
+    payload,
   }
 }
 export const doAddFacilities = (payload: any) => {
@@ -103,9 +140,10 @@ export const doRequestGetHotelReviews = () => {
     type: ActionTypeHotel.REQ_GET_HOTEL_REVIEWS,
   }
 }
-export const doGetHotelReviewsResponse = () => {
+export const doGetHotelReviewsResponse = (payload: any) => {
   return {
     type: ActionTypeHotel.GET_HOTEL_REVIEWS_RESPONSE,
+    payload,
   }
 }
 export const doAddHotelReviews = (payload: any) => {
@@ -151,9 +189,10 @@ export const doRequestGetFacilitiesSupport = () => {
     type: ActionTypeHotel.REQ_GET_FACILITIES_SUPPORT,
   }
 }
-export const doGetFacilitiesSupportResponse = () => {
+export const doGetFacilitiesSupportResponse = (payload: any) => {
   return {
     type: ActionTypeHotel.GET_FACILITIES_SUPPORT_RESPONSE,
+    payload,
   }
 }
 export const doAddFacilitiesSupport = (payload: any) => {
@@ -199,9 +238,10 @@ export const doRequestGetFacilityPhotos = () => {
     type: ActionTypeHotel.REQ_GET_FACILITY_PHOTOS,
   }
 }
-export const doGetFacilityPhotosResponse = () => {
+export const doGetFacilityPhotosResponse = (payload: any) => {
   return {
     type: ActionTypeHotel.GET_FACILITY_PHOTOS_RESPONSE,
+    payload,
   }
 }
 export const doAddFacilityPhotos = (payload: any) => {
