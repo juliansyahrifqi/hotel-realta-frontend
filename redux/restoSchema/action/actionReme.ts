@@ -1,10 +1,16 @@
 import actionTypes from './actionType'
 
-export const doRequestGetReme = (searchTerm: any, page: any, limit: any) => {
+export const doRequestGetReme = (
+  searchTerm: any,
+  page: any,
+  limit: any,
+  sort: any
+) => {
   const payload = {
     searchTerm,
     page,
     limit,
+    sort,
   }
   return {
     type: actionTypes.REQ_GET_REME,
@@ -65,6 +71,20 @@ export const doSearch = (payload: any) => {
 export const doSearchResponse = (payload: any) => {
   return {
     type: actionTypes.SEARCH_REME_RESPONSE,
+    payload,
+  }
+}
+
+export const doSort = (payload: any) => {
+  return {
+    type: actionTypes.SORT_REME,
+    payload,
+  }
+}
+
+export const doSortResponse = (payload: any) => {
+  return {
+    type: actionTypes.SORT_REME_RESPONSE,
     payload,
   }
 }

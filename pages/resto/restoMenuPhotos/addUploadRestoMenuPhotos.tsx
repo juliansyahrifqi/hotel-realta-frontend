@@ -33,7 +33,7 @@ export default function UploadPhotos(props: any) {
   const [status, setStatus] = useState(false)
 
   const handleError = (errors: any) => {}
-  const handleSave = async (data: FormValues, data1: FormValues) => {
+  const handleSave = async (data: FormValues) => {
     try {
       const dataAll = {
         remp_photo_filename: data.remp_photo_filename[0],
@@ -53,19 +53,29 @@ export default function UploadPhotos(props: any) {
   // GAMBAR PREVIEW BARU
 
   const [selectedImages, setSelectedImages] = useState<File[]>([])
+  const [selectedImagePreviews, setSelectedImagePreviews] = useState<string[]>(
+    []
+  )
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
     const filesArray = Array.from(e.target.files)
     setSelectedImages((prevImages) => [...prevImages, ...filesArray])
-    // ... continue with existing code to set image preview
+    const objectUrls = filesArray.map((file) => URL.createObjectURL(file))
+    setSelectedImagePreviews((prevUrls) => [...prevUrls, ...objectUrls])
   }
 
   const handleRemoveImage = (index: number) => {
     setSelectedImages((prevImages) => {
       const newImages = [...prevImages]
+      URL.revokeObjectURL(selectedImagePreviews[index]) // Revoke the object URL to release memory
       newImages.splice(index, 1)
       return newImages
+    })
+    setSelectedImagePreviews((prevUrls) => {
+      const newUrls = [...prevUrls]
+      newUrls.splice(index, 1)
+      return newUrls
     })
   }
 
@@ -134,7 +144,7 @@ export default function UploadPhotos(props: any) {
                           className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  text-center read-only: hidden'
                           id='name'
                           type='text'
-                          value={data1?.reme_id ?? ''}
+                          value={props.isUpload.reme_id}
                           {...register('remp_reme_id')}
                         />
                         {errors?.remp_reme_id && (
@@ -174,31 +184,6 @@ export default function UploadPhotos(props: any) {
                           defaultValue={data1?.reme_name ?? ''}
                         />
                       </div>
-
-                      {/* <div className='mb-6'>
-                        <label className='block text-gray-700 font-bold mb-2'>
-                          Gambar
-                        </label>
-                        <input
-                          className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hover:bg-green-500'
-                          id='image'
-                          type='file'
-                          {...register('remp_photo_filename')}
-                          onChange={handleImageChange}
-                        />
-                        {errors?.remp_photo_filename && (
-                          <p className='text-red-500 text-xs italic'>
-                            {errors.remp_photo_filename.message}
-                          </p>
-                        )}
-                        {imagePreview && (
-                          <img
-                            className='mt-2 rounded'
-                            src={imagePreview}
-                            alt='Product Preview'
-                          />
-                        )}
-                      </div> */}
 
                       <div className='mb-6'>
                         <label className='block text-gray-700 font-bold mb-2'>
@@ -268,7 +253,7 @@ export default function UploadPhotos(props: any) {
                               </button>
                               <img
                                 className='mt-2 rounded'
-                                src={URL.createObjectURL(image)}
+                                src={selectedImagePreviews[index]}
                                 alt='Product Preview'
                                 width='70'
                                 height='70'

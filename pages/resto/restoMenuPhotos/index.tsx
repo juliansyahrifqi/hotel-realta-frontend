@@ -2,15 +2,7 @@
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useEffect, Fragment } from 'react'
-import {
-  BsFillPencilFill,
-  BsThreeDotsVertical,
-  BsTrashFill,
-  BsFillCloudUploadFill,
-} from 'react-icons/bs'
-import AddRestoMenu from '../restoMenu/addRestoMenu'
-// import UploadPhotos from './addUploadRestoMenuPhotos'
-// import editReme from './editReme'
+
 import { useDispatch, useSelector } from 'react-redux'
 import {
   doDelete,
@@ -23,104 +15,20 @@ import { Menu, Transition } from '@headlessui/react'
 import EditRestoMenu from '../restoMenu/editRestoMenu'
 import { doRequestGetRepho } from '@/redux/restoSchema/action/actionRepho'
 
-// import { SearchInput } from '../../../components/searchInput'
-
 const restoPhoto = () => {
+  // REDUCER
   let { restoPhotos, message, refresh } = useSelector(
     (state: any) => state.rephoReducers
   )
-
-  // const [searchTerm, setSearchTerm] = useState('')
-  // const [currentPage, setCurrentPage] = useState(1)
-  // const [limit, setLimit] = useState(5)
+  // REDUCER
 
   const dispatch = useDispatch()
-
-  const [isOpen, setIsOpen] = useState(false)
-  const [isEdit, setIsEdit] = useState({
-    status: false,
-    id: 0,
-    data: [{}],
-  })
-  // const [isUpload, setIsUpload] = useState({
-  //   status: false,
-  //   id: 0,
-  //   data: [{}],
-  // })
-
-  const columns = [
-    { name: 'Icon' },
-    { name: 'ID' },
-    { name: 'Menu Name' },
-    { name: 'Price' },
-    { name: 'Status' },
-    { name: 'Action' },
-  ]
-
-  // const handleSearchChange = (e: any): void => {
-  //   setSearchTerm(e.target.value)
-  //   setCurrentPage(1) // reset currentPage only when search term changes
-  //   handleGetData() // call handleGetData to fetch data again
-  // }
-
-  const editOpen = (id: number) => {
-    setIsEdit((prev) => {
-      return { ...prev, status: true, id: id }
-    })
-  }
-
-  // const uploadOpen = (id: number, data: any[]) => {
-  //   setIsUpload((prev) => {
-  //     return { ...prev, status: true, id: id, data: data }
-  //   })
-  // }
-
-  const deleteOpen = async (id: number) => {
-    const confirmed = window.confirm(
-      `Apakah anda Yakin akan menghapus Menu dengan ID - ${id} ?`
-    )
-    if (confirmed) {
-      dispatch(doDelete(id))
-    }
-  }
-
-  // const handleGetData = () => {
-  //   dispatch(doRequestGetReme(searchTerm, currentPage, limit))
-  // }
-
-  // useEffect(() => {
-  //   handleGetData()
-  // }, [refresh, currentPage, limit])
-
-  // useEffect(() => {
-  //   handleGetData()
-  // }, [searchTerm])
 
   useEffect(() => {
     dispatch(doRequestGetRepho())
   }, [refresh])
 
-  // Calculate total pages
-  // const totalData = restoMenus ? restoMenus.length : 0
-
-  // const totalPages = Math.ceil(restoMenus.length / limit)
-
-  // Pagination function
-  // const handlePageChange = (type: string) => {
-  //   if (type === 'prev' && currentPage > 1) {
-  //     setCurrentPage((prev) => prev - 1)
-  //     handleGetData() // call handleGetData to fetch data again
-  //   } else if (type === 'next' && currentPage < totalPages) {
-  //     setCurrentPage((prev) => prev + 1)
-  //     handleGetData() // call handleGetData to fetch data again
-  //   }
-  // }
-
-  // Create array of pages to display in pagination buttons
-  // const pageNumbers = []
-  // for (let i = 1; i <= totalPages; i++) {
-  //   pageNumbers.push(i)
-  // }
+  console.log(restoPhotos)
 
   return (
     <div className='bg-white'>
@@ -178,7 +86,10 @@ const restoPhoto = () => {
         <div className='mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
           {restoPhotos &&
             restoPhotos.map((remePho: any) => (
-              <article className='rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 '>
+              <article
+                key={remePho.remp_id}
+                className='rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 '
+              >
                 <a href='#'>
                   <div className='relative flex items-end overflow-hidden rounded-xl'>
                     <Image
@@ -207,13 +118,16 @@ const restoPhoto = () => {
                   </div>
                   <div className='mt-1 p-2'>
                     <h2 className='text-slate-700'>
-                      {remePho.remp_thumbnail_filename}
+                      {remePho.resto_menu ? remePho.resto_menu.reme_name : ''}
                     </h2>
                     <p className='mt-1 text-sm text-slate-400'>
-                      {remePho.remp_thumbnail_filename}
+                      {remePho.resto_menu
+                        ? remePho.resto_menu.reme_description
+                        : ''}
                     </p>
                     <p className='text-lg font-bold text-blue-500'>
-                      Rp.{remePho.remp_primary}
+                      Rp.
+                      {remePho.resto_menu ? remePho.resto_menu.reme_price : ''}
                     </p>
                     <div className='mt-3 flex items-end justify-between '>
                       <div className='flex items-center justify-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600 w-full'>

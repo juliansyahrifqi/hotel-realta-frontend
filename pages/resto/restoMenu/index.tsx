@@ -9,7 +9,6 @@ import {
 } from 'react-icons/bs'
 import AddRestoMenu from './addRestoMenu'
 import UploadPhotos from '../restoMenuPhotos/addUploadRestoMenuPhotos'
-// import editReme from './editReme'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   doDelete,
@@ -17,7 +16,6 @@ import {
 } from '../../../redux/restoSchema/action/actionReme'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Image from 'next/image'
 import { Menu, Transition } from '@headlessui/react'
 import EditRestoMenu from './editRestoMenu'
 
@@ -29,6 +27,7 @@ const restoMenu = () => {
   )
 
   const [searchTerm, setSearchTerm] = useState('')
+  const [sort, setSort] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [limit, setLimit] = useState(5)
 
@@ -82,7 +81,7 @@ const restoMenu = () => {
   }
 
   const handleGetData = () => {
-    dispatch(doRequestGetReme(searchTerm, currentPage, limit))
+    dispatch(doRequestGetReme(searchTerm, currentPage, limit, sort))
   }
 
   useEffect(() => {
@@ -93,7 +92,10 @@ const restoMenu = () => {
     handleGetData()
   }, [searchTerm])
 
-  // Calculate total pages
+  useEffect(() => {
+    handleGetData()
+  }, [sort])
+
   const totalData = restoMenus ? restoMenus.length : 0
 
   const totalPages = Math.ceil(restoMenus.length / limit)
@@ -102,6 +104,14 @@ const restoMenu = () => {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i)
   }
+
+  // SORT
+  const handleSortChange = (e: any): void => {
+    setSort(e.target.value)
+    setCurrentPage(1) // reset currentPage only when search term changes
+    handleGetData() // call handleGetData to fetch data again
+  }
+  // SORT
 
   return (
     <div className='bg-white'>
@@ -140,46 +150,18 @@ const restoMenu = () => {
               {/* FILTER HIGH TO LOW AND LOW TO HIGH */}
               {/* component */}
               <div className='lg:ml-40 ml-10 space-x-8'>
-                <div className='relative inline-flex self-center'>
-                  <svg
-                    className='text-white bg-blue-700 absolute top-0 right-0 m-2 pointer-events-none p-2 rounded'
-                    xmlns='http://www.w3.org/2000/svg'
-                    xmlnsXlink='http://www.w3.org/1999/xlink'
-                    width='25px'
-                    height='25px'
-                    viewBox='0 0 38 22'
-                    version='1.1'
+                <div className='pt-2 relative mx-auto text-gray-600 flex ml-4'>
+                  <select
+                    id='categories'
+                    className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                    // value={sort}
+                    onChange={handleSortChange}
                   >
-                    <title>F09B337F-81F6-41AC-8924-EC55BA135736</title>
-                    <g
-                      id='ZahnhelferDE—Design'
-                      stroke='none'
-                      strokeWidth={1}
-                      fill='none'
-                      fillRule='evenodd'
-                    >
-                      <g
-                        id='ZahnhelferDE–Icon&Asset-Download'
-                        transform='translate(-539.000000, -199.000000)'
-                        fill='#ffffff'
-                        fillRule='nonzero'
-                      >
-                        <g
-                          id='Icon-/-ArrowRight-Copy-2'
-                          transform='translate(538.000000, 183.521208)'
-                        >
-                          <polygon
-                            id='Path-Copy'
-                            transform='translate(20.000000, 18.384776) rotate(135.000000) translate(-20.000000, -18.384776) '
-                            points='33 5.38477631 33 31.3847763 29 31.3847763 28.999 9.38379168 7 9.38477631 7 5.38477631'
-                          />
-                        </g>
-                      </g>
-                    </g>
-                  </svg>
-                  <select className='text-2xl font-bold rounded border-2 border-blue-700 text-gray-600 h-10 w-60 pl-5 pr-5 bg-white hover:border-gray-400 focus:outline-none appearance-none'>
-                    <option>Low-High</option>
-                    <option>High-Low</option>
+                    <option value='' className='text-center'>
+                      FILTER
+                    </option>
+                    <option value='low-to-high'>Price Low To High</option>
+                    <option value='high-to-low'>Price High To Low</option>
                   </select>
                 </div>
               </div>

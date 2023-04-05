@@ -157,16 +157,7 @@ export default function EditRestoMenu(props: any) {
                           className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hover:bg-green-500'
                           id='price'
                           type='text'
-                          defaultValue={new Intl.NumberFormat('id-ID', {
-                            style: 'currency',
-                            currency: 'IDR',
-                          }).format(
-                            Math.round(
-                              parseFloat(
-                                data?.reme_price.replace(/[^\d,-]/g, '')
-                              )
-                            )
-                          )}
+                          defaultValue={data?.reme_price ?? ''}
                           {...register(
                             'reme_price',
                             registerOptions.reme_price

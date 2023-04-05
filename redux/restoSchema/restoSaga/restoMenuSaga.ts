@@ -5,13 +5,21 @@ import {
   doDeleteResponse,
   doGetRemeResponse,
   doSearchResponse,
+  doSort,
+  doSortResponse,
   doUpdateResponse,
 } from '../action/actionReme'
 
 function* handleGetAllReme(action: any): any {
   try {
-    const { searchTerm, page, limit } = action.payload
-    const result = yield call(apiMethodReme.getAll, searchTerm, page, limit)
+    const { searchTerm, page, limit, sort } = action.payload
+    const result = yield call(
+      apiMethodReme.getAll,
+      searchTerm,
+      page,
+      limit,
+      sort
+    )
     yield put(doGetRemeResponse(result.data))
   } catch (error) {
     yield put(doGetRemeResponse({ message: error }))
@@ -58,10 +66,20 @@ function* handleSearchReme(action: any): any {
   }
 }
 
+function* handleSortReme(action: any): any {
+  try {
+    const result = yield call(apiMethodReme.sort, action.payload)
+    yield put(doSortResponse(result.data))
+  } catch (error) {
+    yield put(doSortResponse({ message: error }))
+  }
+}
+
 export {
   handleGetAllReme,
   handleAddReme,
   handleUpdateReme,
   handleDelReme,
   handleSearchReme,
+  handleSortReme,
 }

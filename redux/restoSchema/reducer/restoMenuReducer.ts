@@ -16,6 +16,8 @@ function remeReducers(
       return { state, restoMenus: payload, refresh: true }
     case actionTypes.SEARCH_REME_RESPONSE:
       return { ...state, restoMenus: payload, refresh: true }
+    case actionTypes.SORT_REME_RESPONSE:
+      return { ...state, restoMenus: payload, refresh: true }
     case actionTypes.ADD_REME_RESPONSE:
       return { message: payload.message, refresh: false }
     case actionTypes.UPDATE_REME_RESPONSE:

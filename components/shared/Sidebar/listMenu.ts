@@ -54,6 +54,11 @@ const listMenu = [
         path: 'restoPhoto',
         title: 'Resto Photo',
       },
+      {
+        to: '/resto/orderMenu',
+        path: 'orderMenu',
+        title: 'Bill',
+      },
     ],
   },
   {

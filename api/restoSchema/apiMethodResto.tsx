@@ -2,9 +2,9 @@ import axios from '../../config/endpoint'
 
 // Resto_Menus
 
-const getAll = (searchTerm: any, page: number, limit: number) => {
+const getAll = (searchTerm: any, page: number, limit: number, sort: any) => {
   return axios.get(
-    `/resto-menus?page=${page}&limit=${limit}&searchTerm=${searchTerm}`
+    `/resto-menus?page=${page}&limit=${limit}&searchTerm=${searchTerm}&sort=${sort}`
   )
 }
 
@@ -26,6 +26,10 @@ const get = (id: number) => {
 
 const search = (searchTerm: any) => {
   return axios.get(`resto-menus?searchTerm=${searchTerm}`)
+}
+
+const sort = (sort: any) => {
+  return axios.get(`resto-menus?sort=${sort}`)
 }
 
 // Resto_menu_photos
@@ -58,17 +62,49 @@ const getIdPhotos = (id: number) => {
   return axios.get(`resto-menu-photos/${id}`)
 }
 
+// ORDER_MENUS
+
+const getAllOrme = () => {
+  return axios.get('order-menus')
+}
+
+const createOrme = (data: any) => {
+  return axios.post(`order-menus`, data)
+}
+
+const updateOrme = (id: number, data: any) => {
+  return axios.put(`order-menus/${id}`, data)
+}
+
+const deleteOrme = (id: number) => {
+  return axios.delete(`order-menus/${id}`)
+}
+
+const getIdOrme = (id: number) => {
+  return axios.get(`order-menus/${id}`)
+}
+
 const apiMethodReme = {
+  // RESTO_MENUS
   getAll,
   create,
   update,
   remove,
   get,
   search,
+  sort,
+  // RESTO_MENU_PHOTOS
   getAllPhotos,
   uploadPhotos,
   updatePhotos,
   removePhotos,
   getIdPhotos,
+
+  // ORDER_MENUS
+  getAllOrme,
+  createOrme,
+  updateOrme,
+  deleteOrme,
+  getIdOrme,
 }
 export default apiMethodReme
