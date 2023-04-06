@@ -1,28 +1,44 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Dialog, Listbox, Transition } from '@headlessui/react'
+import { Dialog, Transition } from '@headlessui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  doAddHotels,
   doRequestGetCity,
+  doUpdateHotels,
 } from '@/redux/hotel/action/actionReducer'
 import Select from 'react-select'
 
 export default function EditHotels(props: any) {
+  //===Redux===
   let { hotels, message, refresh } = useSelector(
     (state: any) => state.hotelsReducers
   )
+  let { cityHotel } = useSelector((state: any) => state.cityHotelReducers)
+  const dispatch = useDispatch()
 
-  let { cityHotel } = useSelector((state: any) => state.cityHotelreducers)
-  // console.log(cityHotel)
-  //===========City Var===============
+  //===City===
   const [options, setOptions] = useState([])
   const [selectedOptions, setSelectedOptions] = useState('')
   const handleSelectChange = (selectedOptions: any) => {
     setSelectedOptions(selectedOptions)
   }
-  // console.log(options)
-  //==========Registration============
+  //===Edit===
+  const handleEdit = async (data: any) => {
+    const formData = {
+      hotel_name: data.hotel_name,
+      hotel_phonenumber: data.hotel_phonenumber,
+      addr_line1: data.addr_line1,
+      addr_line2: data.addr_line2,
+      hotel_description: data.hotel_description,
+      city_name: data.city_name.value,
+    }
+    console.log(formData)
+    dispatch(doUpdateHotels(props.isEdit.hotel_id, formData))
+    props.closeModal()
+  }
+  const [hotel, setHotels] = useState<any>([])
+
+  //===Resgistration===
   type FormValues = {
     hotel_name: string
     hotel_phonenumber: string
@@ -39,20 +55,6 @@ export default function EditHotels(props: any) {
     formState: { errors },
   } = useForm<FormValues>()
 
-  const [hotel, setHotels] = useState<any>([])
-  const [selectedCategory, setSelectedCategory] = useState('')
-
-  const handleCategoryChange = (event: any) => {
-    setSelectedCategory(event.target.value)
-  }
-
-  const dispatch = useDispatch()
-
-  const handleCity = async (data: any) => {}
-  const handleRegistration = async (data: any) => {
-    dispatch(doAddHotels(data))
-    props.closeModal()
-  }
   const handleError = (errors: any) => {}
 
   const registerOptions = {
@@ -71,7 +73,7 @@ export default function EditHotels(props: any) {
         (hotel: any) => hotel.hotel_id === props.isEdit.hotel_id
       )[0]
     )
-  }, [])
+  }, [refresh])
 
   useEffect(() => {
     dispatch(doRequestGetCity())
@@ -119,18 +121,13 @@ export default function EditHotels(props: any) {
                   <hr className='border-b border-t border-black h-1 my-4' />
 
                   <div className='mt-2'>
-                    <form
-                      onSubmit={handleSubmit(handleRegistration, handleError)}
-                    >
+                    <form onSubmit={handleSubmit(handleEdit, handleError)}>
                       <div className='relative z-0 w-full mb-6 group'>
                         <input
                           type='text'
                           className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                           defaultValue={hotel?.hotel_name ?? ''}
-                          {...register(
-                            'hotel_name',
-                            registerOptions.hotel_name
-                          )}
+                          {...register('hotel_name')}
                         />
                         <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
                           Hotel Name
@@ -141,10 +138,8 @@ export default function EditHotels(props: any) {
                           type='text'
                           className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                           defaultValue={hotel?.hotel_phonenumber ?? ''}
-                          {...register(
-                            'hotel_phonenumber',
-                            registerOptions.hotel_phonenumber
-                          )}
+                          value={hotel.hotel_phonenumber}
+                          {...register('hotel_phonenumber')}
                         />
                         <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
                           Phone Number
@@ -154,7 +149,7 @@ export default function EditHotels(props: any) {
                         <label className='peer-focus:font-medium text-sm text-gray-500 dark:text-gray-400'>
                           City
                         </label>
-                        <div className='w-full text-sm'>
+                        <div className='w-full text-sm '>
                           <Controller
                             name='city_name'
                             control={control}
@@ -167,6 +162,10 @@ export default function EditHotels(props: any) {
                                   onChange(selectedOptions)
                                 }
                                 value={value}
+                                placeholder={
+                                  (hotel.address?.city ?? '') &&
+                                  (hotel.address.city?.city_name ?? '')
+                                }
                                 onBlur={onBlur}
                               />
                             )}
@@ -179,10 +178,7 @@ export default function EditHotels(props: any) {
                             type='text'
                             className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                             defaultValue={hotel.address?.addr_line1 ?? ''}
-                            {...register(
-                              'addr_line1',
-                              registerOptions.addr_line1
-                            )}
+                            {...register('addr_line1')}
                           />
                           <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
                             Addres (Street)
@@ -193,10 +189,7 @@ export default function EditHotels(props: any) {
                             type='text'
                             className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                             defaultValue={hotel.address?.addr_line2 ?? ''}
-                            {...register(
-                              'addr_line2',
-                              registerOptions.addr_line2
-                            )}
+                            {...register('addr_line2')}
                           />
                           <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
                             Address (sub-district)
@@ -208,10 +201,7 @@ export default function EditHotels(props: any) {
                           type='text'
                           className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                           defaultValue={hotel?.hotel_description ?? ''}
-                          {...register(
-                            'hotel_description',
-                            registerOptions.hotel_description
-                          )}
+                          {...register('hotel_description')}
                         />
                         <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
                           Description

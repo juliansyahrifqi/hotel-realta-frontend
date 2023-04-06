@@ -42,7 +42,7 @@ export const doAddHotels = (payload: any) => {
   }
 }
 export const doAddHotelsResponse = (payload: any) => {
-  console.log(payload)
+  // console.log(payload)
   return {
     type: ActionTypeHotel.ADD_HOTELS_RESPONSE,
     payload,
@@ -60,6 +60,19 @@ export const doUpdateHotelsResponse = (payload: any) => {
     payload,
   }
 }
+export const doSwitchHotels = (...payload: any) => {
+  return {
+    type: ActionTypeHotel.SWITCH_STATUS_HOTELS,
+    payload,
+  }
+}
+export const doSwitchHotelsResponse = (payload: any) => {
+  console.log(payload)
+  return {
+    type: ActionTypeHotel.SWITCH_STATUS_HOTELS_RESPONSE,
+    payload,
+  }
+}
 export const doDeleteHotels = (payload: any) => {
   return {
     type: ActionTypeHotel.UPDATE_HOTELS,
@@ -73,7 +86,7 @@ export const doDeleteHotelsResponse = (payload: any) => {
   }
 }
 
-//====================CITY=======================
+//====================MASTER MODULE=======================
 export const doRequestGetCity = () => {
   return {
     type: ActionTypeHotel.REQ_GET_CITY,
@@ -82,6 +95,28 @@ export const doRequestGetCity = () => {
 export const doGetCityResponse = (payload: any) => {
   return {
     type: ActionTypeHotel.GET_CITY_RESPONSE,
+    payload,
+  }
+}
+export const doRequestGetCategory = () => {
+  return {
+    type: ActionTypeHotel.REQ_GET_CATEGORY,
+  }
+}
+export const doGetCategoryResponse = (payload: any) => {
+  return {
+    type: ActionTypeHotel.GET_CATEGORY_RESPONSE,
+    payload,
+  }
+}
+export const doRequestGetMembers = () => {
+  return {
+    type: ActionTypeHotel.REQ_GET_MEMBERS,
+  }
+}
+export const doGetMembersResponse = (payload: any) => {
+  return {
+    type: ActionTypeHotel.GET_MEMBERS_RESPONSE,
     payload,
   }
 }

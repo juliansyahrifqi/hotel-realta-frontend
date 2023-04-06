@@ -6,7 +6,7 @@ const initialState = {
   refresh: '',
 }
 
-function cityHotelreducers(state = initialState, action: any) {
+function cityHotelReducers(state = initialState, action: any) {
   const { type, payload } = action
   switch (type) {
     case ActionTypeHotel.GET_CITY_RESPONSE:
@@ -16,4 +16,4 @@ function cityHotelreducers(state = initialState, action: any) {
   }
 }
 
-export default cityHotelreducers
+export default cityHotelReducers

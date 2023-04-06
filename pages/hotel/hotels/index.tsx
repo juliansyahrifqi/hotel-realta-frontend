@@ -1,7 +1,6 @@
 import {
   doRequestGetCity,
   doRequestGetHotels,
-  doRequestGetSearchHotels,
 } from '../../../redux/hotel/action/actionReducer'
 import { Menu, Transition } from '@headlessui/react'
 import React, { Fragment, useEffect, useState } from 'react'
@@ -11,13 +10,11 @@ import { HiOutlineSwitchHorizontal } from 'react-icons/hi'
 import { MdAddBox } from 'react-icons/md'
 import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-// import { Link } from 'react-router-dom'
-import { useRouter } from 'next/router'
 import AddHotels from './addHotels'
 import EditHotels from './editHotels'
 import SwitchStatus from './switchStatus'
 import Link from 'next/link'
-import { Pagination } from '@/components/Pagination'
+import { Pagination } from '@/components/hotel/Pagination'
 
 const Hotels = () => {
   let { hotels, message, refresh } = useSelector(
@@ -28,7 +25,7 @@ const Hotels = () => {
 
   //===Pagination===
   const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(5)
+  const [pageSize, setPageSize] = useState(7)
 
   //======Open, Edit, Switch========
   const [isOpen, setIsOpen] = useState(false)
@@ -81,6 +78,7 @@ const Hotels = () => {
   const handleSearch = (event: any): void => {
     setSearch(event.target.value)
   }
+
   //===============================
   useEffect(() => {
     dispatch(doRequestGetHotels(pageNumber, pageSize, search))
@@ -89,6 +87,7 @@ const Hotels = () => {
 
   return (
     <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
+      {/* Breadcrumb */}
       <div className='bg-white text-black py-2 px-6 flex font-bold border-t-2 border-r-2 border-l-2 items-center justify-between'>
         <nav className='flex' aria-label='Breadcrumb'>
           <ol className='inline-flex items-center space-x-1 md:space-x-3'>
@@ -135,9 +134,10 @@ const Hotels = () => {
           </ol>
         </nav>
       </div>
+      {/* Header */}
       <div className='bg-white text-black py-2 px-6 flex border-2 items-center justify-between'>
-        <div className='relative z-0 w-full mb-2 ml-20 group flex space-x-2'>
-          <label className='peer-focus:font-medium mt-2 text-sm flex'>
+        <div className='relative z-0 w-full mb-4 mt-4 ml-20 group flex space-x-2'>
+          <label className='peer-focus:font-medium mt-2 text-sm font-bold flex'>
             Hotel Name
           </label>
           <div className='relative w-auto'>
@@ -164,7 +164,7 @@ const Hotels = () => {
           </div>
         </div>
       </div>
-      {/* <Header> */}
+      {/* Columns */}
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
         <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
           <thead className='text-medium text-white uppercase bg-primary dark:bg-black dark:text-black'>
@@ -191,7 +191,7 @@ const Hotels = () => {
             {(hotels.data || []).map((dt: any, index: number) => (
               <tr
                 key={dt.hotel_id}
-                className='bg-white border-b hover:bg-primary hover:bg-opacity-20'
+                className='bg-white border-b hover:bg-primary/5'
               >
                 <td className='px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
                   {index + 1}
@@ -241,7 +241,7 @@ const Hotels = () => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-secondary text-white'
+                                    ? 'bg-primary/75 text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 onClick={() => editOpen(dt.hotel_id)}
@@ -269,7 +269,7 @@ const Hotels = () => {
                                 <button
                                   className={`${
                                     active
-                                      ? 'bg-secondary text-white'
+                                      ? 'bg-primary/75 text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
@@ -297,7 +297,7 @@ const Hotels = () => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-secondary text-white'
+                                    ? 'bg-primary/75 text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 // onClick={() => editOpen(dt.id_user)}
@@ -324,7 +324,7 @@ const Hotels = () => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-secondary text-white'
+                                    ? 'bg-primary/75 text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 onClick={() => switchOpen(dt.hotel_id)}

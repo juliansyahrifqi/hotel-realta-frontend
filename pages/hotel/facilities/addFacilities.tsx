@@ -1,12 +1,29 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
-import { doAddHotels } from '@/redux/hotel/action/actionReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  doAddHotels,
+  doRequestGetCategory,
+  doRequestGetMembers,
+} from '@/redux/hotel/action/actionReducer'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 export default function AddFacilities(props: any) {
+  //==========Data Redux Saga================
+  let { categoryFaci, messageCate, refreshCate } = useSelector(
+    (state: any) => state.categoryFaciReducers
+  )
+  let { membersFaci, messageMemb, refreshMemb } = useSelector(
+    (state: any) => state.membersFaciReducers
+  )
+  console.log(categoryFaci)
+  console.log(membersFaci)
+
+  //============Category Var==========
+
+  //=========Registration============
   type FormValues = {
     hotel_name: string
     hotel_phonenumber: string
@@ -22,11 +39,7 @@ export default function AddFacilities(props: any) {
     formState: { errors },
   } = useForm<FormValues>()
 
-  const [selectedCategory, setSelectedCategory] = useState('')
   const [startDate, setStartDate] = useState(new Date())
-  const handleCategoryChange = (event: any) => {
-    setSelectedCategory(event.target.value)
-  }
 
   const dispatch = useDispatch()
 
@@ -46,6 +59,10 @@ export default function AddFacilities(props: any) {
     addr_line2: { required: 'Name is required' },
     hotel_description: { required: 'Name is required' },
   }
+  useEffect(() => {
+    dispatch(doRequestGetMembers())
+    dispatch(doRequestGetCategory())
+  }, [dispatch, refreshCate, refreshMemb])
 
   return (
     <div>
@@ -74,7 +91,7 @@ export default function AddFacilities(props: any) {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                <Dialog.Panel className='w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
                     className='text-lg font-medium leading-6 text-primary'
@@ -88,6 +105,33 @@ export default function AddFacilities(props: any) {
                     >
                       <div className='grid md:grid-cols-2 md:gap-6'>
                         <div className='relative z-0 w-full mb-6 group'>
+                          <input
+                            type='text'
+                            className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                            placeholder=' '
+                            required
+                          />
+                          <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                            Facilty Name
+                          </label>
+                        </div>
+                        <div className='flex items-center mb-6 group space-x-4'>
+                          <label className='peer-focus:font-medium text-sm text-gray-500 '>
+                            Category
+                          </label>
+                          <select className='w-full px-2 py-2 border rounded-md text-sm focus:outline-none focus:shadow-outline-primary'>
+                            <option selected> Isi Woii</option>
+
+                            {categoryFaci.map((data: any) => (
+                              <option value={data.cagro_id} key={data.cagro_id}>
+                                {data.cagro_name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div className='grid md:grid-cols-2 md:gap-6'>
+                        <div className='grid md:grid-cols-2 md:gap-6'>
                           <div className='relative z-0 w-full mb-6 group'>
                             <input
                               type='text'
@@ -96,50 +140,38 @@ export default function AddFacilities(props: any) {
                               required
                             />
                             <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
-                              Facilty Name
+                              Rooms
                             </label>
                           </div>
-                          <div className='grid md:grid-cols-2 md:gap-6'>
-                            <div className='relative z-0 w-full mb-6 group'>
-                              <input
-                                type='text'
-                                className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                                placeholder=' '
-                                required
-                              />
-                              <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
-                                Rooms
-                              </label>
-                            </div>
-                            <div className='relative z-0 w-full mb-6 group'>
-                              <input
-                                type='text'
-                                className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                                placeholder=' '
-                                required
-                              />
-                              <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
-                                MaxVacant
-                              </label>
-                            </div>
+                          <div className='relative z-0 w-full mb-6 group'>
+                            <input
+                              type='text'
+                              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                              placeholder=' '
+                              required
+                            />
+                            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                              Max Vacant
+                            </label>
                           </div>
                         </div>
                         <div className='flex items-center mb-6 group space-x-4'>
-                          <label className='peer-focus:font-medium text-sm text-gray-500 dark:text-gray-400 '>
-                            Category
+                          <label className='peer-focus:font-medium text-sm text-gray-500 '>
+                            Members
                           </label>
-                          <select
-                            id='category'
-                            value={selectedCategory}
-                            onChange={handleCategoryChange}
-                            className='border-2 text-sm rounded-lg w-full py-2 px-2'
-                          >
-                            <option value='fashion'>Active</option>
-                            <option value='technology'>Disactive</option>
+                          <select className='w-full px-2 py-2 border rounded-md text-sm focus:outline-none focus:shadow-outline-primary'>
+                            <option selected> Isi Woii</option>
+                            {membersFaci.map((data: any) => (
+                              <option
+                                value={data.memb_name}
+                                key={data.memb_name}
+                              >
+                                {data.memb_name}
+                              </option>
+                            ))}
                           </select>
                         </div>
                       </div>
-
                       <div className='grid md:grid-cols-2 md:gap-6'>
                         <div className='relative z-0 w-full mb-6 group'>
                           <input
@@ -212,7 +244,7 @@ export default function AddFacilities(props: any) {
                           />
                         </div>
                       </div>
-                      <div className='relative z-0 w-full mb-6 group'>
+                      {/* <div className='relative z-0 w-full mb-6 group'>
                         <label className='peer-focus:font-medium text-sm text-gray-500 dark:text-gray-400 '>
                           Category
                         </label>
@@ -225,7 +257,7 @@ export default function AddFacilities(props: any) {
                           <option value='fashion'>Active</option>
                           <option value='technology'>Disactive</option>
                         </select>
-                      </div>
+                      </div> */}
 
                       <div className=' flex-row space-x-4 mt-4'>
                         <button className='text-white bg-secondary  hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800'>

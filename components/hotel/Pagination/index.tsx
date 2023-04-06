@@ -32,7 +32,7 @@ export const Pagination = ({ pagination, setPage }: Props) => {
             setPage(i + 1)
           }}
           aria-current='page'
-          className='relative rounded-md mx-1 inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-700  focus:z-20 focus:outline-offset-0  cursor-pointer hover:bg-purple-900 hover:text-white'
+          className='relative rounded-md mx-1 inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-700  focus:z-20 focus:outline-offset-0  cursor-pointer hover:bg-primary hover:text-white'
         >
           {i + 1}
         </a>
@@ -63,7 +63,7 @@ export const Pagination = ({ pagination, setPage }: Props) => {
           }
         }}
         aria-current='page'
-        className='relative rounded-md  inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-700  focus:z-20 focus:outline-offset-0  cursor-pointer hover:bg-purple-900'
+        className='relative rounded-md  inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:text-white ring-1 ring-inset ring-gray-700  focus:z-20 focus:outline-offset-0  cursor-pointer hover:bg-primary'
       >
         <BsArrowLeftSquareFill />
       </a>
@@ -75,7 +75,7 @@ export const Pagination = ({ pagination, setPage }: Props) => {
           }
         }}
         aria-current='page'
-        className='relative rounded-md mx-1 inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-700  focus:z-20 focus:outline-offset-0  cursor-pointer hover:bg-purple-900'
+        className='relative rounded-md mx-1 inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 hover:text-white ring-1 ring-inset ring-gray-700  focus:z-20 focus:outline-offset-0 cursor-pointer hover:bg-primary'
       >
         <BsArrowRightSquareFill />
       </a>

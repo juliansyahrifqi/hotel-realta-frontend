@@ -7,12 +7,11 @@ import {
   doRequestGetCity,
 } from '@/redux/hotel/action/actionReducer'
 import Select from 'react-select'
-import cssHotel from './csshotel'
 
 export default function AddHotels(props: any) {
   //================Data Redux Saga================
   let { cityHotel, message, refresh } = useSelector(
-    (state: any) => state.cityHotelreducers
+    (state: any) => state.cityHotelReducers
   )
 
   //=====================City Var===================
@@ -124,7 +123,7 @@ export default function AddHotels(props: any) {
                       <div className='relative z-0 w-full mb-6 group'>
                         <input
                           type='text'
-                          className={`${cssHotel.hotelName}`}
+                          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                           {...register(
                             'hotel_name',
                             registerOptions.hotel_name

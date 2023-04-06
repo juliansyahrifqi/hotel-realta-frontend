@@ -4,8 +4,9 @@ import {
   doAddHotelsResponse,
   doGetHotelsResponse,
   doGetSearchHotelsResponse,
+  doSwitchHotelsResponse,
+  doUpdateHotelsResponse,
 } from '../action/actionReducer'
-import Search from '@/components/Search'
 
 function* handleGetAllHotels(action: any): any {
   try {
@@ -47,4 +48,39 @@ function* handleAddHotels(action: any): any {
     yield put(doAddHotelsResponse({ message: error }))
   }
 }
-export { handleGetAllHotels, handleAddHotels, handleSearchAllHotels }
+
+function* handleUpdateHotels(action: any): any {
+  // console.log(action)
+  // console.log(action.payload[1].city_name)
+  try {
+    const result = yield call(
+      ApiMethodHotel.updateHotels,
+      action.payload[0],
+      action.payload[1].city_name,
+      action.payload[1]
+    )
+    yield put(doUpdateHotelsResponse(result.data))
+  } catch (error) {
+    yield put(doUpdateHotelsResponse({ message: error }))
+  }
+}
+function* handleSwitchHotels(action: any): any {
+  console.log(action)
+  try {
+    const result = yield call(
+      ApiMethodHotel.updateStatusHotels,
+      action.payload[0],
+      action.payload[1]
+    )
+    yield put(doSwitchHotelsResponse(result.data))
+  } catch (error) {
+    yield put(doSwitchHotelsResponse({ message: error }))
+  }
+}
+export {
+  handleGetAllHotels,
+  handleAddHotels,
+  handleSearchAllHotels,
+  handleUpdateHotels,
+  handleSwitchHotels,
+}

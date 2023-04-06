@@ -6,6 +6,18 @@ const getAllHotels = (pageNumber: number, pageSize: number, search: string) => {
     `/hotels?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`
   )
 }
+const getAllHotelBySearch = (search: any) => {
+  return axios.get(`/hotels/search?searchQuery=${search}`)
+} //Search
+const createHotels = (city_name: any, data: any) => {
+  return axios.post(`/hotels/${city_name}`, data)
+}
+const updateHotels = (hotel_id: number, city_name: any, data: any) => {
+  return axios.put(`/hotels/update/${hotel_id}?${city_name}=`, data)
+}
+const updateStatusHotels = (hotel_id: number, data: any) => {
+  return axios.put(`/hotels/switch-status/${hotel_id}`, data)
+}
 const getHotelIncludeReviews = () => {
   return axios.get('/hotels/hotel-reviews')
 } //Reviews
@@ -18,30 +30,20 @@ const getHotelIncludeAddress = () => {
 const getHotelIncludeSupport = () => {
   return axios.get('/hotels/hotel-support')
 } //Support
-const getAllHotelBySearch = (search: any) => {
-  return axios.get(`/hotels/search?searchQuery=${search}`)
-} //Search
-const createHotels = (city_name: any, data: any) => {
-  console.log(city_name)
-  console.log(data)
-  return axios.post(`/hotels/${city_name}`, data)
-}
-const updateHotels = (hotel_id: number, data: any) => {
-  return axios.put(`/hotels/${hotel_id}`, data)
-}
-const updateStatusHotels = (hotel_id: number, data: any) => {
-  return axios.put(`/hotels/${hotel_id}`, data)
-}
 const removeHotels = (hotel_id: number) => {
   return axios.delete(`/hotels/${hotel_id}`)
 }
-//=============apiMethod City=================
-const getAllCityBySearch = () => {
-  return axios.get('/city/search')
-} //Search
+//=============apiMethod Master=================
+
 const getAllCity = () => {
   return axios.get('/city')
-} //Search
+} //City
+const getAllMembers = () => {
+  return axios.get('/members')
+} //Members
+const getAllCategory = () => {
+  return axios.get('/category-group')
+} //Category
 //=============apiMethod Facilities=================
 const getAllFacilities = () => {
   return axios.get('/facilities')
@@ -162,8 +164,9 @@ const ApiMethodHotel = {
   getAllHotelBySearch,
   updateStatusHotels,
   //===CITY===
-  getAllCityBySearch,
   getAllCity,
+  getAllCategory,
+  getAllMembers,
   //===FACILITIES===
   getAllFacilities,
   createFacilities,

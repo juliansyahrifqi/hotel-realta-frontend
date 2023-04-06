@@ -7,7 +7,9 @@ import rootSaga from '../saga'
 import facilitiesSupportReducers from '../hotel/reducer/facilitiesSupportReducer'
 import hotelReviewsReducers from '../hotel/reducer/hotelReviewsReducer'
 import facilitiesReducers from '../hotel/reducer/facilitiesReducer'
-import cityHotelreducers from '../hotel/reducer/cityHotelReducer'
+import cityHotelReducers from '../hotel/reducer/cityHotelReducer'
+import categoryFaciReducers from '../hotel/reducer/categoryReducer'
+import membersFaciReducers from '../hotel/reducer/membersReducer'
 
 const logger = createLogger()
 const saga = createSagaMiddleware()
@@ -17,7 +19,9 @@ const reducer = combineReducers({
   facilitiesSupportReducers,
   hotelReviewsReducers,
   facilitiesReducers,
-  cityHotelreducers,
+  cityHotelReducers,
+  categoryFaciReducers,
+  membersFaciReducers,
 })
 
 const store = configureStore({
