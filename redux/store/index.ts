@@ -16,12 +16,12 @@ const saga = createSagaMiddleware()
 
 const reducer = combineReducers({
   hotelsReducers,
-  facilitiesSupportReducers,
-  hotelReviewsReducers,
   facilitiesReducers,
   cityHotelReducers,
   categoryFaciReducers,
   membersFaciReducers,
+  facilitiesSupportReducers,
+  hotelReviewsReducers,
 })
 
 const store = configureStore({

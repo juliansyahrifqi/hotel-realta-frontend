@@ -48,15 +48,15 @@ const getAllCategory = () => {
 const getAllFacilities = () => {
   return axios.get('/facilities')
 }
+const createFacilities = (data: any) => {
+  return axios.post('/facilities', data)
+}
 const getFacilitiesIncludeFacilityPriceHistory = () => {
   return axios.get('/facilities/facility-price-history')
 } //Facility Price History
 const getFacilitiesIncludeFacilityPhotos = () => {
   return axios.get('/facilities/facility-photos')
 } //Facility Photos
-const createFacilities = (data: any) => {
-  return axios.post('/facilities', data)
-}
 const updateFacilities = (faci_id: number, data: any) => {
   return axios.put(`/facilities/${faci_id}`, data)
 }

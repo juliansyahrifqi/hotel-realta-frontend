@@ -9,7 +9,7 @@ import {
 } from './hotelsSaga'
 // import { handleGetAllFacilitiesSupport } from './facilitiesSupportSaga'
 // import { handleGetAllHotelReviews } from './hotelReviewsSaga'
-import { handleGetAllFacilities } from './facilitiesSaga'
+import { handleAddFacilities, handleGetAllFacilities } from './facilitiesSaga'
 import { handleGetAllCityHotels } from './cityHotelSaga'
 import { handleGetAllCategoryFaci } from './categoryFaciSaga'
 import { handleGetAllMembersFaci } from './membersFaciSaga'
@@ -26,6 +26,8 @@ function* watchAll() {
     takeEvery(ActionTypeHotel.REQ_GET_CITY, handleGetAllCityHotels),
     takeEvery(ActionTypeHotel.REQ_GET_CATEGORY, handleGetAllCategoryFaci),
     takeEvery(ActionTypeHotel.REQ_GET_MEMBERS, handleGetAllMembersFaci),
+    //=====FACILITITES=====
+    takeEvery(ActionTypeHotel.ADD_FACILITIES, handleAddFacilities),
   ])
 }
 export default watchAll

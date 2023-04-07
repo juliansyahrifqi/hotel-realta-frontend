@@ -139,6 +139,7 @@ export const doAddFacilities = (payload: any) => {
   }
 }
 export const doAddFacilitiesResponse = (payload: any) => {
+  console.log(payload)
   return {
     type: ActionTypeHotel.ADD_FACILITIES_RESPONSE,
     payload,

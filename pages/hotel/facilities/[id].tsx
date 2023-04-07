@@ -12,7 +12,7 @@ import EditFacilities from './editFacilities'
 const Facilities = () => {
   let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
   const [hotel, setHotels] = useState<any>({})
-  console.log(hotels)
+  // console.log(hotels)
 
   const renderStars = (rating: number) => {
     const stars = []
@@ -55,7 +55,6 @@ const Facilities = () => {
   ]
   const dispatch = useDispatch()
   const router = useRouter().query
-
   useEffect(() => {
     const filter = hotels.data.filter((data: any) => {
       if (data.hotel_id === Number(router.id)) {
