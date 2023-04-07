@@ -26,8 +26,10 @@ export default function UploadPhotos(props: any) {
     formState: { errors },
   } = useForm<FormValues>()
   const dispatch = useDispatch()
-  const [data, setData] = useState<any>(props.dataRepho)
-  const [data1, setData1] = useState<any>(props.dataResto)
+  const [data, setData] = useState({
+    dataRepho: props.dataRepho,
+    dataResto: props.dataResto,
+  })
 
   // * Toggle
   const [status, setStatus] = useState(false)
@@ -39,8 +41,8 @@ export default function UploadPhotos(props: any) {
         remp_photo_filename: data.remp_photo_filename[0],
         remp_primary: data.remp_primary,
         remp_reme_id: data.remp_reme_id,
-        reme_id: data1.reme_id,
-        reme_name: data1.reme_name,
+        reme_id: data.reme_id,
+        reme_name: data.reme_name,
       }
       dispatch(doAddRepho(dataAll))
       props.closeModal()
@@ -53,50 +55,21 @@ export default function UploadPhotos(props: any) {
   // GAMBAR PREVIEW BARU
 
   const [selectedImages, setSelectedImages] = useState<File[]>([])
-  const [selectedImagePreviews, setSelectedImagePreviews] = useState<string[]>(
-    []
-  )
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return
     const filesArray = Array.from(e.target.files)
     setSelectedImages((prevImages) => [...prevImages, ...filesArray])
-    const objectUrls = filesArray.map((file) => URL.createObjectURL(file))
-    setSelectedImagePreviews((prevUrls) => [...prevUrls, ...objectUrls])
+    // ... continue with existing code to set image preview
   }
 
   const handleRemoveImage = (index: number) => {
     setSelectedImages((prevImages) => {
       const newImages = [...prevImages]
-      URL.revokeObjectURL(selectedImagePreviews[index]) // Revoke the object URL to release memory
       newImages.splice(index, 1)
       return newImages
     })
-    setSelectedImagePreviews((prevUrls) => {
-      const newUrls = [...prevUrls]
-      newUrls.splice(index, 1)
-      return newUrls
-    })
   }
-
-  // GAMBAR PREVIEW BARU
-
-  // GAMBAR PREVIEW LAMA
-
-  // const [imagePreview, setImagePreview] = useState<string | null>(null)
-
-  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-  //   const file: File | undefined = e.target.files?.[0]
-  //   if (file) {
-  //     const reader: FileReader = new FileReader()
-  //     reader.onload = (): void => {
-  //       setImagePreview(reader.result as string)
-  //     }
-  //     reader.readAsDataURL(file)
-  //   }
-  // }
-
-  // GAMBAR PREVIEW LAMA
 
   const registerOptions = {
     remp_photo_filename: { required: 'Name is required' },
@@ -138,13 +111,13 @@ export default function UploadPhotos(props: any) {
                     <form onSubmit={handleSubmit(handleSave, handleError)}>
                       <div className='mb-4'>
                         <label className='block text-gray-700 font-bold mb-2 text-center'>
-                          ID : {data1.reme_id}
+                          ID : {data.dataResto.reme_id}
                         </label>
                         <input
                           className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  text-center read-only: hidden'
                           id='name'
                           type='text'
-                          value={props.isUpload.reme_id}
+                          value={data.dataResto.reme_id}
                           {...register('remp_reme_id')}
                         />
                         {errors?.remp_reme_id && (
@@ -162,7 +135,7 @@ export default function UploadPhotos(props: any) {
                           className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  text-center'
                           id='name'
                           type='text'
-                          defaultValue={data?.remp_primary ?? ''}
+                          defaultValue={data?.dataRepho?.remp_primary ?? ''}
                           {...register('remp_primary')}
                         />
                         {errors?.remp_primary && (
@@ -181,7 +154,7 @@ export default function UploadPhotos(props: any) {
                           id='reme_name'
                           disabled
                           type='text'
-                          defaultValue={data1?.reme_name ?? ''}
+                          defaultValue={data.dataResto.reme_name}
                         />
                       </div>
 
@@ -253,7 +226,7 @@ export default function UploadPhotos(props: any) {
                               </button>
                               <img
                                 className='mt-2 rounded'
-                                src={selectedImagePreviews[index]}
+                                src={URL.createObjectURL(image)}
                                 alt='Product Preview'
                                 width='70'
                                 height='70'

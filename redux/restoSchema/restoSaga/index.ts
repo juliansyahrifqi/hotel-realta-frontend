@@ -13,6 +13,18 @@ import {
   handleGetAllRepho,
   handleUpdateRepho,
 } from './restoMenuPhotoSaga'
+import {
+  handleAddOrme,
+  handleDelOrme,
+  handleGetAllOrme,
+  handleUpdateOrme,
+} from './orderMenuSaga'
+import {
+  handleAddOrdet,
+  handleDelOrdet,
+  handleGetAllOrdet,
+  handleUpdateOrdet,
+} from './orderMenuDetailSaga'
 
 function* watchAll() {
   yield all([
@@ -28,6 +40,18 @@ function* watchAll() {
     takeEvery(actionTypes.ADD_REPHO, handleAddRepho),
     takeEvery(actionTypes.UPDATE_REPHO, handleUpdateRepho),
     takeEvery(actionTypes.DEL_REPHO, handleDelRepho),
+
+    // Order Menu
+    takeEvery(actionTypes.REQ_GET_ORME, handleGetAllOrme),
+    takeEvery(actionTypes.ADD_ORME, handleAddOrme),
+    takeEvery(actionTypes.UPDATE_ORME, handleUpdateOrme),
+    takeEvery(actionTypes.DEL_ORME, handleDelOrme),
+
+    // Order Menu Detail
+    takeEvery(actionTypes.REQ_GET_ORDET, handleGetAllOrdet),
+    takeEvery(actionTypes.ADD_ORDET, handleAddOrdet),
+    takeEvery(actionTypes.UPDATE_ORDET, handleUpdateOrdet),
+    takeEvery(actionTypes.DEL_ORDET, handleDelOrdet),
   ])
 }
 

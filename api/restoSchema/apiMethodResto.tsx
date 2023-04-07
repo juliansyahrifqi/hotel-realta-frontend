@@ -84,6 +84,27 @@ const getIdOrme = (id: number) => {
   return axios.get(`order-menus/${id}`)
 }
 
+// ORDER_MENU_DETAILS
+const getAllOrdet = () => {
+  return axios.get('order-menu-details')
+}
+
+const createOrdet = (data: any) => {
+  return axios.post(`order-menu-details`, data)
+}
+
+const updateOrdet = (id: number, data: any) => {
+  return axios.put(`order-menu-details/${id}`, data)
+}
+
+const deleteOrdet = (id: number) => {
+  return axios.delete(`order-menu-details/${id}`)
+}
+
+const getIdOrdet = (id: number) => {
+  return axios.get(`order-menu-details/${id}`)
+}
+
 const apiMethodReme = {
   // RESTO_MENUS
   getAll,
@@ -106,5 +127,12 @@ const apiMethodReme = {
   updateOrme,
   deleteOrme,
   getIdOrme,
+
+  // ORDER_MENU_DETAIL
+  getAllOrdet,
+  createOrdet,
+  updateOrdet,
+  deleteOrdet,
+  getIdOrdet,
 }
 export default apiMethodReme
