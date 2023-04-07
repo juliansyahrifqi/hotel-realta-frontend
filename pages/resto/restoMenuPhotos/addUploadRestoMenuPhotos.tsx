@@ -35,21 +35,34 @@ export default function UploadPhotos(props: any) {
   const [status, setStatus] = useState(false)
 
   const handleError = (errors: any) => {}
+
+  // Baru
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([])
+
+  // const handleImageChange = (selectedFiles: File[]) => {
+  //   setSelectedFiles((prevSelectedFiles) => [
+  //     ...prevSelectedFiles,
+  //     ...selectedFiles,
+  //   ])
+  // }
+  // Baru
+
   const handleSave = async (data: FormValues) => {
-    try {
-      const dataAll = {
-        remp_photo_filename: data.remp_photo_filename[0],
-        remp_primary: data.remp_primary,
-        remp_reme_id: data.remp_reme_id,
-        reme_id: data.reme_id,
-        reme_name: data.reme_name,
+    const formData = new FormData()
+
+    formData.append('remp_reme_id', data.remp_reme_id.toString())
+    formData.append('remp_primary', data.remp_primary)
+
+    if (data.remp_photo_filename && data.remp_photo_filename.length > 0) {
+      for (let i = 0; i < data.remp_photo_filename.length; i++) {
+        formData.append('remp_photo_filename', data.remp_photo_filename[i])
       }
-      dispatch(doAddRepho(dataAll))
-      props.closeModal()
-    } catch (error) {
-      console.error(error)
     }
+
+    dispatch(doAddRepho(formData))
+    props.closeModal()
   }
+
   // !
 
   // GAMBAR PREVIEW BARU

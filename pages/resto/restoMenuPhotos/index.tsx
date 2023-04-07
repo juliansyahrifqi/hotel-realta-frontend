@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable react-hooks/rules-of-hooks */
@@ -14,21 +15,67 @@ import Image from 'next/image'
 import { Menu, Transition } from '@headlessui/react'
 import EditRestoMenu from '../restoMenu/editRestoMenu'
 import { doRequestGetRepho } from '@/redux/restoSchema/action/actionRepho'
+// ini adalah carousel
+import { Carousel } from 'react-responsive-carousel'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
+// ini adalah carousel
 
 const restoPhoto = () => {
   // REDUCER
-  let { restoPhotos, message, refresh } = useSelector(
-    (state: any) => state.rephoReducers
+  const { restoMenus = [], refresh } = useSelector(
+    (state: any) => state.remeReducers
   )
   // REDUCER
 
+  const [searchTerm, setSearchTerm] = useState('')
+  const [sort, setSort] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [limit, setLimit] = useState(20)
+
   const dispatch = useDispatch()
 
-  useEffect(() => {
-    dispatch(doRequestGetRepho())
-  }, [refresh])
+  // SEARCH BY NAME
+  const handleSearchChange = (e: any): void => {
+    setSearchTerm(e.target.value)
+    setCurrentPage(1) // reset currentPage only when search term changes
+    handleGetData() // call handleGetData to fetch data again
+  }
+  // SEARCH BY NAME
 
-  console.log(restoPhotos)
+  // AMBIL DATA DARI RESTO_MENUS
+  const handleGetData = () => {
+    dispatch(doRequestGetReme(searchTerm, currentPage, limit, sort))
+  }
+
+  useEffect(() => {
+    handleGetData()
+  }, [refresh, currentPage, limit])
+
+  useEffect(() => {
+    handleGetData()
+  }, [searchTerm])
+
+  useEffect(() => {
+    handleGetData()
+  }, [sort])
+  // AMBIL DATA DARI RESTO_MENUS
+
+  // PAGINATION
+  const totalPages = Math.ceil(restoMenus.length / limit)
+
+  const pageNumbers = []
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i)
+  }
+  // PAGINATION
+
+  // SORT
+  const handleSortChange = (e: any): void => {
+    setSort(e.target.value)
+    setCurrentPage(1) // reset currentPage only when search term changes
+    handleGetData() // call handleGetData to fetch data again
+  }
+  // SORT
 
   return (
     <div className='bg-white'>
@@ -84,74 +131,57 @@ const restoPhoto = () => {
       {/* Product List */}
       <section className='py-10 bg-gray-100'>
         <div className='mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-          {restoPhotos &&
-            restoPhotos.map((remePho: any) => (
-              <article
-                key={remePho.remp_id}
-                className='rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 '
-              >
-                <a href='#'>
-                  <div className='relative flex items-end overflow-hidden rounded-xl'>
+          {((restoMenus && restoMenus.data) || []).map((restoMenu: any) => (
+            <article
+              key={restoMenu.reme_id}
+              className='rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 '
+            >
+              {/* <a href='#'> */}
+              <Carousel showThumbs={true}>
+                {restoMenu.resto_menu_photos.map((photo: any) => (
+                  <div key={photo.remp_reme_id}>
                     <Image
-                      src={remePho.remp_url}
-                      alt={remePho.remp_url}
-                      width={1000}
-                      height={1000}
+                      key={photo.remp_id}
+                      src={photo.remp_url}
+                      alt={photo.remp_photo_filename}
+                      width={500}
+                      height={500}
                     />
-                    <div className='flex items-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600'>
-                      <svg
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                        strokeWidth='1.5'
-                        stroke='currentColor'
-                        className='h-4 w-4'
-                      >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
-                        />
-                      </svg>
-                      <button className='text-sm'>Add to cart</button>
-                    </div>
                   </div>
-                  <div className='mt-1 p-2'>
-                    <h2 className='text-slate-700'>
-                      {remePho.resto_menu ? remePho.resto_menu.reme_name : ''}
-                    </h2>
-                    <p className='mt-1 text-sm text-slate-400'>
-                      {remePho.resto_menu
-                        ? remePho.resto_menu.reme_description
-                        : ''}
-                    </p>
-                    <p className='text-lg font-bold text-blue-500'>
-                      Rp.
-                      {remePho.resto_menu ? remePho.resto_menu.reme_price : ''}
-                    </p>
-                    <div className='mt-3 flex items-end justify-between '>
-                      <div className='flex items-center justify-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600 w-full'>
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth='1.5'
-                          stroke='currentColor'
-                          className='h-4 w-4'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
-                          />
-                        </svg>
-                        <button className='text-sm'>Add To Cart</button>
-                      </div>
-                    </div>
+                ))}
+              </Carousel>
+              <div className='mt-1 p-2'>
+                <h2 className='text-slate-700'>{restoMenu.reme_name}</h2>
+                <p className='mt-1 text-sm text-slate-400'>
+                  {restoMenu.reme_description}
+                </p>
+                <p className='text-lg font-bold text-blue-500 text-right'>
+                  Rp.
+                  {restoMenu.reme_price}
+                </p>
+                <div className='mt-3 flex items-end justify-between '>
+                  <div className='flex items-center justify-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600 w-full'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth='1.5'
+                      stroke='currentColor'
+                      className='h-4 w-4'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
+                      />
+                    </svg>
+                    <button className='text-sm'>Add To Cart</button>
                   </div>
-                </a>
-              </article>
-            ))}
+                </div>
+              </div>
+              {/* </a> */}
+            </article>
+          ))}
         </div>
       </section>
       {/* Footer */}

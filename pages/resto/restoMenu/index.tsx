@@ -18,6 +18,7 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Menu, Transition } from '@headlessui/react'
 import EditRestoMenu from './editRestoMenu'
+import Image from 'next/image'
 
 // import { SearchInput } from '../../../components/searchInput'
 
@@ -95,8 +96,6 @@ const restoMenu = () => {
   useEffect(() => {
     handleGetData()
   }, [sort])
-
-  const totalData = restoMenus ? restoMenus.length : 0
 
   const totalPages = Math.ceil(restoMenus.length / limit)
 
@@ -204,15 +203,22 @@ const restoMenu = () => {
                           <tr key={restoMenu.reme_id}>
                             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
                               <div className='flex items-center'>
-                                <div className='flex-shrink-0 w-10 h-10'>
-                                  <img
-                                    src='https://media.istockphoto.com/id/1258873084/id/vektor/logo-abstrak-kafe-atau-restoran-sendok-dan-garpu-di-piring-desain-logo-makanan-ilustrasi.jpg?s=612x612&w=0&k=20&c=v3MkYEDgB09kn_NAJbekqA2M3zQ9SDjpqo6IbLeDwF0='
-                                    alt='waw'
-                                    width={1000}
-                                    height={1000}
-                                    className='w-full h-full rounded-full'
-                                  />
-                                </div>
+                                {restoMenu.resto_menu_photos.map(
+                                  (photo: any) => (
+                                    <div
+                                      className='flex-shrink-0 w-10 h-10'
+                                      key={photo.remp_id}
+                                    >
+                                      <Image
+                                        src={photo.remp_url}
+                                        alt={photo.remp_photo_filename}
+                                        width={500}
+                                        height={500}
+                                        className='w-full h-full rounded-full'
+                                      />
+                                    </div>
+                                  )
+                                )}
                               </div>
                             </td>
                             <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
@@ -388,7 +394,16 @@ const restoMenu = () => {
                 </table>
                 <div className='px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between'>
                   <span className='text-xs xs:text-sm text-gray-900'>
-                    Showing Page {currentPage}
+                    Showing Page{' '}
+                    <input
+                      type='number'
+                      value={currentPage}
+                      onChange={(event) =>
+                        setCurrentPage(event.target.valueAsNumber)
+                      }
+                      min={1}
+                      max={totalPages}
+                    />{' '}
                   </span>
 
                   <div className='inline-flex mt-2 xs:mt-0'>
@@ -403,7 +418,7 @@ const restoMenu = () => {
                     {currentPage !== totalPages && (
                       <button
                         className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'
-                        disabled={currentPage === totalPages}
+                        hidden={currentPage === totalPages}
                         onClick={() => setCurrentPage(currentPage + 1)}
                       >
                         Next
