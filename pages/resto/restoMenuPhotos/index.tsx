@@ -18,6 +18,11 @@ import { doRequestGetRepho } from '@/redux/restoSchema/action/actionRepho'
 // ini adalah carousel
 import { Carousel } from 'react-responsive-carousel'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
+import {
+  AiFillCloseCircle,
+  AiOutlineMinusCircle,
+  AiOutlinePlusCircle,
+} from 'react-icons/ai'
 // ini adalah carousel
 
 const restoPhoto = () => {
@@ -30,7 +35,7 @@ const restoPhoto = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [sort, setSort] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [limit, setLimit] = useState(20)
+  const [limit, setLimit] = useState(8)
 
   const dispatch = useDispatch()
 
@@ -77,6 +82,71 @@ const restoPhoto = () => {
   }
   // SORT
 
+  // CART CARD
+
+  const [cartItems, setCartItems] = useState<
+    { name: string; price: number; quantity: number }[]
+  >([])
+
+  const handleAddToCart = (restoMenu: any) => {
+    const existingCartItem = cartItems.find(
+      (item) => item.name === restoMenu.reme_name
+    )
+
+    if (existingCartItem) {
+      const updatedCartItem = {
+        ...existingCartItem,
+        quantity: existingCartItem.quantity + 1,
+      }
+
+      setCartItems(
+        cartItems.map((item) =>
+          item.name === existingCartItem.name ? updatedCartItem : item
+        )
+      )
+    } else {
+      setCartItems([
+        ...cartItems,
+        { name: restoMenu.reme_name, price: restoMenu.reme_price, quantity: 1 },
+      ])
+    }
+  }
+
+  // CART CARD
+
+  // CART CARD REMOVE
+  const handleDecreaseQuantity = (index: number) => {
+    const existingCartItem = cartItems[index]
+    if (existingCartItem.quantity === 1) {
+      handleRemoveFromCart(index)
+      return
+    }
+    const updatedCartItem = {
+      ...existingCartItem,
+      quantity: existingCartItem.quantity - 1,
+    }
+
+    setCartItems(
+      cartItems.map((item, i) => (i === index ? updatedCartItem : item))
+    )
+  }
+
+  const handleIncreaseQuantity = (index: number) => {
+    const updatedCartItem = {
+      ...cartItems[index],
+      quantity: cartItems[index].quantity + 1,
+    }
+    setCartItems(
+      cartItems.map((item, i) => (i === index ? updatedCartItem : item))
+    )
+  }
+
+  const handleRemoveFromCart = (index: number) => {
+    setCartItems(cartItems.filter((item, i) => i !== index))
+  }
+
+  // CART CARD REMOVE
+
   return (
     <div className='bg-white'>
       {/* Title */}
@@ -90,10 +160,13 @@ const restoPhoto = () => {
         {/* SEARCH */}
         <div className='pt-2 relative mx-auto text-gray-600 flex'>
           <input
-            className='border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none'
-            type='search'
-            name='search'
-            placeholder='Search'
+            className='bg-gray-50 outline-none ml-1 block '
+            type='text'
+            name=''
+            id=''
+            placeholder='search...'
+            // value={searchTerm}
+            onChange={handleSearchChange}
           />
           <button type='submit' className='absolute right-0 top-0 mt-5 mr-4'>
             <svg
@@ -120,82 +193,191 @@ const restoPhoto = () => {
           <select
             id='categories'
             className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            // value={sort}
+            onChange={handleSortChange}
           >
-            <option value=''>Price Low To High</option>
-            <option value=''>Price High To Low</option>
+            <option value='' className='text-center'>
+              FILTER
+            </option>
+            <option value='low-to-high'>Price Low To High</option>
+            <option value='high-to-low'>Price High To Low</option>
           </select>
         </div>
         {/* SELECT */}
       </div>
 
       {/* Product List */}
-      <section className='py-10 bg-gray-100'>
-        <div className='mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
-          {((restoMenus && restoMenus.data) || []).map((restoMenu: any) => (
-            <article
-              key={restoMenu.reme_id}
-              className='rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 '
-            >
-              {/* <a href='#'> */}
-              <Carousel showThumbs={true}>
-                {restoMenu.resto_menu_photos.map((photo: any) => (
-                  <div key={photo.remp_reme_id}>
-                    <Image
-                      key={photo.remp_id}
-                      src={photo.remp_url}
-                      alt={photo.remp_photo_filename}
-                      width={500}
-                      height={500}
-                    />
-                  </div>
-                ))}
-              </Carousel>
-              <div className='mt-1 p-2'>
+      <div className='mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0'>
+        <section className='py-10 bg-gray-100'>
+          <div className='mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3'>
+            {((restoMenus && restoMenus.data) || []).map((restoMenu: any) => (
+              <article
+                key={restoMenu.reme_id}
+                className='rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 '
+              >
+                {/* <a href='#'> */}
+                <Carousel showThumbs={true}>
+                  {restoMenu.resto_menu_photos.map((photo: any) => (
+                    <div key={photo.remp_reme_id}>
+                      <Image
+                        key={photo.remp_id}
+                        src={photo.remp_url}
+                        alt={photo.remp_photo_filename}
+                        width={500}
+                        height={500}
+                      />
+                    </div>
+                  ))}
+                </Carousel>
                 <h2 className='text-slate-700'>{restoMenu.reme_name}</h2>
-                <p className='mt-1 text-sm text-slate-400'>
-                  {restoMenu.reme_description}
-                </p>
-                <p className='text-lg font-bold text-blue-500 text-right'>
-                  Rp.
-                  {restoMenu.reme_price}
+                <p className='text-lg font-bold text-blue-500 text-left'>
+                  {new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                  }).format(parseInt(restoMenu.reme_price.replace(/\D/g, '')))}
                 </p>
                 <div className='mt-3 flex items-end justify-between '>
-                  <div className='flex items-center justify-center space-x-1.5 rounded-lg bg-blue-500 px-4 py-1.5 text-white duration-100 hover:bg-blue-600 w-full'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth='1.5'
-                      stroke='currentColor'
-                      className='h-4 w-4'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z'
-                      />
-                    </svg>
-                    <button className='text-sm'>Add To Cart</button>
-                  </div>
+                  <button
+                    className={`flex items-center justify-center space-x-1.5 rounded-lg px-4 py-1.5 text-white duration-100 ${
+                      restoMenu.reme_status === 'empty'
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-blue-500 hover:bg-blue-600'
+                    }`}
+                    onClick={() => handleAddToCart(restoMenu)}
+                    disabled={restoMenu.reme_status === 'empty'}
+                  >
+                    {restoMenu.reme_status === 'empty'
+                      ? 'Out of stock'
+                      : 'Add to cart'}
+                    {restoMenu.reme_status === 'empty' ? null : (
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        className='h-5 w-5'
+                        viewBox='0 0 20 20'
+                        fill='currentColor'
+                      >
+                        <path
+                          fillRule='evenodd'
+                          d='M16.456 6.658c-.296-.076-.606.098-.683.395l-.699 2.727h-9.98l-.698-2.727c-.077-.297-.386-.47-.683-.395-.297.077-.47.386-.395.683l1.2 4.666c.07.272.316.471.599.471h8.3c.282 0 .53-.199.599-.471l1.2-4.666c.076-.297-.098-.606-.395-.683zm-10.37 8.06c-.408 0-.737.329-.737.736 0 .407.329.736.737.736.407 0 .736-.329.736-.736 0-.407-.329-.736-.736-.736zm6.182 0c-.407 0-.736.329-.736.736 0 .407.329.736.736.736.408 0 .737-.329.737-.736 0-.407-.33-.736-.737-.736z'
+                          clipRule='evenodd'
+                        />
+                      </svg>
+                    )}
+                  </button>
                 </div>
+                <div className='mt-1 p-2'>
+                  <p className='mt-1 text-sm text-slate-400'>
+                    {restoMenu.reme_description}
+                  </p>
+                </div>
+                <div>
+                  <span
+                    className={`absolute insert-0 ${
+                      restoMenu.reme_status === 'empty'
+                        ? 'relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight'
+                        : 'relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight'
+                    }`}
+                  >
+                    <span
+                      className={`absolute inset-0 ${
+                        restoMenu.reme_status === 'empty'
+                          ? 'bg-red-200'
+                          : 'bg-green-200'
+                      } opacity-50 rounded-full`}
+                    />
+                    <span className='relative'>{restoMenu.reme_status}</span>
+                  </span>
+                </div>
+                {/* </a> */}
+              </article>
+            ))}
+          </div>
+        </section>
+        {/* cart card */}
+        <div className='mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3'>
+          {cartItems.map((item, index) => (
+            <div key={item.name} className='flex justify-between items-center'>
+              <p className='text-gray-700'>{item.name}</p>
+              <div className='flex space-x-2 items-center'>
+                <button
+                  className='border rounded-md px-2 py-1 hover:bg-gray-100'
+                  onClick={() => handleDecreaseQuantity(index)}
+                  disabled={item.quantity === 1}
+                >
+                  <AiOutlineMinusCircle
+                    className='mr-2 h-5 w-5'
+                    aria-hidden='true'
+                  />
+                </button>
+                <p className='text-gray-700'>{item.quantity}</p>
+                <button
+                  className='border rounded-md px-2 py-1 hover:bg-gray-100'
+                  onClick={() => handleIncreaseQuantity(index)}
+                >
+                  <AiOutlinePlusCircle
+                    className='mr-2 h-5 w-5'
+                    aria-hidden='true'
+                  />
+                </button>
+                <p className='text-gray-700'>
+                  {new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0,
+                  }).format(item.price)}
+                </p>
+                <button
+                  className='border rounded-md px-2 py-1 hover:bg-gray-100'
+                  onClick={() => handleRemoveFromCart(index)}
+                >
+                  <AiFillCloseCircle
+                    className='mr-2 h-5 w-5'
+                    aria-hidden='true'
+                  />
+                </button>
               </div>
-              {/* </a> */}
-            </article>
+            </div>
           ))}
+
+          <hr className='my-4' />
+          <div className='mb-2 flex justify-between'>
+            <p className='text-gray-700'>Subtotal</p>
+            <p className='text-gray-700'>
+              {new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0,
+              }).format(
+                cartItems.reduce(
+                  (acc, item) => acc + item.price * item.quantity,
+                  0
+                )
+              )}
+            </p>
+          </div>
+          <div className='flex justify-between'>
+            <p className='text-lg font-bold'>Total</p>
+            <div className=''>
+              <p className='mb-1 text-lg font-bold'>
+                {`Rp ${cartItems
+                  .reduce((acc, item) => acc + item.price * item.quantity, 0)
+                  .toLocaleString('id-ID')}`}
+              </p>
+            </div>
+          </div>
+          <button className='mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600'>
+            Check out
+          </button>
         </div>
-      </section>
+      </div>
+      {/* cart card */}
+
       {/* Footer */}
       <footer className='py-6  bg-gray-200 text-gray-900'>
         <div className='container px-6 mx-auto space-y-6 divide-y divide-gray-400 md:space-y-12 divide-opacity-50'>
           <div className='grid justify-center  lg:justify-between'>
             <div className='flex flex-col self-center text-sm text-center md:block lg:col-start-1 md:space-x-6'>
-              <span>Copy rgight © 2023 by codemix team </span>
-              <a rel='noopener noreferrer' href='#'>
-                <span>Privacy policy</span>
-              </a>
-              <a rel='noopener noreferrer' href='#'>
-                <span>Terms of service</span>
-              </a>
+              <span>Copy right © 2023 Ragnarox </span>
             </div>
             <div className='flex justify-center pt-4 space-x-4 lg:pt-0 lg:col-end-13'>
               <a
