@@ -8,7 +8,7 @@ import {
 } from '@/redux/hotel/action/actionReducer'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import { parse } from 'path'
+import moment from 'moment'
 
 export default function EditFacilities(props: any) {
   let { facilities, message, refresh } = useSelector(
@@ -22,7 +22,14 @@ export default function EditFacilities(props: any) {
     (state: any) => state.membersFaciReducers
   )
 
-  // console.log(facilities)
+  const [faci, setFaci] = useState<any>({})
+  console.log(facilities)
+  const timestamp = faci?.faci_start_date ?? ''
+  const date = moment(timestamp.substring(0, timestamp.length - 1)).format(
+    'YYYY-MM-DD'
+  )
+  console.log(date)
+  const dispatch = useDispatch()
   type FormValues = {
     faci_description: string
     faci_name: string
@@ -50,11 +57,11 @@ export default function EditFacilities(props: any) {
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
 
-  const [faci, setFaci] = useState<any>({})
-  console.log(facilities)
+  const [selectedDate, setSelectedDate] = useState(new Date('2022-01-01'))
 
-  const dispatch = useDispatch()
-
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date)
+  }
   const handleRegistration = async (data: any) => {
     dispatch(doAddFacilities(data))
     props.closeModal()
@@ -74,9 +81,6 @@ export default function EditFacilities(props: any) {
     faci_cagro_id: { required: 'Name is required' },
     faci_memb_name: { required: 'Name is required' },
   }
-  // useEffect(() => {
-  //   dispatch(doRequestGetFacilities())
-  // }, [])
 
   useEffect(() => {
     dispatch(doRequestGetFacilities())
@@ -84,7 +88,7 @@ export default function EditFacilities(props: any) {
     setFaci(
       facilities.filter((faci: any) => faci.faci_id === props.isEdit.faci_id)[0]
     )
-  }, [])
+  }, [refresh])
 
   return (
     <div>

@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import AddFacilities from './addFacilities'
 import EditFacilities from './editFacilities'
+import Link from 'next/link'
+import { doRequestGetFacilities } from '@/redux/hotel/action/actionReducer'
 
 const Facilities = () => {
   let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
@@ -55,6 +57,11 @@ const Facilities = () => {
   ]
   const dispatch = useDispatch()
   const router = useRouter().query
+
+  useEffect(() => {
+    dispatch(doRequestGetFacilities())
+  }, [refresh, dispatch])
+
   useEffect(() => {
     const filter = hotels.data.filter((data: any) => {
       if (data.hotel_id === Number(router.id)) {
@@ -156,8 +163,8 @@ const Facilities = () => {
         </div>
       </div>
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-        <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-          <thead className='text-medium text-white uppercase bg-primary dark:bg-black dark:text-black'>
+        <table className='w-full text-xs text-left text-gray-500 dark:text-gray-400'>
+          <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black'>
             <tr>
               {(columns || []).map((col) => (
                 <th key={col.name} style={{ whiteSpace: 'nowrap' }}>
@@ -192,7 +199,7 @@ const Facilities = () => {
                   {dt.category_group.cagro_name}
                 </td>
                 <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center'>
-                  {dt.faci_room_number.substring(4)}
+                  {dt.faci_room_number.substring(3)}
                 </td>
                 <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center'>
                   {`${dt.faci_max_number} `}
@@ -324,27 +331,31 @@ const Facilities = () => {
                         <div className='px-1 py-1 '>
                           <Menu.Item>
                             {({ active }) => (
-                              <button
-                                className={`${
-                                  active
-                                    ? 'bg-[#4B5563] text-white'
-                                    : 'text-gray-900'
-                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                // onClick={() => editOpen(dt.id_user)}
+                              <Link
+                                href={`/hotel/facility-price-history/${dt.faci_id}`}
                               >
-                                {active ? (
-                                  <MdAddBox
-                                    className='mr-2 h-5 w-5'
-                                    aria-hidden='true'
-                                  />
-                                ) : (
-                                  <MdAddBox
-                                    className='mr-2 h-5 w-5'
-                                    aria-hidden='true'
-                                  />
-                                )}
-                                Price History
-                              </button>
+                                <button
+                                  className={`${
+                                    active
+                                      ? 'bg-[#4B5563] text-white'
+                                      : 'text-gray-900'
+                                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                  // onClick={() => editOpen(dt.id_user)}
+                                >
+                                  {active ? (
+                                    <MdAddBox
+                                      className='mr-2 h-5 w-5'
+                                      aria-hidden='true'
+                                    />
+                                  ) : (
+                                    <MdAddBox
+                                      className='mr-2 h-5 w-5'
+                                      aria-hidden='true'
+                                    />
+                                  )}
+                                  Price History
+                                </button>
+                              </Link>
                             )}
                           </Menu.Item>
                         </div>

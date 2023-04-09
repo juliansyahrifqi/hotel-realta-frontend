@@ -1,22 +1,43 @@
-import { doRequestGetFacilitiesSupport } from '../../../redux/hotel/action/actionReducer'
 import { Menu, Transition } from '@headlessui/react'
 import React, { Fragment, useEffect, useState } from 'react'
 import { FaRegEdit } from 'react-icons/fa'
 import { BsThreeDotsVertical } from 'react-icons/bs'
-import { FaTrashAlt } from 'react-icons/fa'
 import { MdAddBox } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
+import { doRequestGetFacilitiesSupport } from '@/redux/hotel/action/actionReducer'
 import Image from 'next/image'
-import AddSupport from './addSupport'
-import EditSupport from './editSupport'
+import { FaStar, FaRegStar, FaStarHalfAlt, FaTrashAlt } from 'react-icons/fa'
+import AddSupportHotel from './addSupportHotel'
 
-const FacilitiesSupport = () => {
-  let { fasupp, message, refresh } = useSelector(
-    (state: any) => state.facilitiesSupportReducers
-  )
+const Facilities = () => {
+  let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
+
+  const [hotel, setHotels] = useState<any>({})
+
+  console.log(hotel)
   const dispatch = useDispatch()
+  const router = useRouter().query
+
+  const renderStars = (rating: number) => {
+    const stars = []
+    const fullStars = Math.floor(rating)
+    const halfStar = rating - fullStars >= 0.5 ? true : false
+
+    for (let i = 1; i <= 5; i++) {
+      if (i <= fullStars) {
+        stars.push(<FaStar className='text-amber-400' key={i} />)
+      } else if (halfStar && i === fullStars + 1) {
+        stars.push(<FaStarHalfAlt className='text-amber-400' key={i} />)
+      } else {
+        stars.push(<FaRegStar className='text-amber-400' key={i} />)
+      }
+    }
+
+    return stars
+  }
   const columns = [
-    { name: 'NO' },
+    { name: 'ID' },
     { name: 'Facilities Support Name' },
     { name: 'Description' },
   ]
@@ -33,11 +54,20 @@ const FacilitiesSupport = () => {
 
   useEffect(() => {
     dispatch(doRequestGetFacilitiesSupport())
-  }, [refresh])
+  }, [dispatch, refresh])
+
+  useEffect(() => {
+    const filter = hotels.data.filter((data: any) => {
+      if (data.hotel_id === Number(router.id)) {
+        return data
+      }
+    })[0]
+    setHotels(filter)
+  }, [dispatch, refresh])
 
   return (
     <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-      {/* Breadcrumb */}
+      {/* breadcrumb */}
       <div className='bg-white text-black py-2 px-6 flex font-bold border-t-2 border-r-2 border-l-2 items-center justify-between'>
         <nav className='flex' aria-label='Breadcrumb'>
           <ol className='inline-flex items-center space-x-1 md:space-x-3'>
@@ -77,6 +107,29 @@ const FacilitiesSupport = () => {
                   href='/hotel/hotels'
                   className='ml-1 text-sm text-black font-bold hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white'
                 >
+                  Hotels
+                </a>
+              </div>
+            </li>
+            <li>
+              <div className='flex items-center'>
+                <svg
+                  aria-hidden='true'
+                  className='w-6 h-6 text-gray-400'
+                  fill='currentColor'
+                  viewBox='0 0 20 20'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path
+                    fill-rule='evenodd'
+                    d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z'
+                    clip-rule='evenodd'
+                  ></path>
+                </svg>
+                <a
+                  href={`/hotel/facilities/${router.id}`}
+                  className='ml-1 text-sm text-black font-bold hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white'
+                >
                   Facility Support
                 </a>
               </div>
@@ -84,7 +137,24 @@ const FacilitiesSupport = () => {
           </ol>
         </nav>
       </div>
+      {/* Header */}
+      <div className='bg-white text-black py-2 px-6 flex border-2 items-center justify-between'>
+        <div className='mb-4 mt-4 ml-10'>
+          <div className='text-xl font-bold'>{hotel.hotel_name}</div>
+          <div className='text-xs font-semibold'>
+            {` ${hotel.address && hotel.address.addr_line1}, ${
+              hotel.address && hotel.address.addr_line2
+            }`}
+          </div>
+        </div>
 
+        <div className='mr-52'>
+          <div className='mr-4'>{hotel.hotel_phonenumber}</div>
+          <div className='display flex'>
+            {renderStars(hotel.hotel_rating_star)}
+          </div>
+        </div>
+      </div>
       {/* Columns */}
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
         <table className='w-full tex-xs text-left text-gray-500 dark:text-gray-400'>
@@ -110,7 +180,7 @@ const FacilitiesSupport = () => {
             </tr>
           </thead>
           <tbody>
-            {(fasupp || []).map((dt: any, index: number) => (
+            {(hotel.facilities_support || []).map((dt: any, index: number) => (
               <tr
                 key={dt.fs_id}
                 className='bg-white border-b hover:bg-primary/5'
@@ -217,9 +287,9 @@ const FacilitiesSupport = () => {
         /> */}
       </div>
       {isOpen ? (
-        <AddSupport isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+        <AddSupportHotel isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       ) : null}
-      {isEdit.status ? (
+      {/* {isEdit.status ? (
         <EditSupport
           isEdit={isEdit}
           closeModal={() =>
@@ -228,9 +298,9 @@ const FacilitiesSupport = () => {
             })
           }
         />
-      ) : null}
+      ) : null} */}
     </div>
   )
 }
 
-export default FacilitiesSupport
+export default Facilities
