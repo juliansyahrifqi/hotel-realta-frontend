@@ -20,7 +20,7 @@ export default function AddFacilities(props: any) {
   let { membersFaci, messageMemb, refreshMemb } = useSelector(
     (state: any) => state.membersFaciReducers
   )
-  // console.log(categoryFaci)
+  console.log('test:', categoryFaci)
   // console.log(membersFaci)
 
   //============Category Var==========

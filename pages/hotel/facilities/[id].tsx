@@ -12,7 +12,7 @@ import EditFacilities from './editFacilities'
 const Facilities = () => {
   let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
   const [hotel, setHotels] = useState<any>({})
-  // console.log(hotels)
+  console.log('hotels:', hotels)
 
   const renderStars = (rating: number) => {
     const stars = []
@@ -61,6 +61,7 @@ const Facilities = () => {
         return data
       }
     })[0]
+    console.log('cek:', hotels)
     setHotels(filter)
   }, [refresh])
 
