@@ -11,7 +11,13 @@ function facilitiesSupportReducers(state = initialState, action: any) {
   // console.log(payload)
   switch (type) {
     case ActionTypeHotel.GET_FACILITIES_SUPPORT_RESPONSE:
-      return { state, fasupp: payload.data, refresh: true }
+      return { ...state, fasupp: payload.data, refresh: true }
+    case ActionTypeHotel.ADD_FACILITIES_SUPPORT_RESPONSE:
+      return { ...state, message: payload.message, refresh: false }
+    case ActionTypeHotel.ADD_FACILITY_SUPPORT_HOTEL_RESPONSE:
+      return { ...state, message: payload.message, refresh: false }
+    case ActionTypeHotel.UPDATE_FACILITIES_SUPPORT_RESPONSE:
+      return { ...state, message: payload.message, refresh: false }
     default:
       return state
   }

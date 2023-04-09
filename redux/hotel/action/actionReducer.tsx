@@ -67,7 +67,7 @@ export const doSwitchHotels = (...payload: any) => {
   }
 }
 export const doSwitchHotelsResponse = (payload: any) => {
-  console.log(payload)
+  // console.log(payload)
   return {
     type: ActionTypeHotel.SWITCH_STATUS_HOTELS_RESPONSE,
     payload,
@@ -238,6 +238,7 @@ export const doAddFacilitiesSupport = (payload: any) => {
   }
 }
 export const doAddFacilitiesSupportResponse = (payload: any) => {
+  console.log(payload)
   return {
     type: ActionTypeHotel.ADD_FACILITIES_SUPPORT_RESPONSE,
     payload,
@@ -250,6 +251,7 @@ export const doUpdateFacilitiesSupport = (...payload: any) => {
   }
 }
 export const doUpdateFacilitiesSupportResponse = (payload: any) => {
+  console.log(payload)
   return {
     type: ActionTypeHotel.UPDATE_FACILITIES_SUPPORT_RESPONSE,
     payload,
@@ -264,6 +266,57 @@ export const doDeleteFacilitiesSupport = (payload: any) => {
 export const doDeleteFacilitiesSupportResponse = (payload: any) => {
   return {
     type: ActionTypeHotel.UPDATE_FACILITIES_SUPPORT_RESPONSE,
+    payload,
+  }
+}
+//====================FACILITIES SUPPORT HOTEL=======================
+
+export const doRequestGetFacilitySupportHotel = () => {
+  return {
+    type: ActionTypeHotel.REQ_GET_FACILITY_SUPPORT_HOTEL,
+  }
+}
+export const doGetFacilitySupportHotelResponse = (payload: any) => {
+  return {
+    type: ActionTypeHotel.GET_FACILITY_SUPPORT_HOTEL_RESPONSE,
+    payload,
+  }
+}
+export const doAddFacilitySupportHotel = (payload: any) => {
+  // console.log(payload)
+  return {
+    type: ActionTypeHotel.ADD_FACILITY_SUPPORT_HOTEL,
+    payload,
+  }
+}
+export const doAddFacilitySupportHotelResponse = (payload: any) => {
+  return {
+    type: ActionTypeHotel.ADD_FACILITY_SUPPORT_HOTEL_RESPONSE,
+    payload,
+  }
+}
+export const doUpdateFacilitySupportHotel = (...payload: any) => {
+  return {
+    type: ActionTypeHotel.UPDATE_FACILITY_SUPPORT_HOTEL,
+    payload,
+  }
+}
+export const doUpdateFacilitySupportHotelResponse = (payload: any) => {
+  console.log(payload)
+  return {
+    type: ActionTypeHotel.UPDATE_FACILITY_SUPPORT_HOTEL_RESPONSE,
+    payload,
+  }
+}
+export const doDeleteFacilitySupportHotel = (payload: any) => {
+  return {
+    type: ActionTypeHotel.DEL_FACILITY_SUPPORT_HOTEL,
+    payload,
+  }
+}
+export const doDeleteFacilitySupportHotelResponse = (payload: any) => {
+  return {
+    type: ActionTypeHotel.DEL_FACILITY_SUPPORT_HOTEL_RESPONSE,
     payload,
   }
 }

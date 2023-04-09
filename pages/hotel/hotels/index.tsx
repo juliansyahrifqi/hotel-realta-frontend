@@ -15,6 +15,7 @@ import EditHotels from './editHotels'
 import SwitchStatus from './switchStatus'
 import Link from 'next/link'
 import { Pagination } from '@/components/hotel/Pagination'
+import Button from '@/components/Button/button'
 
 const Hotels = () => {
   let { hotels, message, refresh } = useSelector(
@@ -157,7 +158,7 @@ const Hotels = () => {
               </svg>
             </div>
             <input
-              className='bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-96 pl-10 p-2.5 '
+              className='bg-gray-50 border border-gray-300 text-gray-900 font-medium text-xs rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5 '
               placeholder='Search'
               onChange={handleSearch}
             />
@@ -166,24 +167,25 @@ const Hotels = () => {
       </div>
       {/* Columns */}
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-        <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-          <thead className='text-medium text-white uppercase bg-primary dark:bg-black dark:text-black'>
-            <tr>
+        <table className='w-full tex-xs text-left text-gray-500 dark:text-gray-400'>
+          <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black '>
+            <tr className=''>
               {(columns || []).map((col) => (
                 <th key={col.name} style={{ whiteSpace: 'nowrap' }}>
-                  <span className='px-6 py-3'>{col.name}</span>
+                  <span className='px-4'>{col.name}</span>
                 </th>
               ))}
-              <th>
-                <span className='px-6 py-3'>
-                  <button
-                    className='flex items-center'
-                    onClick={() => setIsOpen(true)}
-                  >
-                    <MdAddBox className='mr-1' />
-                    <span>Add New Hotel</span>
-                  </button>
-                </span>
+
+              <th className='px-6 py-3 '>
+                <button
+                  className='flex items-center'
+                  onClick={() => setIsOpen(true)}
+                >
+                  <MdAddBox className='mr-1' />
+                  <span className='mr-2' style={{ whiteSpace: 'nowrap' }}>
+                    Add Hotel
+                  </span>
+                </button>
               </th>
             </tr>
           </thead>
@@ -193,19 +195,19 @@ const Hotels = () => {
                 key={dt.hotel_id}
                 className='bg-white border-b hover:bg-primary/5'
               >
-                <td className='px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
                   {index + 1}
                 </td>
-                <td className='px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
                   {dt.hotel_name}
                 </td>
-                <td className='px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white display flex'>
+                <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white items-center display flex'>
                   {renderStars(dt.hotel_rating_star)}
                 </td>
-                <td className='px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
                   {dt.hotel_phonenumber}
                 </td>
-                <td className='px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
                   {new Date(dt.hotel_modified_date).toLocaleDateString(
                     'en-GB',
                     {
@@ -294,27 +296,31 @@ const Hotels = () => {
                         <div className='px-1 py-1 '>
                           <Menu.Item>
                             {({ active }) => (
-                              <button
-                                className={`${
-                                  active
-                                    ? 'bg-primary/75 text-white'
-                                    : 'text-gray-900'
-                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                // onClick={() => editOpen(dt.id_user)}
+                              <Link
+                                href={`/hotel/facilities-support/${dt.hotel_id}`}
                               >
-                                {active ? (
-                                  <MdAddBox
-                                    className='mr-2 h-5 w-5'
-                                    aria-hidden='true'
-                                  />
-                                ) : (
-                                  <MdAddBox
-                                    className='mr-2 h-5 w-5'
-                                    aria-hidden='true'
-                                  />
-                                )}
-                                Add Facility Support
-                              </button>
+                                <button
+                                  className={`${
+                                    active
+                                      ? 'bg-primary/75 text-white'
+                                      : 'text-gray-900'
+                                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                  // onClick={() => editOpen(dt.id_user)}
+                                >
+                                  {active ? (
+                                    <MdAddBox
+                                      className='mr-2 h-5 w-5'
+                                      aria-hidden='true'
+                                    />
+                                  ) : (
+                                    <MdAddBox
+                                      className='mr-2 h-5 w-5'
+                                      aria-hidden='true'
+                                    />
+                                  )}
+                                  Add Facility Support
+                                </button>
+                              </Link>
                             )}
                           </Menu.Item>
                         </div>

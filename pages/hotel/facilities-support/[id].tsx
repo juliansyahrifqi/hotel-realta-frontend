@@ -3,18 +3,21 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { FaRegEdit } from 'react-icons/fa'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { MdAddBox } from 'react-icons/md'
-import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
-import AddFacilities from './addFacilities'
-import EditFacilities from './editFacilities'
-import Link from 'next/link'
-import { doRequestGetFacilities } from '@/redux/hotel/action/actionReducer'
+import { doRequestGetFacilitiesSupport } from '@/redux/hotel/action/actionReducer'
+import Image from 'next/image'
+import { FaStar, FaRegStar, FaStarHalfAlt, FaTrashAlt } from 'react-icons/fa'
+import AddSupportHotel from './addSupportHotel'
 
 const Facilities = () => {
   let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
+
   const [hotel, setHotels] = useState<any>({})
-  // console.log(hotels)
+
+  console.log(hotel)
+  const dispatch = useDispatch()
+  const router = useRouter().query
 
   const renderStars = (rating: number) => {
     const stars = []
@@ -33,34 +36,25 @@ const Facilities = () => {
 
     return stars
   }
+  const columns = [
+    { name: 'ID' },
+    { name: 'Facilities Support Name' },
+    { name: 'Description' },
+  ]
   const [isOpen, setIsOpen] = useState(false)
   const [isEdit, setIsEdit] = useState({
     status: false,
-    hotel_id: 0,
+    fs_id: 0,
   })
-
-  const editOpen = (faci_id: number) => {
+  const editOpen = (fs_id: number) => {
     setIsEdit((prev) => {
-      return { ...prev, status: true, faci_id: faci_id }
+      return { ...prev, status: true, fs_id: fs_id }
     })
   }
-  const columns = [
-    { name: 'NO' },
-    { name: 'Facility Name' },
-    { name: 'Room Number' },
-    { name: 'Max Vacant' },
-    { name: 'Start End Date' },
-    { name: 'Range Price' },
-    { name: 'Discount' },
-    { name: 'Rate Price' },
-    { name: 'Tax' },
-  ]
-  const dispatch = useDispatch()
-  const router = useRouter().query
 
   useEffect(() => {
-    dispatch(doRequestGetFacilities())
-  }, [refresh, dispatch])
+    dispatch(doRequestGetFacilitiesSupport())
+  }, [dispatch, refresh])
 
   useEffect(() => {
     const filter = hotels.data.filter((data: any) => {
@@ -69,7 +63,7 @@ const Facilities = () => {
       }
     })[0]
     setHotels(filter)
-  }, [refresh])
+  }, [dispatch, refresh])
 
   return (
     <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
@@ -136,7 +130,7 @@ const Facilities = () => {
                   href={`/hotel/facilities/${router.id}`}
                   className='ml-1 text-sm text-black font-bold hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white'
                 >
-                  Facilities
+                  Facility Support
                 </a>
               </div>
             </li>
@@ -161,104 +155,57 @@ const Facilities = () => {
           </div>
         </div>
       </div>
+      {/* Columns */}
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-        <table className='w-full text-xs text-left text-gray-500 dark:text-gray-400'>
-          <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black'>
-            <tr>
+        <table className='w-full tex-xs text-left text-gray-500 dark:text-gray-400'>
+          <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black '>
+            <tr className=''>
               {(columns || []).map((col) => (
-                <th key={col.name} style={{ whiteSpace: 'nowrap' }}>
-                  <span className='px-6 py-3'>{col.name}</span>
+                <th key={col.name}>
+                  <span className='px-8'>{col.name}</span>
                 </th>
               ))}
-              <th className='px-6 py-3 '>
+
+              <th className='px- py-3 '>
                 <button
                   className='flex items-center'
                   onClick={() => setIsOpen(true)}
                 >
                   <MdAddBox className='mr-1' />
-                  <span className='mr-2' style={{ whiteSpace: 'nowrap' }}>
-                    Add Facilities
+                  <span className='mr-2 whitespace-nowrap'>
+                    Add Facility Support
                   </span>
                 </button>
               </th>
             </tr>
           </thead>
           <tbody>
-            {(hotel.facilitiesHotels || []).map((dt: any, index: number) => (
+            {(hotel.facilities_support || []).map((dt: any, index: number) => (
               <tr
-                key={dt.faci_id}
-                className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
+                key={dt.fs_id}
+                className='bg-white border-b hover:bg-primary/5'
               >
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
                   {index + 1}
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                  {dt.faci_name}
-                  <br />
-                  {dt.category_group.cagro_name}
+                <td className='flex px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
+                  <Image
+                    src={dt.fs_icon_url}
+                    alt={dt.fs_icon}
+                    width={50}
+                    height={50}
+                  />
+                  <span className='mt-4 ml-3'>{dt.fs_name}</span>
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center'>
-                  {dt.faci_room_number.substring(3)}
+                <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white items-center'>
+                  {dt.fs_description}
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center'>
-                  {`${dt.faci_max_number} `}
-                  {dt.faci_measure_unit}
-                </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                  {new Date(dt.faci_startdate).toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric',
-                  })}
-                  <br />
-                  {new Date(dt.faci_enddate).toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric',
-                  })}
-                </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                  {new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                  }).format(
-                    Math.round(
-                      parseFloat(dt.faci_low_price.replace(/[^\d.-]/g, ''))
-                    )
-                  )}
-                  <br />
-                  {new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                  }).format(
-                    Math.round(
-                      parseFloat(dt.faci_high_price.replace(/[^\d.-]/g, ''))
-                    )
-                  )}
-                </td>
-
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center'>
-                  {(dt.faci_discount * 100).toFixed(0)}%
-                </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                  {new Intl.NumberFormat('id-ID', {
-                    style: 'currency',
-                    currency: 'IDR',
-                  }).format(
-                    Math.round(
-                      parseFloat(dt.faci_rate_price.replace(/[^\d.-]/g, ''))
-                    )
-                  )}
-                </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                  {(dt.faci_tax_rate * 100).toFixed(0)}%
-                </td>
-                <td className='px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-20 py-3 text-sm text-gray-900 '>
                   <Menu as='div' className='relative inline-block text-left'>
                     <div>
                       <Menu.Button className='inline-flex w-full justify-center rounded-md bg-none px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
                         <BsThreeDotsVertical
-                          className='ml-2 -mr-1 h-5 w-5 text-gray-700'
+                          className='ml-2 -mr-1 h-5 w-5 text-primary'
                           aria-hidden='true'
                         />
                       </Menu.Button>
@@ -279,10 +226,10 @@ const Facilities = () => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-[#4B5563] text-white'
+                                    ? 'bg-primary/75 text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                onClick={() => editOpen(dt.faci_id)}
+                                onClick={() => editOpen(dt.fs_id)}
                               >
                                 {active ? (
                                   <FaRegEdit
@@ -306,55 +253,23 @@ const Facilities = () => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-[#4B5563] text-white'
+                                    ? 'bg-danger/75 text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                // onClick={() => editOpen(dt.id_user)}
                               >
                                 {active ? (
-                                  <MdAddBox
+                                  <FaTrashAlt
                                     className='mr-2 h-5 w-5'
                                     aria-hidden='true'
                                   />
                                 ) : (
-                                  <MdAddBox
+                                  <FaTrashAlt
                                     className='mr-2 h-5 w-5'
                                     aria-hidden='true'
                                   />
                                 )}
-                                Upload Photos
+                                Delete
                               </button>
-                            )}
-                          </Menu.Item>
-                        </div>
-                        <div className='px-1 py-1 '>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <Link
-                                href={`/hotel/facility-price-history/${dt.faci_id}`}
-                              >
-                                <button
-                                  className={`${
-                                    active
-                                      ? 'bg-[#4B5563] text-white'
-                                      : 'text-gray-900'
-                                  } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                  // onClick={() => editOpen(dt.id_user)}
-                                >
-                                  {active ? (
-                                    <MdAddBox
-                                      className='mr-2 h-5 w-5'
-                                      aria-hidden='true'
-                                    />
-                                  ) : (
-                                    <MdAddBox
-                                      className='mr-2 h-5 w-5'
-                                      aria-hidden='true'
-                                    />
-                                  )}
-                                  Price History
-                                </button>
-                              </Link>
                             )}
                           </Menu.Item>
                         </div>
@@ -366,12 +281,16 @@ const Facilities = () => {
             ))}
           </tbody>
         </table>
+        {/* <Pagination
+          pagination={{ totalPage: hotels?.totalPage, page: hotels?.page }}
+          setPage={setPageNumber}
+        /> */}
       </div>
       {isOpen ? (
-        <AddFacilities isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+        <AddSupportHotel isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       ) : null}
-      {isEdit.status ? (
-        <EditFacilities
+      {/* {isEdit.status ? (
+        <EditSupport
           isEdit={isEdit}
           closeModal={() =>
             setIsEdit((prev) => {
@@ -379,7 +298,7 @@ const Facilities = () => {
             })
           }
         />
-      ) : null}
+      ) : null} */}
     </div>
   )
 }
