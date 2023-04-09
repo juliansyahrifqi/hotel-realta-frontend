@@ -19,6 +19,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Menu, Transition } from '@headlessui/react'
 import EditRestoMenu from './editRestoMenu'
 import Image from 'next/image'
+import { doDeleteRepho } from '@/redux/restoSchema/action/actionRepho'
 
 // import { SearchInput } from '../../../components/searchInput'
 
@@ -77,7 +78,16 @@ const restoMenu = () => {
       `Apakah anda Yakin akan menghapus Menu dengan ID - ${id} ?`
     )
     if (confirmed) {
-      dispatch(doDelete(id))
+      try {
+        // First, delete related data in resto_menu_photos table
+        dispatch(doDeleteRepho(id))
+
+        // Next, delete the data in the resto_menu table
+        dispatch(doDelete(id))
+      } catch (error) {
+        console.error(error)
+        // Handle any errors that occur during the delete process
+      }
     }
   }
 
