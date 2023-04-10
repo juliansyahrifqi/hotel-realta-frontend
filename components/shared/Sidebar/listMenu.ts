@@ -58,8 +58,8 @@ const listMenu = [
         title: 'Policy',
       },
       {
-        to: '/master/category',
-        path: '/master/category',
+        to: '/master/categorygroup',
+        path: '/master/categorygroup',
         title: 'Category Group',
       },
       {
@@ -135,8 +135,8 @@ const listMenu = [
         title: 'Fintech',
       },
       {
-        to: '/payment/accounts',
-        path: '/payment/accounts',
+        to: '/payment/userAccount',
+        path: '/payment/userAccount',
         title: 'Accounts',
       },
       {
@@ -145,8 +145,8 @@ const listMenu = [
         title: 'Top Up',
       },
       {
-        to: '/payment/transaction',
-        path: '/payment/transaction',
+        to: '/payment/paymentTransaction',
+        path: '/payment/paymentTransaction',
         title: 'Transaction',
       },
     ],
@@ -169,8 +169,8 @@ const listMenu = [
         title: 'Employee',
       },
       {
-        to: '/hr/workorder',
-        path: '/hr/workorder',
+        to: '/hr/work_orders',
+        path: '/hr/work_orders',
         title: 'Work Order',
       },
     ],
@@ -193,8 +193,8 @@ const listMenu = [
         title: 'Stock',
       },
       {
-        to: '/purchasing/purchasingOrder',
-        path: '/purchasing/purchasingOrder',
+        to: '/purchasing/order',
+        path: '/purchasing/order',
         title: 'Purchasing Order',
       },
     ],

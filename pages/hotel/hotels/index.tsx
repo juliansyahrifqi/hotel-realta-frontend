@@ -393,8 +393,3 @@ const Hotels = () => {
 }
 
 export default Hotels
-import React from 'react'
-
-export default function Hotels() {
-  return <div>test</div>
-}
