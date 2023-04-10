@@ -10,6 +10,7 @@ import {
   doAddRepho,
   doUpdateRepho,
 } from '@/redux/restoSchema/action/actionRepho'
+import { FaTrash } from 'react-icons/fa'
 // import { Switch } from '@headlessui/react'
 
 export default function UploadPhotos(props: any) {
@@ -123,6 +124,7 @@ export default function UploadPhotos(props: any) {
                   <div className='mt-4'>
                     <form onSubmit={handleSubmit(handleSave, handleError)}>
                       <div className='mb-4'>
+                        {/* jadul */}
                         <label className='block text-gray-700 font-bold mb-2 text-center'>
                           ID : {data.dataResto.reme_id}
                         </label>
@@ -138,13 +140,15 @@ export default function UploadPhotos(props: any) {
                             {errors.remp_reme_id.message}
                           </p>
                         )}
+                        {/* jadul */}
                       </div>
 
                       <div className='mb-4'>
-                        <label className='block text-gray-700 font-bold mb-2'>
+                        {/* <label className='block text-gray-700 font-bold mb-2'>
                           Primary
-                        </label>
-                        <input
+                        </label> */}
+                        {/* jadul */}
+                        {/* <input
                           className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline  text-center'
                           id='name'
                           type='text'
@@ -155,15 +159,35 @@ export default function UploadPhotos(props: any) {
                           <p className='text-red-500 text-xs italic'>
                             {errors.remp_primary.message}
                           </p>
-                        )}
+                        )} */}
+                        {/* jadul */}
+                        <div className='relative z-0 w-full mb-6 group'>
+                          <input
+                            type='text'
+                            id='name'
+                            className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                            placeholder=' '
+                            defaultValue={data?.dataRepho?.remp_primary ?? ''}
+                            {...register('remp_primary')}
+                          />
+                          {errors?.remp_primary && (
+                            <p className='text-red-500 text-xs italic'>
+                              {errors.remp_primary.message}
+                            </p>
+                          )}
+                          <label
+                            htmlFor='name'
+                            className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+                          >
+                            Primary
+                          </label>
+                        </div>
                       </div>
 
                       <div className='mb-4'>
-                        <label className='block text-gray-700 font-bold mb-2'>
-                          Nama
-                        </label>
                         <input
-                          className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center'
+                          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                          placeholder=' '
                           id='reme_name'
                           disabled
                           type='text'
@@ -219,31 +243,21 @@ export default function UploadPhotos(props: any) {
                               className='relative block mr-2.5 mb-2.5'
                             >
                               <button
-                                className='absolute top-0 right-0 text-red-500'
+                                className='absolute top-0 right-0 text-red-500 hover:text-red-700'
                                 onClick={() => handleRemoveImage(index)}
                               >
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  className='h-6 w-6'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  stroke='currentColor'
-                                >
-                                  <path
-                                    strokeLinecap='round'
-                                    strokeLinejoin='round'
-                                    strokeWidth='2'
-                                    d='M6 18L18 6M6 6l12 12'
-                                  />
-                                </svg>
+                                <FaTrash className='w-6 h-6' />
                               </button>
                               <img
                                 className='mt-2 rounded'
                                 src={URL.createObjectURL(image)}
                                 alt='Product Preview'
-                                width='70'
-                                height='70'
+                                width='100'
+                                height='100'
                               />
+                              <div className='text-sm text-gray-700'>
+                                {image.name}
+                              </div>
                             </div>
                           ))}
                         </div>

@@ -89,14 +89,12 @@ export default function EditRestoMenu(props: any) {
                   </Dialog.Title>
                   <div className='mt-4'>
                     <form onSubmit={handleSubmit(handleSave, handleError)}>
-                      <div className='mb-4'>
-                        <label className='block text-gray-700 font-bold mb-2'>
-                          Nama
-                        </label>
+                      <div className='relative z-0 w-full mb-6 group'>
                         <input
-                          className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hover:bg-green-500'
-                          id='name'
                           type='text'
+                          id='name'
+                          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                          placeholder=' '
                           defaultValue={data?.reme_name ?? ''}
                           {...register('reme_name', registerOptions.reme_name)}
                         />
@@ -105,16 +103,18 @@ export default function EditRestoMenu(props: any) {
                             {errors.reme_name.message}
                           </p>
                         )}
-                      </div>
-
-                      <div className='mb-4'>
-                        <label className='block text-gray-700 font-bold mb-2'>
-                          Deskripsi
+                        <label
+                          htmlFor='name'
+                          className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+                        >
+                          Nama
                         </label>
-                        <input
-                          className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hover:bg-green-500'
+                      </div>
+                      <div className='relative z-0 w-full mb-6 group'>
+                        <textarea
                           id='description'
-                          type='text'
+                          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                          placeholder=' '
                           defaultValue={data?.reme_description ?? ''}
                           {...register(
                             'reme_description',
@@ -126,16 +126,19 @@ export default function EditRestoMenu(props: any) {
                             {errors.reme_description.message}
                           </p>
                         )}
-                      </div>
-
-                      <div className='mb-4'>
-                        <label className='block text-gray-700 font-bold mb-2'>
-                          Faci ID
+                        <label
+                          htmlFor='description'
+                          className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+                        >
+                          Deskripsi
                         </label>
+                      </div>
+                      <div className='relative z-0 w-full mb-6 group'>
                         <input
-                          className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hover:bg-green-500'
-                          id='description'
                           type='text'
+                          id='faci'
+                          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                          placeholder=' '
                           defaultValue={data?.reme_faci_id ?? ''}
                           {...register(
                             'reme_faci_id',
@@ -147,70 +150,75 @@ export default function EditRestoMenu(props: any) {
                             {errors.reme_faci_id.message}
                           </p>
                         )}
-                      </div>
-
-                      <div className='mb-4'>
-                        <label className='block text-gray-700 font-bold mb-2'>
-                          Harga
+                        <label
+                          htmlFor='faci'
+                          className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
+                        >
+                          Facilities ID
                         </label>
-                        <input
-                          className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline hover:bg-green-500'
-                          id='price'
-                          type='text'
-                          defaultValue={data?.reme_price ?? ''}
-                          {...register(
-                            'reme_price',
-                            registerOptions.reme_price
+                      </div>
+                      <div className='grid md:grid-cols-2 md:gap-6'>
+                        <div className='relative z-0 w-full mb-6 group'>
+                          <input
+                            type='text'
+                            id='price'
+                            className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                            placeholder=' '
+                            defaultValue={data?.reme_price ?? ''}
+                            {...register(
+                              'reme_price',
+                              registerOptions.reme_price
+                            )}
+                          />
+                          {errors?.reme_price && (
+                            <p className='text-red-500 text-xs italic'>
+                              {errors.reme_price.message}
+                            </p>
                           )}
-                        />
-                        {errors?.reme_price && (
-                          <p className='text-red-500 text-xs italic'>
-                            {errors.reme_price.message}
-                          </p>
-                        )}
-                      </div>
-
-                      {/* TOGGLE AVAILABLE */}
-                      <div className='mb-4 flex items-center'>
-                        <label className='block text-gray-700 font-bold mr-4'>
-                          Status
-                        </label>
-                        <div className='flex items-center'>
-                          <Switch
-                            checked={status}
-                            onChange={handleStatusChange}
-                            className={`${status ? 'bg-teal-500' : 'bg-red-700'}
-      relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+                          <label
+                            htmlFor='price'
+                            className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'
                           >
-                            <span className='sr-only'>Use setting</span>
-                            <span
-                              aria-hidden='true'
+                            Harga
+                          </label>
+                        </div>
+                        <div className='relative z-0 w-full mb-6 group'>
+                          <div className='flex items-center'>
+                            <Switch
+                              checked={status}
+                              onChange={handleStatusChange}
                               className={`${
-                                status ? 'translate-x-9' : 'translate-x-0'
-                              } pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-                            />
-                          </Switch>
-                          <p
-                            className={`text-lg ml-4 font-medium ${
-                              status ? 'text-green-500' : 'text-red-500'
-                            }`}
-                          >
-                            {status ? 'Available' : 'Empty'}
-                          </p>
+                                status ? 'bg-green-500' : 'bg-gray-300'
+                              } relative inline-flex h-[38px] w-[74px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75`}
+                            >
+                              <span className='sr-only'>Use setting</span>
+                              <span
+                                aria-hidden='true'
+                                className={`${
+                                  status ? 'translate-x-9' : 'translate-x-0'
+                                } pointer-events-none inline-block h-[34px] w-[34px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+                              />
+                            </Switch>
+                            <p
+                              className={`text-lg ml-4 font-medium ${
+                                status ? 'text-green-500' : 'text-gray-500'
+                              }`}
+                            >
+                              {status ? 'Available' : 'Empty'}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      {/* TOGGLE AVAILABLE */}
 
-                      <div className='flex justify-between'>
+                      <div className='flex justify-end space-x-4'>
                         <button
                           type='submit'
-                          className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'
+                          className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'
                         >
                           Submit
                         </button>
-
                         <button
-                          className='text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800'
+                          className='bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded'
                           onClick={props.closeModal}
                         >
                           Cancel
