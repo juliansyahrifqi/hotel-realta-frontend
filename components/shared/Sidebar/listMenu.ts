@@ -137,28 +137,28 @@ const listMenu = [
     name: "Master",
     submenu: [
       {
-        to: "master/locations",
-        path: "",
+        to: "/master/locations",
+        path: "/locations",
         title: "Location",
       },
       {
-        to: "",
-        path: "",
+        to: "/master/policy",
+        path: "/policy",
         title: "Policy",
       },
       {
-        to: "",
-        path: "",
+        to: "/master/categorygroup",
+        path: "/categorygroup",
         title: "Category",
       },
       {
-        to: "",
-        path: "",
+        to: "/master/priceitems",
+        path: "pricitems",
         title: "Price",
       },
       {
-        to: "",
-        path: "",
+        to: "/master/servicetask",
+        path: "/servicetask",
         title: "Service",
       },
     ],
