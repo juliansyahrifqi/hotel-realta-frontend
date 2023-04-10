@@ -15,6 +15,7 @@ const logger = createLogger()
 const saga = createSagaMiddleware()
 
 const reducer = combineReducers({
+  //===Reducers Hotel===
   hotelsReducers,
   facilitiesReducers,
   cityHotelReducers,
@@ -22,6 +23,7 @@ const reducer = combineReducers({
   membersFaciReducers,
   facilitiesSupportReducers,
   hotelReviewsReducers,
+  ///========================
 })
 
 const store = configureStore({
