@@ -23,6 +23,8 @@ import {
   AiOutlineMinusCircle,
   AiOutlinePlusCircle,
 } from 'react-icons/ai'
+import { doAddOrdet } from '@/redux/restoSchema/action/actionOrdet'
+import { useForm } from 'react-hook-form'
 // ini adalah carousel
 
 const restoPhoto = () => {
@@ -85,7 +87,12 @@ const restoPhoto = () => {
   // CART CARD
 
   const [cartItems, setCartItems] = useState<
-    { name: string; price: number; quantity: number }[]
+    {
+      id: any
+      name: string
+      price: number
+      quantity: number
+    }[]
   >([])
 
   const handleAddToCart = (restoMenu: any) => {
@@ -107,7 +114,12 @@ const restoPhoto = () => {
     } else {
       setCartItems([
         ...cartItems,
-        { name: restoMenu.reme_name, price: restoMenu.reme_price, quantity: 1 },
+        {
+          id: restoMenu.reme_id,
+          name: restoMenu.reme_name,
+          price: restoMenu.reme_price,
+          quantity: 1,
+        },
       ])
     }
   }
@@ -146,6 +158,32 @@ const restoPhoto = () => {
   }
 
   // CART CARD REMOVE
+
+  // HANDLE CHECKOUT
+
+  const handleCheckOut = async () => {
+    try {
+      const orderItems = cartItems.map((item) => ({
+        orme_price: item.price,
+        orme_qty: item.quantity,
+        orme_subtotal: item.price * item.quantity,
+        orme_discount: '0', // set discount to 0 for now
+      }))
+      const orderData = {
+        omde_reme_id: '1',
+        omde_orme_id: '1',
+        orderItems: orderItems,
+      }
+      await dispatch(doAddOrdet(orderData))
+      // Clear cart after successful checkout
+      // ...
+    } catch (error) {
+      console.error(error)
+      // Handle error here
+      // ...
+    }
+  }
+  // HANDLE CHECKOUT
 
   return (
     <div className='bg-white'>
@@ -327,7 +365,6 @@ const restoPhoto = () => {
               </div>
             </div>
           ))}
-
           <hr className='my-4' />
           <div className='mb-2 flex justify-between'>
             <p className='text-gray-700'>Subtotal</p>
@@ -354,8 +391,11 @@ const restoPhoto = () => {
               </p>
             </div>
           </div>
-          <button className='mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600'>
-            Check out
+          <button
+            className='mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600'
+            onClick={handleCheckOut}
+          >
+            Checkout
           </button>
         </div>
       </div>
