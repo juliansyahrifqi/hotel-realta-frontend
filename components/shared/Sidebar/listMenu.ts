@@ -31,11 +31,6 @@ const listMenu = [
         path: '/hotel',
         title: 'Facilities Support',
       },
-      {
-        to: '/hotel/hotel-reviews',
-        path: '/hotel',
-        title: 'Hotel Reviews',
-      },
     ],
   },
   {

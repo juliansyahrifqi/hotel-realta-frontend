@@ -117,36 +117,26 @@ export default function AddSupport(props: any) {
                           Description
                         </label>
                       </div>
-                      <div className='rounded-md border border-gray-100 bg-white p-4 shadow-md'>
-                        <label
-                          htmlFor='upload'
-                          className='flex flex-col items-center gap-2 cursor-pointer'
-                        >
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            className='h-10 w-10 fill-white stroke-indigo-500'
-                            viewBox='0 0 24 24'
-                            stroke='currentColor'
-                            strokeWidth={2}
-                          >
-                            <path
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
-                              d='M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'
-                            />
-                          </svg>
-                          <span className='text-gray-600 font-medium'>
-                            Upload file
-                          </span>
+                      <div className='grid grid-cols-1 gap-4 max-w-xl m-auto'>
+                        <label className='font-medium absolute text-sm text-gray-500 peer-focus:left-0 '>
+                          Image
                         </label>
+                        <br />
                         <input
-                          className='shadow appearance-none border rounded w-full py-3 px-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline '
-                          // id='image'
+                          className='justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-sm
+                           text-black hover:bg-white '
                           type='file'
                           {...register('fs_icon')}
                           onChange={handleImageChange}
                         />
                       </div>
+                      {imagePriview && (
+                        <img
+                          className='mt-2 ml-8 rounded w-[5rem] h-[5rem]'
+                          src={imagePriview}
+                          alt='Product Priview'
+                        />
+                      )}
                       <div className=' flex-row space-x-4 mt-4'>
                         <button className='text-white bg-secondary  hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800'>
                           Submit

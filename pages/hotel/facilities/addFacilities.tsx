@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   doAddFacilities,
-  doAddHotels,
   doRequestGetCategory,
   doRequestGetMembers,
 } from '@/redux/hotel/action/actionReducer'
@@ -177,7 +176,7 @@ export default function AddFacilities(props: any) {
                               registerOptions.faci_cagro_id
                             )}
                           >
-                            <option selected> Isi Woii</option>
+                            <option selected>Select Category</option>
                             {categoryFaci.map((data: any) => (
                               <option value={data.cagro_id} key={data.cagro_id}>
                                 {data.cagro_name}
@@ -226,7 +225,7 @@ export default function AddFacilities(props: any) {
                               registerOptions.faci_memb_name
                             )}
                           >
-                            <option selected> Isi Woii</option>
+                            <option selected>Select Member</option>
                             {membersFaci.map((data: any) => (
                               <option
                                 value={data.memb_name}

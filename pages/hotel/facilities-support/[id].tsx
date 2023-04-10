@@ -5,7 +5,11 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import { MdAddBox } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
-import { doRequestGetFacilitiesSupport } from '@/redux/hotel/action/actionReducer'
+import {
+  doDeleteFacilitySupportHotel,
+  doRequestGetFacilitiesSupport,
+  doRequestGetHotels,
+} from '@/redux/hotel/action/actionReducer'
 import Image from 'next/image'
 import { FaStar, FaRegStar, FaStarHalfAlt, FaTrashAlt } from 'react-icons/fa'
 import AddSupportHotel from './addSupportHotel'
@@ -36,34 +40,46 @@ const Facilities = () => {
 
     return stars
   }
+
   const columns = [
     { name: 'ID' },
     { name: 'Facilities Support Name' },
     { name: 'Description' },
   ]
   const [isOpen, setIsOpen] = useState(false)
-  const [isEdit, setIsEdit] = useState({
-    status: false,
-    fs_id: 0,
-  })
-  const editOpen = (fs_id: number) => {
-    setIsEdit((prev) => {
-      return { ...prev, status: true, fs_id: fs_id }
-    })
+
+  const deleteOpen = async (fsh_id: number) => {
+    // console.log('id_facility', fsh_id)
+    dispatch(doDeleteFacilitySupportHotel(fsh_id))
+  }
+  //===Pagination===
+  const [pageNumber, setPageNumber] = useState(1)
+  const [pageSize, setPageSize] = useState(7)
+  //============Search================
+  const [search, setSearch] = useState('')
+  const handleSearch = (event: any): void => {
+    setSearch(event.target.value)
   }
 
   useEffect(() => {
     dispatch(doRequestGetFacilitiesSupport())
-  }, [dispatch, refresh])
+  }, [refresh])
 
   useEffect(() => {
-    const filter = hotels.data.filter((data: any) => {
-      if (data.hotel_id === Number(router.id)) {
-        return data
+    dispatch(doRequestGetHotels(pageNumber, pageSize, search))
+    localStorage.setItem('hotels', JSON.stringify(hotels))
+  }, [refresh, dispatch])
+
+  useEffect(() => {
+    const routerId = window.location.pathname
+    const id = routerId.split('/').pop()
+    const cachedHotels = JSON.parse(localStorage.getItem('hotels') || '[]')
+    cachedHotels?.data?.filter((data: any) => {
+      if (data.hotel_id === Number(id)) {
+        setHotels(data)
       }
-    })[0]
-    setHotels(filter)
-  }, [dispatch, refresh])
+    })
+  }, [refresh])
 
   return (
     <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
@@ -201,81 +217,13 @@ const Facilities = () => {
                   {dt.fs_description}
                 </td>
                 <td className='px-20 py-3 text-sm text-gray-900 '>
-                  <Menu as='div' className='relative inline-block text-left'>
-                    <div>
-                      <Menu.Button className='inline-flex w-full justify-center rounded-md bg-none px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
-                        <BsThreeDotsVertical
-                          className='ml-2 -mr-1 h-5 w-5 text-primary'
-                          aria-hidden='true'
-                        />
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter='transition ease-out duration-100'
-                      enterFrom='transform opacity-0 scale-95'
-                      enterTo='transform opacity-100 scale-100'
-                      leave='transition ease-in duration-75'
-                      leaveFrom='transform opacity-100 scale-100'
-                      leaveTo='transform opacity-0 scale-95'
-                    >
-                      <Menu.Items className='absolute right-0 mt-2 z-50 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'>
-                        <div className='px-1 py-1 '>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <button
-                                className={`${
-                                  active
-                                    ? 'bg-primary/75 text-white'
-                                    : 'text-gray-900'
-                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                onClick={() => editOpen(dt.fs_id)}
-                              >
-                                {active ? (
-                                  <FaRegEdit
-                                    className='mr-2 h-5 w-5'
-                                    aria-hidden='true'
-                                  />
-                                ) : (
-                                  <FaRegEdit
-                                    className='mr-2 h-5 w-5'
-                                    aria-hidden='true'
-                                  />
-                                )}
-                                Edit
-                              </button>
-                            )}
-                          </Menu.Item>
-                        </div>
-                        <div className='px-1 py-1 '>
-                          <Menu.Item>
-                            {({ active }) => (
-                              <button
-                                className={`${
-                                  active
-                                    ? 'bg-danger/75 text-white'
-                                    : 'text-gray-900'
-                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                              >
-                                {active ? (
-                                  <FaTrashAlt
-                                    className='mr-2 h-5 w-5'
-                                    aria-hidden='true'
-                                  />
-                                ) : (
-                                  <FaTrashAlt
-                                    className='mr-2 h-5 w-5'
-                                    aria-hidden='true'
-                                  />
-                                )}
-                                Delete
-                              </button>
-                            )}
-                          </Menu.Item>
-                        </div>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
+                  <button
+                    onClick={() =>
+                      deleteOpen(dt.facility_support_hotels.fsh_id)
+                    }
+                  >
+                    <FaTrashAlt className='mr-2 h-5 w5 hover:text-danger' />
+                  </button>
                 </td>
               </tr>
             ))}

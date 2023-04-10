@@ -6,6 +6,9 @@ const getAllHotels = (pageNumber: number, pageSize: number, search: string) => {
     `/hotels?pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`
   )
 }
+const getAllHotelsWhereSupport = (hotel_id: number) => {
+  return axios.get(`/hotels/hotel-support/${hotel_id}`)
+}
 const getAllHotelBySearch = (search: any) => {
   return axios.get(`/hotels/search?searchQuery=${search}`)
 } //Search
@@ -166,6 +169,7 @@ const ApiMethodHotel = {
   getHotelIncludeSupport,
   getAllHotelBySearch,
   updateStatusHotels,
+  getAllHotelsWhereSupport, // include support
   //===CITY===
   getAllCity,
   getAllCategory,

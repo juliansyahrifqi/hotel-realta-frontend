@@ -22,18 +22,18 @@ export const doGetHotelsResponse = (payload: any) => {
     payload,
   }
 }
-export const doRequestGetSearchHotels = (payload: any) => {
+export const doRequestGetHotelsWhereSupport = (payload: any) => {
   return {
-    type: ActionTypeHotel.SEARCH_GET_HOTELS,
+    type: ActionTypeHotel.REQ_GET_HOTELS_SUPPORT,
     payload,
   }
-}
-export const doGetSearchHotelsResponse = (payload: any) => {
+} //INCLUDE SUPPORT
+export const doGetHotelsWhereSupportResponse = (payload: any) => {
   return {
-    type: ActionTypeHotel.SEARCH_HOTELS_RESPONSE,
+    type: ActionTypeHotel.GET_HOTELS_SUPPORT_RESPONSE,
     payload,
   }
-}
+} // INCLUDE SUPPORT
 export const doAddHotels = (payload: any) => {
   // console.log(payload)
   return {
@@ -259,13 +259,13 @@ export const doUpdateFacilitiesSupportResponse = (payload: any) => {
 }
 export const doDeleteFacilitiesSupport = (payload: any) => {
   return {
-    type: ActionTypeHotel.UPDATE_FACILITIES_SUPPORT,
+    type: ActionTypeHotel.DEL_FACILITIES_SUPPORT,
     payload,
   }
 }
 export const doDeleteFacilitiesSupportResponse = (payload: any) => {
   return {
-    type: ActionTypeHotel.UPDATE_FACILITIES_SUPPORT_RESPONSE,
+    type: ActionTypeHotel.DEL_FACILITIES_SUPPORT_RESPONSE,
     payload,
   }
 }

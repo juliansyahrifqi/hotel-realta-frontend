@@ -84,6 +84,7 @@ const Hotels = () => {
   useEffect(() => {
     dispatch(doRequestGetHotels(pageNumber, pageSize, search))
     dispatch(doRequestGetCity())
+    localStorage.removeItem('hotels')
   }, [refresh, pageNumber, pageSize, search])
 
   return (

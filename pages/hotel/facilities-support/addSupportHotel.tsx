@@ -43,9 +43,9 @@ export default function AddSupportHotel(props: any) {
     fsh_hotel_id: { required: 'Name is required' },
     fsh_fs_id: { required: 'Name is required' },
   }
-  useEffect(() => {
-    dispatch(doRequestGetFacilitiesSupport())
-  }, [dispatch, refresh])
+  // useEffect(() => {
+  //   dispatch(doRequestGetFacilitiesSupport())
+  // }, [dispatch, refresh])
 
   return (
     <div>
@@ -94,7 +94,7 @@ export default function AddSupportHotel(props: any) {
                           className='w-full px-2 py-2 border rounded-md text-sm focus:outline-none focus:shadow-outline-primary'
                           {...register('fsh_fs_id', registerOptions.fsh_fs_id)}
                         >
-                          <option selected> Isi Woii</option>
+                          <option selected>Select Facility Support</option>
                           {fasupp.map((data: any) => (
                             <option value={data.fs_id} key={data.fs_id}>
                               {data.fs_name}

@@ -1,13 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  doAddFacilitiesSupport,
-  doAddHotels,
-  doRequestGetCity,
-  doUpdateFacilitiesSupport,
-} from '@/redux/hotel/action/actionReducer'
+import { doUpdateFacilitiesSupport } from '@/redux/hotel/action/actionReducer'
 import Select from 'react-select'
 
 export default function EditSupport(props: any) {
@@ -26,7 +21,7 @@ export default function EditSupport(props: any) {
   } = useForm<FormValues>()
 
   const dispatch = useDispatch()
-
+  const [data, setData] = useState<any>(props.dataSupport)
   //Gambar
   const [imagePriview, setImagerPriview] = useState<string | null>(null)
   const [support, setSupport] = useState<any>({})
@@ -43,7 +38,7 @@ export default function EditSupport(props: any) {
   }
 
   const handleRegistration = async (data: any) => {
-    console.log(data)
+    // console.log(data)
     const formData = {
       fs_name: data.fs_name,
       fs_description: data.fs_description,
@@ -130,22 +125,22 @@ export default function EditSupport(props: any) {
                         </label>
                       </div>
                       <div className='grid grid-cols-1 gap-4 max-w-xl m-auto'>
-                        <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                        <label className='font-medium absolute text-sm text-gray-500 peer-focus:left-0 '>
                           Image
                         </label>
+                        <br />
                         <input
-                          className='inline-flex justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-sm
+                          className='justify-center rounded-md border border-transparent bg-white px-4 py-2 text-sm font-sm
                            text-black hover:bg-white '
                           type='file'
-                          // name='image'
-                          defaultValue={support.fs_icon}
+                          // defaultValue={support?.fs_icon??''}
                           {...register('fs_icon')}
                           onChange={handleImageChange}
                         />
                       </div>
                       {imagePriview && (
                         <img
-                          className='mt-2 rounded w-[25rem] h-[15rem]'
+                          className='mt-2 ml-8 rounded w-[5rem] h-[5rem]'
                           src={imagePriview}
                           alt='Product Priview'
                         />

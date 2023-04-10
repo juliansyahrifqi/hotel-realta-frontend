@@ -9,12 +9,16 @@ import { useRouter } from 'next/router'
 import AddFacilities from './addFacilities'
 import EditFacilities from './editFacilities'
 import Link from 'next/link'
-import { doRequestGetFacilities } from '@/redux/hotel/action/actionReducer'
+import {
+  doRequestGetFacilities,
+  doRequestGetHotels,
+} from '@/redux/hotel/action/actionReducer'
 
-const Facilities = () => {
+const Facilities = (props: any) => {
   let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
   const [hotel, setHotels] = useState<any>({})
-  console.log('hotels:', hotels)
+  // console.log('hotels:', hotels)
+  // console.log('hotel:', hotel)
 
   const renderStars = (rating: number) => {
     const stars = []
@@ -56,20 +60,32 @@ const Facilities = () => {
     { name: 'Tax' },
   ]
   const dispatch = useDispatch()
-  const router = useRouter().query
+  //===Pagination===
+  const [pageNumber, setPageNumber] = useState(1)
+  const [pageSize, setPageSize] = useState(7)
+  //============Search================
+  const [search, setSearch] = useState('')
+  const handleSearch = (event: any): void => {
+    setSearch(event.target.value)
+  }
 
+  // Mengambil data hotels dari reducer dan menyimpannya di localStorage
   useEffect(() => {
-    dispatch(doRequestGetFacilities())
+    dispatch(doRequestGetHotels(pageNumber, pageSize, search))
+    localStorage.setItem('hotels', JSON.stringify(hotels))
   }, [refresh, dispatch])
 
+  // Mengambil data hotels dari localStorage saat halaman direfresh
+  // const router = useRouter().query
   useEffect(() => {
-    const filter = hotels.data.filter((data: any) => {
-      if (data.hotel_id === Number(router.id)) {
-        return data
+    const routerId = window.location.pathname
+    const id = routerId.split('/').pop()
+    const cachedHotels = JSON.parse(localStorage.getItem('hotels') || '[]')
+    cachedHotels?.data?.filter((data: any) => {
+      if (data.hotel_id === Number(id)) {
+        setHotels(data)
       }
-    })[0]
-    console.log('cek:', hotels)
-    setHotels(filter)
+    })
   }, [refresh])
 
   return (
@@ -134,7 +150,7 @@ const Facilities = () => {
                   ></path>
                 </svg>
                 <a
-                  href={`/hotel/facilities/${router.id}`}
+                  // href={`/hotel/facilities/${router}`}
                   className='ml-1 text-sm text-black font-bold hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white'
                 >
                   Facilities

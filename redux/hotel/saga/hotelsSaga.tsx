@@ -3,7 +3,7 @@ import { call, put } from 'redux-saga/effects'
 import {
   doAddHotelsResponse,
   doGetHotelsResponse,
-  doGetSearchHotelsResponse,
+  doGetHotelsWhereSupportResponse,
   doSwitchHotelsResponse,
   doUpdateHotelsResponse,
 } from '../action/actionReducer'
@@ -22,15 +22,15 @@ function* handleGetAllHotels(action: any): any {
     yield put(doGetHotelsResponse({ message: error }))
   }
 }
-function* handleSearchAllHotels(action: any): any {
+function* handleHotelsIncludeSupport(action: any): any {
   try {
     const result = yield call(
-      ApiMethodHotel.getAllHotelBySearch,
+      ApiMethodHotel.getAllHotelsWhereSupport,
       action.payload
     )
-    yield put(doGetSearchHotelsResponse(result.data))
+    yield put(doGetHotelsWhereSupportResponse(result.data))
   } catch (error) {
-    yield put(doGetSearchHotelsResponse({ message: error }))
+    yield put(doGetHotelsWhereSupportResponse({ message: error }))
   }
 }
 function* handleAddHotels(action: any): any {
@@ -80,7 +80,7 @@ function* handleSwitchHotels(action: any): any {
 export {
   handleGetAllHotels,
   handleAddHotels,
-  handleSearchAllHotels,
+  handleHotelsIncludeSupport,
   handleUpdateHotels,
   handleSwitchHotels,
 }

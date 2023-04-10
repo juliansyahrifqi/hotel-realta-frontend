@@ -3,7 +3,7 @@ import ActionTypeHotel from '../action/actionTypeHotel'
 import {
   handleAddHotels,
   handleGetAllHotels,
-  handleSearchAllHotels,
+  handleHotelsIncludeSupport,
   handleSwitchHotels,
   handleUpdateHotels,
 } from './hotelsSaga'
@@ -16,6 +16,7 @@ import { handleGetAllMembersFaci } from './membersFaciSaga'
 import {
   handleAddFacilitiesSupport,
   handleAddFacilitiesSupportHotel,
+  handleDeleteFacilitiesSupport,
   handleGetAllFacilitiesSupport,
   handleUpdateFacilitiesSupport,
 } from './facilitiesSupportSaga'
@@ -23,7 +24,6 @@ import {
 function* watchAll() {
   yield all([
     takeEvery(ActionTypeHotel.REQ_GET_HOTELS, handleGetAllHotels),
-    takeEvery(ActionTypeHotel.SEARCH_GET_HOTELS, handleSearchAllHotels),
     takeEvery(ActionTypeHotel.ADD_HOTELS, handleAddHotels),
     takeEvery(ActionTypeHotel.UPDATE_HOTELS, handleUpdateHotels),
     takeEvery(ActionTypeHotel.SWITCH_STATUS_HOTELS, handleSwitchHotels),
@@ -47,10 +47,18 @@ function* watchAll() {
       ActionTypeHotel.UPDATE_FACILITIES_SUPPORT,
       handleUpdateFacilitiesSupport
     ),
+    takeEvery(
+      ActionTypeHotel.DEL_FACILITIES_SUPPORT,
+      handleDeleteFacilitiesSupport
+    ),
     //=====FACILITITES SUPPORT HOTEL=====
     takeEvery(
       ActionTypeHotel.ADD_FACILITY_SUPPORT_HOTEL,
       handleAddFacilitiesSupportHotel
+    ),
+    takeEvery(
+      ActionTypeHotel.GET_HOTELS_SUPPORT_RESPONSE,
+      handleHotelsIncludeSupport
     ),
   ])
 }

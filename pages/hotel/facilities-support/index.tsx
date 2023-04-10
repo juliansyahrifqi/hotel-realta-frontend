@@ -1,4 +1,7 @@
-import { doRequestGetFacilitiesSupport } from '../../../redux/hotel/action/actionReducer'
+import {
+  doDeleteFacilitiesSupport,
+  doRequestGetFacilitiesSupport,
+} from '../../../redux/hotel/action/actionReducer'
 import { Menu, Transition } from '@headlessui/react'
 import React, { Fragment, useEffect, useState } from 'react'
 import { FaRegEdit } from 'react-icons/fa'
@@ -29,6 +32,9 @@ const FacilitiesSupport = () => {
     setIsEdit((prev) => {
       return { ...prev, status: true, fs_id: fs_id }
     })
+  }
+  const deleteOpen = async (fs_id: number) => {
+    dispatch(doDeleteFacilitiesSupport(fs_id))
   }
 
   useEffect(() => {
@@ -186,6 +192,7 @@ const FacilitiesSupport = () => {
                                     ? 'bg-danger/75 text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                onClick={() => deleteOpen(dt.fs_id)}
                               >
                                 {active ? (
                                   <FaTrashAlt
