@@ -69,6 +69,9 @@ const Facilities = (props: any) => {
     setSearch(event.target.value)
   }
 
+  useEffect(() => {
+    dispatch(doRequestGetFacilities())
+  })
   // Mengambil data hotels dari reducer dan menyimpannya di localStorage
   useEffect(() => {
     dispatch(doRequestGetHotels(pageNumber, pageSize, search))

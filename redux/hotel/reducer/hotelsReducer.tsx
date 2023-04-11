@@ -23,8 +23,10 @@ function hotelsReducers(state = initialState, action: any) {
     case ActionTypeHotel.SWITCH_STATUS_HOTELS_RESPONSE:
       return { ...state, message: payload.message, refresh: false }
 
-    //============
+    //============FACILITIES
     case ActionTypeHotel.ADD_FACILITIES_RESPONSE:
+      return { ...state, message: payload.message, refresh: false }
+    case ActionTypeHotel.UPDATE_FACILITIES_RESPONSE:
       return { ...state, message: payload.message, refresh: false }
     default:
       return state

@@ -39,12 +39,13 @@ export default function AddSupport(props: any) {
   }
 
   const handleRegistration = async (data: any) => {
-    console.log(data.fs_icon[0])
+    // console.log(data.fs_icon[0])
     const formData = {
       fs_name: data.fs_name,
       fs_description: data.fs_description,
       icons: data.fs_icon[0],
     }
+    console.log('ini form Data', formData)
     dispatch(doAddFacilitiesSupport(formData))
     props.closeModal()
   }

@@ -54,6 +54,7 @@ export default function AddFacilities(props: any) {
   const [endDate, setEndDate] = useState(new Date())
 
   const router = useRouter().query
+
   const handleRegistration = async (data: any) => {
     //===Start Date===
     const dayStart = new Date(startDate ? startDate : '').getDate()
@@ -70,27 +71,36 @@ export default function AddFacilities(props: any) {
     const roomNumber = Number(data.faci_max_number.split(' ')[0])
     const measureUnit = data.faci_max_number.split(' ')[1]
 
-    const dataForm = {
-      faci_name: data.faci_name,
-      faci_description: 'ini Deskripsi',
-      faci_max_number: roomNumber, //2
-      faci_measure_unit: measureUnit, //beds | people
-      faci_room_number: data.faci_room_number, //101
-      faci_startdate: fullStartDate,
-      faci_enddate: fullEndDate,
-      faci_low_price: data.faci_low_price,
-      faci_high_price: data.faci_high_price,
-      faci_discount: data.faci_discount,
-      faci_tax_rate: data.faci_tax_rate,
-      faci_cagro_id: data.faci_cagro_id,
-      faci_hotel_id: router.id,
-      faci_memb_name: data.faci_memb_name,
-      faci_user_id: '1',
-    }
-    // console.log('terserah', dataForm)
+    const loginData = localStorage.getItem('loginData')
 
-    dispatch(doAddFacilities(dataForm))
-    props.closeModal()
+    if (loginData !== null) {
+      const userData = JSON.parse(loginData)
+      const userId = userData.user_id
+
+      const dataForm = {
+        faci_name: data.faci_name,
+        faci_description: data.faci_description,
+        faci_max_number: roomNumber, //2
+        faci_measure_unit: measureUnit, //beds | people
+        faci_room_number: data.faci_room_number, //101
+        faci_startdate: fullStartDate,
+        faci_enddate: fullEndDate,
+        faci_low_price: data.faci_low_price,
+        faci_high_price: data.faci_high_price,
+        faci_discount: data.faci_discount,
+        faci_tax_rate: data.faci_tax_rate,
+        faci_cagro_id: data.faci_cagro_id,
+        faci_hotel_id: router.id,
+        faci_memb_name: data.faci_memb_name,
+        faci_user_id: userId,
+      }
+
+      // console.log('ini data Form', dataForm)
+
+      dispatch(doAddFacilities(dataForm))
+      props.closeModal()
+    } else {
+    }
   }
   const handleError = (errors: any) => {}
 
@@ -100,6 +110,7 @@ export default function AddFacilities(props: any) {
     faci_max_number: { required: 'Name is required' },
     faci_low_price: { required: 'Name is required' },
     faci_high_price: { required: 'Name is required' },
+    faci_description: { required: 'Name is required' },
     faci_discount: { required: 'Name is required' },
     faci_tax_rate: { required: 'Name is required' },
     faci_startdate: { required: 'Name is required' },
@@ -316,6 +327,19 @@ export default function AddFacilities(props: any) {
                             className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
                           />
                         </div>
+                      </div>
+                      <div className='relative z-0 w-full mb-6 group'>
+                        <input
+                          type='text'
+                          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                          {...register(
+                            'faci_description',
+                            registerOptions.faci_description
+                          )}
+                        />
+                        <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                          Description
+                        </label>
                       </div>
 
                       <div className=' flex-row space-x-4 mt-4'>

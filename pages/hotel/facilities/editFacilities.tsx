@@ -4,17 +4,23 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   doAddFacilities,
+  doRequestGetCategory,
   doRequestGetFacilities,
+  doRequestGetMembers,
+  doUpdateFacilities,
 } from '@/redux/hotel/action/actionReducer'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 
 export default function EditFacilities(props: any) {
+  const dispatch = useDispatch()
+  //==========Data Redux Saga================
+
   let { facilities, message, refresh } = useSelector(
     (state: any) => state.facilitiesReducers
   )
-  //==========Data Redux Saga================
   let { categoryFaci, messageCate, refreshCate } = useSelector(
     (state: any) => state.categoryFaciReducers
   )
@@ -23,13 +29,11 @@ export default function EditFacilities(props: any) {
   )
 
   const [faci, setFaci] = useState<any>({})
-  console.log(facilities)
-  const timestamp = faci?.faci_start_date ?? ''
-  const date = moment(timestamp.substring(0, timestamp.length - 1)).format(
-    'YYYY-MM-DD'
-  )
-  console.log(date)
-  const dispatch = useDispatch()
+  // const [selectedMembers, setSelectedMembers] = useState('')
+  // const [selectedCategory, setSelectedCategory] = useState('')
+  // console.log('ini category', selectedCategory)
+  // console.log('ini faci', faci)
+
   type FormValues = {
     faci_description: string
     faci_name: string
@@ -56,21 +60,59 @@ export default function EditFacilities(props: any) {
 
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(new Date())
+  const router = useRouter().query
 
-  const [selectedDate, setSelectedDate] = useState(new Date('2022-01-01'))
-
-  const handleDateChange = (date: Date) => {
-    setSelectedDate(date)
-  }
   const handleRegistration = async (data: any) => {
-    dispatch(doAddFacilities(data))
-    props.closeModal()
+    //===Start Date===
+    const dayStart = new Date(startDate ? startDate : '').getDate()
+    const monthStart = new Date(startDate ? startDate : '').getMonth()
+    const yearStart = new Date(startDate ? startDate : '').getFullYear()
+    const fullStartDate = yearStart + '/' + (monthStart + 1) + '/' + dayStart
+    //===End Date===
+    const dayEnd = new Date(endDate ? endDate : '').getDate()
+    const monthEnd = new Date(endDate ? endDate : '').getMonth()
+    const yearEnd = new Date(endDate ? endDate : '').getFullYear()
+    const fullEndDate = yearEnd + '/' + (monthEnd + 1) + '/' + dayEnd
+    // console.log('tes atau apa gitu', data)
+
+    const roomNumber = Number(data.faci_max_number.split(' ')[0])
+    const measureUnit = data.faci_max_number.split(' ')[1]
+
+    const loginData = localStorage.getItem('loginData')
+
+    if (loginData !== null) {
+      const userData = JSON.parse(loginData)
+      const userId = userData.user_id
+
+      const dataForm = {
+        faci_name: data.faci_name,
+        faci_description: data.faci_description,
+        faci_max_number: roomNumber, //2
+        faci_measure_unit: measureUnit, //beds | people
+        faci_room_number: data.faci_room_number, //101
+        faci_startdate: fullStartDate,
+        faci_enddate: fullEndDate,
+        faci_low_price: data.faci_low_price,
+        faci_high_price: data.faci_high_price,
+        faci_discount: data.faci_discount,
+        faci_tax_rate: data.faci_tax_rate,
+        faci_cagro_id: data.faci_cagro_id,
+        faci_hotel_id: router.id,
+        faci_memb_name: data.faci_memb_name,
+        faci_user_id: userId,
+      }
+      console.log('ini data form', dataForm)
+      console.log('ini data props', props.isEdit.faci_id)
+      dispatch(doUpdateFacilities(props.isEdit.faci_id, dataForm))
+      props.closeModal()
+    }
   }
   const handleError = (errors: any) => {}
 
   const registerOptions = {
     faci_name: { required: 'Name is required' },
     faci_room_number: { required: 'Name is required' },
+    faci_description: { required: 'Name is required' },
     faci_max_number: { required: 'Name is required' },
     faci_low_price: { required: 'Name is required' },
     faci_high_price: { required: 'Name is required' },
@@ -81,6 +123,11 @@ export default function EditFacilities(props: any) {
     faci_cagro_id: { required: 'Name is required' },
     faci_memb_name: { required: 'Name is required' },
   }
+
+  useEffect(() => {
+    dispatch(doRequestGetCategory())
+    dispatch(doRequestGetMembers())
+  }, [refresh, dispatch])
 
   useEffect(() => {
     dispatch(doRequestGetFacilities())
@@ -154,10 +201,17 @@ export default function EditFacilities(props: any) {
                               'faci_cagro_id',
                               registerOptions.faci_cagro_id
                             )}
+                            // value={selectedCategory}
+                            // onChange={(event) =>
+                            //   setSelectedCategory(event.target.value)
+                            // }
                           >
                             <option selected>Select Category</option>
                             {categoryFaci.map((data: any) => (
-                              <option value={data.cagro_id} key={data.cagro_id}>
+                              <option
+                                value={data.cagro_id}
+                                key={data.cagro_name}
+                              >
                                 {data.cagro_name}
                               </option>
                             ))}
@@ -205,6 +259,10 @@ export default function EditFacilities(props: any) {
                               'faci_memb_name',
                               registerOptions.faci_memb_name
                             )}
+                            // value={selectedMembers}
+                            // onChange={(event) =>
+                            //   setSelectedMembers(event.target.value)
+                            // }
                           >
                             <option selected>Select Members</option>
                             {membersFaci.map((data: any) => (
@@ -301,6 +359,20 @@ export default function EditFacilities(props: any) {
                             className='block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
                           />
                         </div>
+                      </div>
+                      <div className='relative z-0 w-full mb-6 group'>
+                        <input
+                          type='text'
+                          className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                          defaultValue={faci?.faci_description ?? ''}
+                          {...register(
+                            'faci_description',
+                            registerOptions.faci_description
+                          )}
+                        />
+                        <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                          Description
+                        </label>
                       </div>
 
                       <div className=' flex-row space-x-4 mt-4'>

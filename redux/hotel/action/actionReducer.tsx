@@ -152,6 +152,7 @@ export const doUpdateFacilities = (...payload: any) => {
   }
 }
 export const doUpdateFacilitiesResponse = (payload: any) => {
+  console.log('respon', payload)
   return {
     type: ActionTypeHotel.UPDATE_FACILITIES_RESPONSE,
     payload,
