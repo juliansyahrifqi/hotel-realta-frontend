@@ -38,7 +38,12 @@ import {
   handleGetAllCategoryGroup,
   handleUpdateCategoryGroup,
 } from "./categorygroupSaga";
-import { handleGetAllPriceItems } from "./priceitemsSaga";
+import {
+  handleAddPriceItems,
+  handleDeletePriceItems,
+  handleGetAllPriceItems,
+  handleUpdatePriceItems,
+} from "./priceitemsSaga";
 import { handleGetAllCity, handleGetCityByProvinceById } from "./citySaga";
 import { handleGetAddressByCityById, handleGetAllAddress } from "./addressSaga";
 
@@ -92,6 +97,9 @@ function* watchAll() {
 
     //===============PriceItems==========//
     takeEvery(ActionTypes.REQ_GET_PRICEITEMS, handleGetAllPriceItems),
+    takeEvery(ActionTypes.ADD_PRICEITEMS, handleAddPriceItems),
+    takeEvery(ActionTypes.UPDATE_PRICEITEMS, handleUpdatePriceItems),
+    takeEvery(ActionTypes.DEL_PRICEITEMS, handleDeletePriceItems),
   ]);
 }
 export default watchAll;
