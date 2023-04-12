@@ -11,14 +11,30 @@ import { useDispatch, useSelector } from 'react-redux'
 import { doRequestGetOrme } from '../../../redux/restoSchema/action/actionOrme'
 import 'react-toastify/dist/ReactToastify.css'
 import { Menu, Transition } from '@headlessui/react'
-import { AiOutlineSend } from 'react-icons/ai'
+import {
+  AiFillCloseCircle,
+  AiOutlineMinusCircle,
+  AiOutlinePlusCircle,
+  AiOutlineSend,
+} from 'react-icons/ai'
 
 const orderMenu = () => {
+  // State to hold orderItems data
+  const [orderItems, setOrderItems] = useState([])
+
   // REDUCER
   const { orderMenus = [], refresh } = useSelector(
     (state: any) => state.ormeReducers
   )
   // REDUCER
+
+  // Load orderItems from localStorage
+  useEffect(() => {
+    const savedOrderItems = localStorage.getItem('orderItems')
+    if (savedOrderItems) {
+      setOrderItems(JSON.parse(savedOrderItems))
+    }
+  }, [])
 
   // render logic ...
   const dispatch = useDispatch()
@@ -114,35 +130,69 @@ const orderMenu = () => {
         </div>
         {/* CARD CHECKOUT */}
         <div>
-          {/* <h2 className='text-sm font-medium'>Checkout Card</h2> */}
-          <div className='bg-white rounded mt-4 shadow-lg py-6'>
-            <div className='px-8'>
-              <div className='flex items-end'>
-                <p>Bubur Ayam</p>
-                <span className='text-sm ml-auto font-semibold'>$20</span>
+          <h1 className='text-sm font-medium'>CHECKOUT CART</h1>
+          <div className='mt-14 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-3/3'>
+            {/* <ToastContainer /> */}
+            {/* {cartItems.map((item, index) => ( */}
+            <div
+              // key={item.name}
+              className='flex justify-between items-center'
+            >
+              {/* <p className='text-gray-700'>{item.name}</p> */}
+              <div className='flex space-x-2 items-center'>
+                <button
+                  className='border rounded-md px-2 py-1 hover:bg-gray-100'
+                  // onClick={() => handleDecreaseQuantity(index)}
+                  // disabled={item.quantity === 1}
+                >
+                  <AiOutlineMinusCircle
+                    className='mr-2 h-5 w-5'
+                    aria-hidden='true'
+                  />
+                </button>
+                {/* <p className='text-gray-700'>{item.quantity}</p> */}
+                <button
+                  className='border rounded-md px-2 py-1 hover:bg-gray-100'
+                  // onClick={() => handleIncreaseQuantity(index)}
+                >
+                  <AiOutlinePlusCircle
+                    className='mr-2 h-5 w-5'
+                    aria-hidden='true'
+                  />
+                </button>
+                {/* <p className='text-gray-700'>
+                    {new Intl.NumberFormat('id-ID', {
+                      style: 'currency',
+                      currency: 'IDR',
+                      minimumFractionDigits: 0,
+                    }).format(item.price)}
+                  </p> */}
+                <button
+                  className='border rounded-md px-2 py-1 hover:bg-gray-100'
+                  // onClick={() => handleRemoveFromCart(index)}
+                >
+                  <AiFillCloseCircle
+                    className='mr-2 h-5 w-5'
+                    aria-hidden='true'
+                  />
+                </button>
               </div>
             </div>
-            <div className='px-8 mt-4'>
-              <div className='flex items-end justify-between'>
-                <span className='text-sm font-semibold'>Tax</span>
-                <span className='text-sm text-gray-500 mb-px'>10%</span>
+            {/* ))} */}
+            <hr className='my-4' />
+            <div className='mb-2 flex justify-between'>
+              <p className='text-gray-700'>Subtotal</p>
+              <p className='text-gray-700'></p>
+            </div>
+            <div className='flex justify-between'>
+              <p className='text-lg font-bold'>Total</p>
+              <div className=''>
+                <p className='mb-1 text-lg font-bold'></p>
               </div>
             </div>
-            <div className='px-8 mt-4 border-t pt-4'>
-              <div className='flex items-end justify-between'>
-                <span className='font-semibold'>Total</span>
-                <span className='font-semibold'>$22</span>
-              </div>
-            </div>
-            <div className='flex items-center px-8 mt-8'></div>
-            <div className='flex flex-col px-8 pt-4'>
-              <button className='flex items-center justify-center bg-gray-200 text-sm font-medium w-full h-10 rounded text-gray-700 hover:bg-gray-300'>
-                Get Coupons
-              </button>
-              <button className='flex items-center justify-center bg-blue-600 text-sm font-medium w-full h-10 rounded text-blue-50 hover:bg-blue-700 mt-2'>
-                Complete Your Request
-              </button>
-            </div>
+            <button className='mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600'>
+              Checkout
+            </button>
           </div>
         </div>
         {/* CARD CHECKOUT */}

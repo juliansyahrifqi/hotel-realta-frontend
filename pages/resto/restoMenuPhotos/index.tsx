@@ -168,7 +168,7 @@ const restoPhoto = () => {
         orme_price: item.price,
         orme_qty: item.quantity,
         orme_subtotal: item.price * item.quantity,
-        orme_discount: '0', // set discount to 0 for now
+        orme_discount: '0',
         omde_reme_id: item.id,
         omde_orme_id: '1',
       }))
@@ -183,6 +183,20 @@ const restoPhoto = () => {
       }
 
       await dispatch(doAddOrdet(orderItems))
+
+      // Save orderItems to sessionStorage
+      sessionStorage.setItem('orderItems', JSON.stringify(orderItems))
+
+      // Check if data is successfully saved to sessionStorage
+      const storedOrderItemsString = sessionStorage.getItem('orderItems')
+      if (typeof storedOrderItemsString === 'string') {
+        const storedOrderItems = JSON.parse(storedOrderItemsString)
+        if (storedOrderItems) {
+          toast.success('Data tersimpan di session storage')
+        }
+      } else {
+        const storedOrderItems = []
+      }
 
       // Clear cart after successful checkout
       // ...
