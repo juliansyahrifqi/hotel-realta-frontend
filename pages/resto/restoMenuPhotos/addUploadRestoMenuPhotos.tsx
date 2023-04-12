@@ -11,6 +11,7 @@ import {
   doUpdateRepho,
 } from '@/redux/restoSchema/action/actionRepho'
 import { FaTrash } from 'react-icons/fa'
+import { ToastContainer, toast } from 'react-toastify'
 // import { Switch } from '@headlessui/react'
 
 export default function UploadPhotos(props: any) {
@@ -62,6 +63,7 @@ export default function UploadPhotos(props: any) {
 
     dispatch(doAddRepho(formData))
     props.closeModal()
+    toast.success(`Berhasil upload gambar data ${data.remp_reme_id}`)
   }
 
   // !
@@ -122,6 +124,7 @@ export default function UploadPhotos(props: any) {
                     Upload Image
                   </Dialog.Title>
                   <div className='mt-4'>
+                    <ToastContainer />
                     <form onSubmit={handleSubmit(handleSave, handleError)}>
                       <div className='mb-4'>
                         {/* jadul */}

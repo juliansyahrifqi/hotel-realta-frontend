@@ -25,6 +25,7 @@ import {
 } from 'react-icons/ai'
 import { doAddOrdet } from '@/redux/restoSchema/action/actionOrdet'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/router'
 // ini adalah carousel
 
 const restoPhoto = () => {
@@ -160,7 +161,7 @@ const restoPhoto = () => {
   // CART CARD REMOVE
 
   // HANDLE CHECKOUT
-
+  const router = useRouter()
   const handleCheckOut = async () => {
     try {
       const orderItems = cartItems.map((item) => ({
@@ -168,21 +169,32 @@ const restoPhoto = () => {
         orme_qty: item.quantity,
         orme_subtotal: item.price * item.quantity,
         orme_discount: '0', // set discount to 0 for now
-      }))
-      const orderData = {
-        omde_reme_id: '1',
+        omde_reme_id: item.id,
         omde_orme_id: '1',
-        orderItems: orderItems,
+      }))
+
+      const subtotal = orderItems.reduce(
+        (sum, item) => sum + item.orme_subtotal,
+        0
+      )
+      if (subtotal === 0) {
+        toast.error('Belum memilih menu')
+        return
       }
-      await dispatch(doAddOrdet(orderData))
+
+      await dispatch(doAddOrdet(orderItems))
+
       // Clear cart after successful checkout
       // ...
+      toast.success('Berhasil Membuat Order')
+      router.push('/resto/orderMenu')
     } catch (error) {
       console.error(error)
       // Handle error here
       // ...
     }
   }
+
   // HANDLE CHECKOUT
 
   return (
@@ -234,16 +246,16 @@ const restoPhoto = () => {
       </div>
 
       {/* Product List */}
-      <div className='mx-auto max-w-5xl justify-center px-6 md:flex md:space-x-6 xl:px-0'>
+      <div className='mx-auto max-w-7xl justify-center px-6 md:flex md:space-x-6 xl:px-0'>
         <section className='py-10 bg-gray-100'>
-          <div className='mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3'>
+          <div className='mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
             {((restoMenus && restoMenus.data) || []).map((restoMenu: any) => (
               <article
                 key={restoMenu.reme_id}
                 className='rounded-xl bg-white p-3 shadow-lg hover:shadow-xl hover:transform hover:scale-105 duration-300 '
               >
                 {/* <a href='#'> */}
-                <Carousel showThumbs={true}>
+                <Carousel showThumbs={true} autoPlay={true} infiniteLoop={true}>
                   {restoMenu.resto_menu_photos.map((photo: any) => (
                     <div key={photo.remp_reme_id}>
                       <Image
@@ -256,6 +268,7 @@ const restoPhoto = () => {
                     </div>
                   ))}
                 </Carousel>
+
                 <h2 className='text-slate-700'>{restoMenu.reme_name}</h2>
                 <p className='text-lg font-bold text-blue-500 text-left'>
                   {new Intl.NumberFormat('id-ID', {
@@ -322,6 +335,7 @@ const restoPhoto = () => {
         </section>
         {/* cart card */}
         <div className='mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3'>
+          <ToastContainer />
           {cartItems.map((item, index) => (
             <div key={item.name} className='flex justify-between items-center'>
               <p className='text-gray-700'>{item.name}</p>

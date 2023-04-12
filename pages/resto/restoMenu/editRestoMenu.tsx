@@ -7,6 +7,7 @@ import {
   doUpdate,
 } from '../../../redux/restoSchema/action/actionReme'
 import { Switch } from '@headlessui/react'
+import { ToastContainer, toast } from 'react-toastify'
 
 export default function EditRestoMenu(props: any) {
   type FormValues = {
@@ -41,6 +42,7 @@ export default function EditRestoMenu(props: any) {
       }
       dispatch(doUpdate(props.isEdit.id, data))
       props.closeModal()
+      toast.success(`Berhasil mengubah menu ${data.reme_name}`)
     } catch (error) {
       console.error(error)
     }
@@ -88,6 +90,7 @@ export default function EditRestoMenu(props: any) {
                     Edit Menu
                   </Dialog.Title>
                   <div className='mt-4'>
+                    <ToastContainer />
                     <form onSubmit={handleSubmit(handleSave, handleError)}>
                       <div className='relative z-0 w-full mb-6 group'>
                         <input

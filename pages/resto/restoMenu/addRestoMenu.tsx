@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { doAdd } from '../../../redux/restoSchema/action/actionReme'
 import { useDispatch } from 'react-redux'
 import { Switch } from '@headlessui/react'
+import { ToastContainer, toast } from 'react-toastify'
 
 export default function AddRestoMenu(props: any) {
   type FormValues = {
@@ -27,6 +28,7 @@ export default function AddRestoMenu(props: any) {
     setStatus(!status)
   }
   const handleError = (errors: any) => {}
+
   const handleSave = async (data: FormValues) => {
     try {
       const dataAll = {
@@ -38,10 +40,12 @@ export default function AddRestoMenu(props: any) {
       }
       await dispatch(doAdd(dataAll))
       props.closeModal()
+      toast.success(`Berhasil menambahkan Menu ${data.reme_name}`)
     } catch (error) {
       console.error(error)
     }
   }
+
   // !
 
   const registerOptions = {
@@ -84,6 +88,7 @@ export default function AddRestoMenu(props: any) {
                     Tambah Menu
                   </Dialog.Title>
                   <div className='mt-4'>
+                    <ToastContainer />
                     <form onSubmit={handleSubmit(handleSave, handleError)}>
                       <div className='relative z-0 w-full mb-6 group'>
                         <input
