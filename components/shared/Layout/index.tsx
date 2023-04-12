@@ -9,6 +9,7 @@ import { ImHome } from "react-icons/im";
 import Link from "next/link";
 import Breadcrumb from "@/components/Breadcrumbs";
 import Cookies from "js-cookie";
+import Footer from "../Footer";
 
 export default function Layout({ children }: any) {
   const [showSidebar, setShowSidebar] = useState(true);
@@ -99,13 +100,11 @@ export default function Layout({ children }: any) {
         setShowSidebar={setShowSidebar}
         loginData={loginData}
       />
-      {/* Navbar & Main Content */}
+
       <div className="h-full w-full bg-[#F4F7FE]">
-        {/* Main Content */}
         <main
           className={`mx-5 h-full flex-none transition-all md:pr-2 xl:ml-[360px]`}
         >
-          {/* Routes */}
           <div className="h-full">
             <Navbar
               showSidebar={showSidebar}
@@ -116,7 +115,9 @@ export default function Layout({ children }: any) {
             <div className="pt-8 mx-auto mb-auto h-full min-h-[84vh] p-2 md:pr-2">
               {children}
             </div>
-            <div className="p-3">{/* <Footer /> */}</div>
+            <div className="p-3">
+              <Footer />
+            </div>
           </div>
         </main>
       </div>

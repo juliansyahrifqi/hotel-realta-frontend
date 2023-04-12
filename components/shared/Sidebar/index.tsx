@@ -27,7 +27,7 @@ export default function Sidebar({
 
   return (
     <div
-      className={`sm:none duration-175 ease-linear fixed !z-50 flex min-h-full flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 w-80 ${
+      className={`sm:none duration-175 ease-linear fixed !z-50 flex h-full overflow-auto flex-col bg-white pb-10 shadow-2xl shadow-white/5 transition-all dark:!bg-navy-800 dark:text-white md:!z-50 lg:!z-50 xl:!z-0 w-80 ${
         showSidebar ? "translate-x-0" : "-translate-x-full"
       }`}
     >
