@@ -4,6 +4,7 @@ import {
   doAddFacilityPhotosResponse,
   doAddFacilitySupportHotelResponse,
   doAddHotelsResponse,
+  doDeleteFacilitySupportHotelResponse,
   doGetFacilitySupportHotelResponse,
   doGetHotelsResponse,
   doSwitchHotelsResponse,
@@ -94,7 +95,22 @@ function* handleAddFacilitiesSupportHotel(action: any): any {
     )
   }
 }
-
+function* handleDeleteFacilitiesSupportHotel(action: any): any {
+  try {
+    const result = yield call(
+      ApiMethodHotel.removeFacilitySupportHotel,
+      action.payload
+    )
+    yield put(doDeleteFacilitySupportHotelResponse(result.data))
+  } catch (error) {
+    yield put(
+      doDeleteFacilitySupportHotelResponse({
+        message: error,
+      })
+    )
+  }
+}
+//====FACILITY PHOTOS===
 function* handleAddFacilityPhotos(action: any): any {
   console.log(action)
   try {
@@ -115,5 +131,6 @@ export {
   handleSwitchHotels,
   handleGetFacilitiesSupportHotels,
   handleAddFacilitiesSupportHotel,
+  handleDeleteFacilitiesSupportHotel,
   handleAddFacilityPhotos,
 }

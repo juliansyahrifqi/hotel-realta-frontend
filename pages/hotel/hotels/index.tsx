@@ -15,7 +15,6 @@ import EditHotels from './editHotels'
 import SwitchStatus from './switchStatus'
 import Link from 'next/link'
 import { Pagination } from '@/components/hotel/Pagination'
-import Button from '@/components/Button/button'
 
 const Hotels = () => {
   let { hotels, message, refresh } = useSelector(
@@ -123,7 +122,7 @@ const Hotels = () => {
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
         <table className='w-full tex-xs text-left text-gray-500 dark:text-gray-400'>
           <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black '>
-            <tr className=''>
+            <tr>
               {(columns || []).map((col) => (
                 <th key={col.name} style={{ whiteSpace: 'nowrap' }}>
                   <span className='px-4'>{col.name}</span>
@@ -152,7 +151,7 @@ const Hotels = () => {
                 key={dt.hotel_id}
                 className='bg-white border-b hover:bg-primary/5'
               >
-                <td className='px-4 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
                   {index + 1}
                 </td>
                 <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
@@ -264,7 +263,6 @@ const Hotels = () => {
                                       ? 'bg-secondary/75 text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
-                                  // onClick={() => editOpen(dt.id_user)}
                                 >
                                   {active ? (
                                     <MdAddBox

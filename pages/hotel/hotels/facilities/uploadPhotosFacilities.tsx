@@ -84,7 +84,7 @@ const UploadPhotosFacilities = (props: any) => {
                     as='h3'
                     className='text-lg font-medium leading-6 text-primary'
                   >
-                    ADD FACILITIES
+                    UPLOADS PHOTOS
                   </Dialog.Title>
                   <hr className='border-b border-t border-black h-1 my-4' />
                   <div className='mt-2'>

@@ -4,6 +4,7 @@ import {
   handleAddFacilitiesSupportHotel,
   handleAddFacilityPhotos,
   handleAddHotels,
+  handleDeleteFacilitiesSupportHotel,
   handleGetAllHotels,
   handleGetFacilitiesSupportHotels,
   handleSwitchHotels,
@@ -63,6 +64,10 @@ function* watchAll() {
     takeEvery(
       ActionTypeHotel.ADD_FACILITY_SUPPORT_HOTEL,
       handleAddFacilitiesSupportHotel
+    ),
+    takeEvery(
+      ActionTypeHotel.DEL_FACILITY_SUPPORT_HOTEL,
+      handleDeleteFacilitiesSupportHotel
     ),
     //========FACILITY PHOTOS======
     takeEvery(ActionTypeHotel.ADD_FACILITY_PHOTOS, handleAddFacilityPhotos),

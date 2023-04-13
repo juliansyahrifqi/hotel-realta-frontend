@@ -10,6 +10,7 @@ import AddFacilities from './addFacilities'
 import EditFacilities from './editFacilities'
 import Link from 'next/link'
 import {
+  doDeleteFacilitySupportHotel,
   doRequestGetFacilities,
   doRequestGetHotels,
 } from '@/redux/hotel/action/actionReducer'
@@ -57,6 +58,7 @@ const Facilities = (props: any) => {
       return { ...prev, status: true, faci_id: faci_id }
     })
   }
+
   const columns = [
     { name: 'NO' },
     { name: '       ' },

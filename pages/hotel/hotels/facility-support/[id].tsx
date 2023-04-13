@@ -63,7 +63,7 @@ const Facilities = () => {
 
   useEffect(() => {
     dispatch(doRequestGetFacilitiesSupport())
-  }, [refresh])
+  })
 
   useEffect(() => {
     dispatch(doRequestGetHotels(pageNumber, pageSize, search))
@@ -149,7 +149,7 @@ const Facilities = () => {
                 <td className='px-20 py-3 text-sm text-gray-900 '>
                   <button
                     onClick={() =>
-                      deleteOpen(dt.facility_support_hotels.fsh_id)
+                      deleteOpen(dt?.facility_support_hotels?.fsh_id)
                     }
                   >
                     <FaTrashAlt className='mr-2 h-5 w5 hover:text-danger' />
