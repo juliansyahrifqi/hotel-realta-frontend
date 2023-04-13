@@ -89,53 +89,6 @@ const Hotels = () => {
 
   return (
     <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-      {/* Breadcrumb */}
-      <div className='bg-white text-black py-2 px-6 flex font-bold border-t-2 border-r-2 border-l-2 items-center justify-between'>
-        <nav className='flex' aria-label='Breadcrumb'>
-          <ol className='inline-flex items-center space-x-1 md:space-x-3'>
-            <li className='inline-flex items-center'>
-              <a
-                href='/'
-                className='inline-flex items-center font-bold text-black text-medium hover:text-blue-600 dark:text-gray-400 dark:hover:text-white'
-              >
-                <svg
-                  aria-hidden='true'
-                  className='w-4 h-4 mr-2'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path d='M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z'></path>
-                </svg>
-                Home
-              </a>
-            </li>
-            <li>
-              <div className='flex items-center'>
-                <svg
-                  aria-hidden='true'
-                  className='w-6 h-6 text-gray-400'
-                  fill='currentColor'
-                  viewBox='0 0 20 20'
-                  xmlns='http://www.w3.org/2000/svg'
-                >
-                  <path
-                    fill-rule='evenodd'
-                    d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z'
-                    clip-rule='evenodd'
-                  ></path>
-                </svg>
-                <a
-                  href='/hotel/hotels'
-                  className='ml-1 text-sm text-black font-bold hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white'
-                >
-                  Hotels
-                </a>
-              </div>
-            </li>
-          </ol>
-        </nav>
-      </div>
       {/* Header */}
       <div className='bg-white text-black py-2 px-6 flex border-2 items-center justify-between'>
         <div className='relative z-0 w-full mb-4 mt-4 ml-20 group flex space-x-2'>
@@ -183,7 +136,10 @@ const Hotels = () => {
                   onClick={() => setIsOpen(true)}
                 >
                   <MdAddBox className='mr-1' />
-                  <span className='mr-2' style={{ whiteSpace: 'nowrap' }}>
+                  <span
+                    className='mr-2 hover:text-secondary'
+                    style={{ whiteSpace: 'nowrap' }}
+                  >
                     Add Hotel
                   </span>
                 </button>
@@ -202,13 +158,13 @@ const Hotels = () => {
                 <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
                   {dt.hotel_name}
                 </td>
-                <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white items-center display flex'>
+                <td className='px-4 py-4 ml-5 mt-2 font-medium text-xs text-gray-900 dark:text-white text-center display flex'>
                   {renderStars(dt.hotel_rating_star)}
                 </td>
-                <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
+                <td className='px-4 py-4 font-medium text-xs text-gray-900 dark:text-white'>
                   {dt.hotel_phonenumber}
                 </td>
-                <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
+                <td className='px-4 py-4 font-medium text-xs text-gray-900 dark:text-white'>
                   {new Date(dt.hotel_modified_date).toLocaleDateString(
                     'en-GB',
                     {
@@ -218,10 +174,10 @@ const Hotels = () => {
                     }
                   )}
                 </td>
-                <td className='px-12 py-3 text-sm text-gray-900 text-right'>
+                <td className='px-4 py-4 text-sm text-gray-900'>
                   <Menu as='div' className='relative inline-block text-left'>
                     <div>
-                      <Menu.Button className='inline-flex w-full justify-center rounded-md bg-none px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
+                      <Menu.Button className='inline-flex w-full justify-center rounded-md bg-none px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none ml-4 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
                         <BsThreeDotsVertical
                           className='ml-2 -mr-1 h-5 w-5 text-primary'
                           aria-hidden='true'
@@ -244,7 +200,7 @@ const Hotels = () => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-primary/75 text-white'
+                                    ? 'bg-secondary/75 text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 onClick={() => editOpen(dt.hotel_id)}
@@ -268,11 +224,13 @@ const Hotels = () => {
                         <div className='px-1 py-1 '>
                           <Menu.Item>
                             {({ active }) => (
-                              <Link href={`/hotel/facilities/${dt.hotel_id}`}>
+                              <Link
+                                href={`/hotel/hotels/facilities/${dt.hotel_id}`}
+                              >
                                 <button
                                   className={`${
                                     active
-                                      ? 'bg-primary/75 text-white'
+                                      ? 'bg-secondary/75 text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
@@ -298,12 +256,12 @@ const Hotels = () => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                href={`/hotel/facilities-support/${dt.hotel_id}`}
+                                href={`/hotel/hotels/facility-support/${dt.hotel_id}`}
                               >
                                 <button
                                   className={`${
                                     active
-                                      ? 'bg-primary/75 text-white'
+                                      ? 'bg-secondary/75 text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                   // onClick={() => editOpen(dt.id_user)}
@@ -331,7 +289,7 @@ const Hotels = () => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-primary/75 text-white'
+                                    ? 'bg-secondary/75 text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 onClick={() => switchOpen(dt.hotel_id)}

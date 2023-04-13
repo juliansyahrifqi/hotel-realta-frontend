@@ -22,18 +22,6 @@ export const doGetHotelsResponse = (payload: any) => {
     payload,
   }
 }
-export const doRequestGetHotelsWhereSupport = (payload: any) => {
-  return {
-    type: ActionTypeHotel.REQ_GET_HOTELS_SUPPORT,
-    payload,
-  }
-} //INCLUDE SUPPORT
-export const doGetHotelsWhereSupportResponse = (payload: any) => {
-  return {
-    type: ActionTypeHotel.GET_HOTELS_SUPPORT_RESPONSE,
-    payload,
-  }
-} // INCLUDE SUPPORT
 export const doAddHotels = (payload: any) => {
   // console.log(payload)
   return {
@@ -251,7 +239,7 @@ export const doUpdateFacilitiesSupport = (...payload: any) => {
     payload,
   }
 }
-export const doUpdateFacilitiesSupportResponse = (payload: any) => {
+export const doUpdateFacilitiesSupportResponse = (...payload: any) => {
   console.log(payload)
   return {
     type: ActionTypeHotel.UPDATE_FACILITIES_SUPPORT_RESPONSE,
@@ -283,8 +271,21 @@ export const doGetFacilitySupportHotelResponse = (payload: any) => {
     payload,
   }
 }
+
+// export const doRequestGetHotelsWhereSupport = (payload: any) => {
+//   return {
+//     type: ActionTypeHotel.REQ_GET_HOTELS_SUPPORT,
+//     payload,
+//   }
+// } //INCLUDE SUPPORT
+// export const doGetHotelsWhereSupportResponse = (payload: any) => {
+//   return {
+//     type: ActionTypeHotel.GET_HOTELS_SUPPORT_RESPONSE,
+//     payload,
+//   }
+// } // INCLUDE SUPPORT
+
 export const doAddFacilitySupportHotel = (payload: any) => {
-  // console.log(payload)
   return {
     type: ActionTypeHotel.ADD_FACILITY_SUPPORT_HOTEL,
     payload,
@@ -303,7 +304,6 @@ export const doUpdateFacilitySupportHotel = (...payload: any) => {
   }
 }
 export const doUpdateFacilitySupportHotelResponse = (payload: any) => {
-  console.log(payload)
   return {
     type: ActionTypeHotel.UPDATE_FACILITY_SUPPORT_HOTEL_RESPONSE,
     payload,
@@ -341,6 +341,7 @@ export const doAddFacilityPhotos = (payload: any) => {
   }
 }
 export const doAddFacilityPhotosResponse = (payload: any) => {
+  console.log('respon', payload)
   return {
     type: ActionTypeHotel.ADD_FACILITY_PHOTOS_RESPONSE,
     payload,

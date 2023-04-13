@@ -15,7 +15,6 @@ export default function* rootSaga() {
     restoSaga(),
     hotelSaga(),
     hrSaga(),
-    hotelSaga(),
     purchasingSaga(),
     masterSaga(),
     paymentSaga(),

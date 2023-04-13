@@ -2,10 +2,9 @@ import ApiMethodHotel from '@/api/hotel/apiMethodHotel'
 import { call, put } from 'redux-saga/effects'
 import {
   doAddFacilitiesSupportResponse,
-  doAddFacilitySupportHotelResponse,
-  doDeleteFacilitiesSupport,
   doDeleteFacilitiesSupportResponse,
   doGetFacilitiesSupportResponse,
+  doUpdateFacilitiesSupportResponse,
 } from '../action/actionReducer'
 
 function* handleGetAllFacilitiesSupport(): any {
@@ -17,6 +16,7 @@ function* handleGetAllFacilitiesSupport(): any {
   }
 }
 function* handleAddFacilitiesSupport(action: any): any {
+  console.log('action payload', action.payload)
   try {
     const result = yield call(
       ApiMethodHotel.createFacilitiesSupport,
@@ -28,15 +28,16 @@ function* handleAddFacilitiesSupport(action: any): any {
   }
 }
 function* handleUpdateFacilitiesSupport(action: any): any {
+  console.log(action.payload)
   try {
     const result = yield call(
       ApiMethodHotel.updateFacilitiesSupport,
       action.payload[0],
       action.payload[1]
     )
-    yield put(doAddFacilitiesSupportResponse(result.data))
+    yield put(doUpdateFacilitiesSupportResponse(result.data))
   } catch (error) {
-    yield put(doAddFacilitiesSupportResponse({ message: error }))
+    yield put(doUpdateFacilitiesSupportResponse({ message: error }))
   }
 }
 function* handleDeleteFacilitiesSupport(action: any): any {
@@ -52,28 +53,9 @@ function* handleDeleteFacilitiesSupport(action: any): any {
   }
 }
 
-//FACILITY SUPPORT HOTEL
-function* handleAddFacilitiesSupportHotel(action: any): any {
-  // console.log(action.payload)
-  try {
-    const result = yield call(
-      ApiMethodHotel.createFacilitySupportHotel,
-      action.payload
-    )
-    yield put(doAddFacilitySupportHotelResponse(result.data))
-  } catch (error) {
-    yield put(
-      doAddFacilitySupportHotelResponse({
-        message: error,
-      })
-    )
-  }
-}
-
 export {
   handleGetAllFacilitiesSupport,
   handleAddFacilitiesSupport,
   handleUpdateFacilitiesSupport,
   handleDeleteFacilitiesSupport,
-  handleAddFacilitiesSupportHotel,
 }

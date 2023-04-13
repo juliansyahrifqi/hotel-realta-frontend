@@ -21,18 +21,18 @@ const updateHotels = (hotel_id: number, city_name: any, data: any) => {
 const updateStatusHotels = (hotel_id: number, data: any) => {
   return axios.put(`/hotels/switch-status/${hotel_id}`, data)
 }
-const getHotelIncludeReviews = () => {
-  return axios.get('/hotels/hotel-reviews')
-} //Reviews
-const getHotelIncludeFacilities = () => {
-  return axios.get('/hotels/hotel-room')
-} //Facilities
-const getHotelIncludeAddress = () => {
-  return axios.get('/hotels/hotel-address')
-} //Address
-const getHotelIncludeSupport = () => {
-  return axios.get('/hotels/hotel-support')
-} //Support
+// const getHotelIncludeReviews = () => {
+//   return axios.get('/hotels/hotel-reviews')
+// } //Reviews
+// const getHotelIncludeFacilities = () => {
+//   return axios.get('/hotels/hotel-room')
+// } //Facilities
+// const getHotelIncludeAddress = () => {
+//   return axios.get('/hotels/hotel-address')
+// } //Address
+// const getHotelIncludeSupport = () => {
+//   return axios.get('/hotels/hotel-support')
+// } //Support
 const removeHotels = (hotel_id: number) => {
   return axios.delete(`/hotels/${hotel_id}`)
 }
@@ -98,8 +98,6 @@ const createFacilitiesSupport = (data: any) => {
   })
 }
 const updateFacilitiesSupport = (fs_id: number, data: any) => {
-  console.log('fs_id :', fs_id)
-  console.log('data :', data)
   return axios.put(`/facilities-support/${fs_id}`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -114,6 +112,7 @@ const getAllFacilityPhotos = () => {
   return axios.get('/facility-photos')
 }
 const createFacilityPhotos = (data: any) => {
+  console.log(data)
   return axios.post('/facility-photos', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -163,10 +162,10 @@ const ApiMethodHotel = {
   createHotels,
   updateHotels,
   removeHotels,
-  getHotelIncludeReviews,
-  getHotelIncludeFacilities,
-  getHotelIncludeAddress,
-  getHotelIncludeSupport,
+  // getHotelIncludeReviews,
+  // getHotelIncludeFacilities,
+  // getHotelIncludeAddress,
+  // getHotelIncludeSupport,
   getAllHotelBySearch,
   updateStatusHotels,
   getAllHotelsWhereSupport, // include support

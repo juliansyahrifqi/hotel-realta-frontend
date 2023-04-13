@@ -1,9 +1,11 @@
 import ApiMethodHotel from '@/api/hotel/apiMethodHotel'
 import { call, put } from 'redux-saga/effects'
 import {
+  doAddFacilityPhotosResponse,
+  doAddFacilitySupportHotelResponse,
   doAddHotelsResponse,
+  doGetFacilitySupportHotelResponse,
   doGetHotelsResponse,
-  doGetHotelsWhereSupportResponse,
   doSwitchHotelsResponse,
   doUpdateHotelsResponse,
 } from '../action/actionReducer'
@@ -22,27 +24,14 @@ function* handleGetAllHotels(action: any): any {
     yield put(doGetHotelsResponse({ message: error }))
   }
 }
-function* handleHotelsIncludeSupport(action: any): any {
-  try {
-    const result = yield call(
-      ApiMethodHotel.getAllHotelsWhereSupport,
-      action.payload
-    )
-    yield put(doGetHotelsWhereSupportResponse(result.data))
-  } catch (error) {
-    yield put(doGetHotelsWhereSupportResponse({ message: error }))
-  }
-}
+
 function* handleAddHotels(action: any): any {
-  // console.log(action.payload.city_name)
-  // console.log(action.payload)
   try {
     const result = yield call(
       ApiMethodHotel.createHotels,
       action.payload.city_name,
       action.payload
     )
-    // console.log(result.data)
     yield put(doAddHotelsResponse(result.data))
   } catch (error) {
     yield put(doAddHotelsResponse({ message: error }))
@@ -50,8 +39,6 @@ function* handleAddHotels(action: any): any {
 }
 
 function* handleUpdateHotels(action: any): any {
-  // console.log(action)
-  // console.log(action.payload[1].city_name)
   try {
     const result = yield call(
       ApiMethodHotel.updateHotels,
@@ -77,10 +64,56 @@ function* handleSwitchHotels(action: any): any {
     yield put(doSwitchHotelsResponse({ message: error }))
   }
 }
+
+//FACILITY SUPPORT HOTEL
+
+function* handleGetFacilitiesSupportHotels(action: any): any {
+  try {
+    const result = yield call(
+      ApiMethodHotel.getAllHotelsWhereSupport,
+      action.payload
+    )
+    yield put(doGetFacilitySupportHotelResponse(result.data))
+  } catch (error) {
+    yield put(doGetFacilitySupportHotelResponse({ message: error }))
+  }
+}
+
+function* handleAddFacilitiesSupportHotel(action: any): any {
+  try {
+    const result = yield call(
+      ApiMethodHotel.createFacilitySupportHotel,
+      action.payload
+    )
+    yield put(doAddFacilitySupportHotelResponse(result.data))
+  } catch (error) {
+    yield put(
+      doAddFacilitySupportHotelResponse({
+        message: error,
+      })
+    )
+  }
+}
+
+function* handleAddFacilityPhotos(action: any): any {
+  console.log(action)
+  try {
+    const result = yield call(
+      ApiMethodHotel.createFacilityPhotos,
+      action.payload
+    )
+    yield put(doAddFacilityPhotosResponse(result.data))
+  } catch (error) {
+    yield put(doAddFacilityPhotosResponse({ message: error }))
+  }
+}
+
 export {
   handleGetAllHotels,
   handleAddHotels,
-  handleHotelsIncludeSupport,
   handleUpdateHotels,
   handleSwitchHotels,
+  handleGetFacilitiesSupportHotels,
+  handleAddFacilitiesSupportHotel,
+  handleAddFacilityPhotos,
 }

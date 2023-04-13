@@ -2,12 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  doAddFacilitiesSupport,
-  doAddFacilitySupportHotel,
-  doRequestGetFacilitiesSupport,
-} from '@/redux/hotel/action/actionReducer'
-import Select from 'react-select'
+import { doAddFacilitySupportHotel } from '@/redux/hotel/action/actionReducer'
 import { useRouter } from 'next/router'
 
 export default function AddSupportHotel(props: any) {
@@ -77,9 +72,9 @@ export default function AddSupportHotel(props: any) {
                 <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-medium leading-6 text-primary'
+                    className='text-lg font-semibold leading-6 text-blue-700'
                   >
-                    ADD HOTELS
+                    ADD FACILITY SUPPORT
                   </Dialog.Title>
                   <hr className='border-b border-t border-black h-1 my-4' />
                   <div className='mt-2'>

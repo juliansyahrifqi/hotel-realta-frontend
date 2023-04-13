@@ -29,10 +29,9 @@ export default function EditFacilities(props: any) {
   )
 
   const [faci, setFaci] = useState<any>({})
-  // const [selectedMembers, setSelectedMembers] = useState('')
-  // const [selectedCategory, setSelectedCategory] = useState('')
-  // console.log('ini category', selectedCategory)
-  // console.log('ini faci', faci)
+  const dataMaxUnit = `${faci && faci?.faci_max_number} ${
+    faci && faci?.faci_measure_unit
+  }`
 
   type FormValues = {
     faci_description: string
@@ -101,8 +100,6 @@ export default function EditFacilities(props: any) {
         faci_memb_name: data.faci_memb_name,
         faci_user_id: userId,
       }
-      console.log('ini data form', dataForm)
-      console.log('ini data props', props.isEdit.faci_id)
       dispatch(doUpdateFacilities(props.isEdit.faci_id, dataForm))
       props.closeModal()
     }
@@ -224,7 +221,9 @@ export default function EditFacilities(props: any) {
                             <input
                               type='text'
                               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                              defaultValue={faci?.faci_room_number ?? ''}
+                              defaultValue={
+                                faci?.faci_room_number?.split('-')[1] ?? ''
+                              }
                               {...register(
                                 'faci_room_number',
                                 registerOptions.faci_room_number
@@ -238,7 +237,7 @@ export default function EditFacilities(props: any) {
                             <input
                               type='text'
                               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                              defaultValue={faci?.faci_max_number ?? ''}
+                              defaultValue={dataMaxUnit}
                               {...register(
                                 'faci_max_number',
                                 registerOptions.faci_max_number

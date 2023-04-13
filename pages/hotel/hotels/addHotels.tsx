@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog, Listbox, Transition } from '@headlessui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -7,12 +7,16 @@ import {
   doRequestGetCity,
 } from '@/redux/hotel/action/actionReducer'
 import Select from 'react-select'
+import phoneNumberCode from '@/utils/phoneNumberCode'
+import { MdArrowDropDown } from 'react-icons/md'
 
 export default function AddHotels(props: any) {
   //================Data Redux Saga================
   let { cityHotel, message, refresh } = useSelector(
     (state: any) => state.cityHotelReducers
   )
+
+  const [selected, setSelected] = useState(phoneNumberCode[0].value)
 
   //=====================City Var===================
   const [options, setOptions] = useState([])
@@ -108,10 +112,10 @@ export default function AddHotels(props: any) {
                 leaveFrom='opacity-100 scale-100'
                 leaveTo='opacity-0 scale-95'
               >
-                <Dialog.Panel className='w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
+                <Dialog.Panel className='w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-medium leading-6 text-primary'
+                    className='text-lg font-bold leading-6 text-primary'
                   >
                     ADD HOTELS
                   </Dialog.Title>

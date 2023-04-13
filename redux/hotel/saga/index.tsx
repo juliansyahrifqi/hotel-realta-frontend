@@ -1,14 +1,14 @@
 import { all, takeEvery } from 'redux-saga/effects'
 import ActionTypeHotel from '../action/actionTypeHotel'
 import {
+  handleAddFacilitiesSupportHotel,
+  handleAddFacilityPhotos,
   handleAddHotels,
   handleGetAllHotels,
-  handleHotelsIncludeSupport,
+  handleGetFacilitiesSupportHotels,
   handleSwitchHotels,
   handleUpdateHotels,
 } from './hotelsSaga'
-// import { handleGetAllFacilitiesSupport } from './facilitiesSupportSaga'
-// import { handleGetAllHotelReviews } from './hotelReviewsSaga'
 import {
   handleAddFacilities,
   handleGetAllFacilities,
@@ -19,7 +19,6 @@ import { handleGetAllCategoryFaci } from './categoryFaciSaga'
 import { handleGetAllMembersFaci } from './membersFaciSaga'
 import {
   handleAddFacilitiesSupport,
-  handleAddFacilitiesSupportHotel,
   handleDeleteFacilitiesSupport,
   handleGetAllFacilitiesSupport,
   handleUpdateFacilitiesSupport,
@@ -58,13 +57,15 @@ function* watchAll() {
     ),
     //=====FACILITITES SUPPORT HOTEL=====
     takeEvery(
+      ActionTypeHotel.REQ_GET_FACILITY_SUPPORT_HOTEL,
+      handleGetFacilitiesSupportHotels
+    ),
+    takeEvery(
       ActionTypeHotel.ADD_FACILITY_SUPPORT_HOTEL,
       handleAddFacilitiesSupportHotel
     ),
-    takeEvery(
-      ActionTypeHotel.GET_HOTELS_SUPPORT_RESPONSE,
-      handleHotelsIncludeSupport
-    ),
+    //========FACILITY PHOTOS======
+    takeEvery(ActionTypeHotel.ADD_FACILITY_PHOTOS, handleAddFacilityPhotos),
   ])
 }
 export default watchAll
