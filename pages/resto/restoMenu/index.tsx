@@ -97,15 +97,11 @@ const restoMenu = () => {
 
   useEffect(() => {
     handleGetData()
-  }, [refresh, currentPage, limit])
+  }, [refresh, currentPage, limit, sort])
 
   useEffect(() => {
     handleGetData()
   }, [searchTerm])
-
-  useEffect(() => {
-    handleGetData()
-  }, [sort])
 
   const totalPages = Math.ceil(restoMenus.length / limit)
 
@@ -428,7 +424,6 @@ const restoMenu = () => {
                     {currentPage !== totalPages && (
                       <button
                         className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'
-                        hidden={currentPage === totalPages}
                         onClick={() => setCurrentPage(currentPage + 1)}
                       >
                         Next

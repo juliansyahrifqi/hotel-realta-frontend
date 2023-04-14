@@ -57,7 +57,6 @@ export default function EditRestoMenu(props: any) {
     reme_status: { required: 'Status is required' },
   }
 
-  console.log(props.dataResto)
   return (
     <div>
       <Transition appear show={props.isEdit.status} as={Fragment}>

@@ -26,6 +26,7 @@ import {
 import { doAddOrdet } from '@/redux/restoSchema/action/actionOrdet'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import { doAddOrme } from '@/redux/restoSchema/action/actionOrme'
 // ini adalah carousel
 
 const restoPhoto = () => {
@@ -89,6 +90,7 @@ const restoPhoto = () => {
 
   const [cartItems, setCartItems] = useState<
     {
+      discount: any
       id: any
       name: string
       price: number
@@ -119,6 +121,7 @@ const restoPhoto = () => {
           id: restoMenu.reme_id,
           name: restoMenu.reme_name,
           price: restoMenu.reme_price,
+          discount: restoMenu.discount,
           quantity: 1,
         },
       ])
@@ -160,48 +163,55 @@ const restoPhoto = () => {
 
   // CART CARD REMOVE
 
+  // if (loginData !== null) {
+  //   const userData = JSON.parse(loginData)
+  //   const userId = userData.user_id
   // HANDLE CHECKOUT
+
   const router = useRouter()
   const handleCheckOut = async () => {
     try {
-      const orderItems = cartItems.map((item) => ({
-        orme_price: item.price,
-        orme_qty: item.quantity,
-        orme_subtotal: item.price * item.quantity,
-        orme_discount: '0',
-        omde_reme_id: item.id,
-        omde_orme_id: '1',
-      }))
+      const loginData = localStorage.getItem('loginData')
 
-      const subtotal = orderItems.reduce(
-        (sum, item) => sum + item.orme_subtotal,
-        0
-      )
-      if (subtotal === 0) {
-        toast.error('Belum memilih menu')
-        return
-      }
+      if (loginData !== null) {
+        const userData = JSON.parse(loginData)
+        const userId = userData.user_id
+        const orderItems = cartItems.map((item) => ({
+          orme_price: item.price,
+          orme_qty: item.quantity,
+          orme_subtotal: item.price * item.quantity,
+          orme_discount:
+            item.quantity > 10 ? item.price * item.quantity * 0.1 : 0,
+          omde_reme_id: item.id,
+          omde_orme_id: '1',
+        }))
+        const orderItems1 = cartItems.map((item) => ({
+          orme_is_paid: 'B',
+          orme_total_item: item.quantity,
+          orme_total_amount: item.price * item.quantity,
+          orme_total_discount:
+            item.quantity > 10 ? item.price * item.quantity * 0.1 : 0,
+          orme_user_id: userId,
+          orme_pay_type: 'N',
+        }))
 
-      await dispatch(doAddOrdet(orderItems))
-
-      // Save orderItems to sessionStorage
-      sessionStorage.setItem('orderItems', JSON.stringify(orderItems))
-
-      // Check if data is successfully saved to sessionStorage
-      const storedOrderItemsString = sessionStorage.getItem('orderItems')
-      if (typeof storedOrderItemsString === 'string') {
-        const storedOrderItems = JSON.parse(storedOrderItemsString)
-        if (storedOrderItems) {
-          toast.success('Data tersimpan di session storage')
+        const subtotal = orderItems.reduce(
+          (sum, item) => sum + item.orme_subtotal,
+          0
+        )
+        if (subtotal === 0) {
+          toast.error('Belum memilih menu')
+          return
         }
-      } else {
-        const storedOrderItems = []
-      }
 
-      // Clear cart after successful checkout
-      // ...
-      toast.success('Berhasil Membuat Order')
-      router.push('/resto/orderMenu')
+        dispatch(doAddOrdet(orderItems))
+        dispatch(doAddOrme(orderItems1))
+
+        // Clear cart after successful checkout
+        // ...
+        toast.success('Berhasil Membuat Order')
+        router.push('/resto/orderMenu')
+      }
     } catch (error) {
       console.error(error)
       // Handle error here
@@ -359,20 +369,14 @@ const restoPhoto = () => {
                   onClick={() => handleDecreaseQuantity(index)}
                   disabled={item.quantity === 1}
                 >
-                  <AiOutlineMinusCircle
-                    className='mr-2 h-5 w-5'
-                    aria-hidden='true'
-                  />
+                  <AiOutlineMinusCircle />
                 </button>
                 <p className='text-gray-700'>{item.quantity}</p>
                 <button
                   className='border rounded-md px-2 py-1 hover:bg-gray-100'
                   onClick={() => handleIncreaseQuantity(index)}
                 >
-                  <AiOutlinePlusCircle
-                    className='mr-2 h-5 w-5'
-                    aria-hidden='true'
-                  />
+                  <AiOutlinePlusCircle />
                 </button>
                 <p className='text-gray-700'>
                   {new Intl.NumberFormat('id-ID', {
@@ -385,10 +389,7 @@ const restoPhoto = () => {
                   className='border rounded-md px-2 py-1 hover:bg-gray-100'
                   onClick={() => handleRemoveFromCart(index)}
                 >
-                  <AiFillCloseCircle
-                    className='mr-2 h-5 w-5'
-                    aria-hidden='true'
-                  />
+                  <AiFillCloseCircle />
                 </button>
               </div>
             </div>
@@ -409,6 +410,26 @@ const restoPhoto = () => {
               )}
             </p>
           </div>
+          {cartItems.some((item) => item.quantity > 10) && (
+            <div className='mb-2 flex justify-between'>
+              <p className='text-gray-700'>Discount (10%)</p>
+              <p className='text-gray-700'>
+                -
+                {new Intl.NumberFormat('id-ID', {
+                  style: 'currency',
+                  currency: 'IDR',
+                  minimumFractionDigits: 0,
+                }).format(
+                  cartItems.reduce((acc, item) => {
+                    if (item.quantity > 10) {
+                      return acc + item.price * item.quantity * 0.1
+                    }
+                    return acc
+                  }, 0)
+                )}
+              </p>
+            </div>
+          )}
           <div className='flex justify-between'>
             <p className='text-lg font-bold'>Total</p>
             <div className=''>
@@ -420,14 +441,51 @@ const restoPhoto = () => {
             </div>
           </div>
           <button
-            className='mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600'
+            className='mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded w-full'
             onClick={handleCheckOut}
           >
-            Checkout
+            Check Out
           </button>
         </div>
       </div>
       {/* cart card */}
+
+      {/* PAGINATION */}
+
+      <div className='px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between'>
+        <span className='text-xs xs:text-sm text-gray-900'>
+          Showing Page{' '}
+          <input
+            type='number'
+            value={currentPage}
+            onChange={(event) => setCurrentPage(event.target.valueAsNumber)}
+            min={1}
+            max={totalPages}
+          />{' '}
+        </span>
+
+        <div className='inline-flex mt-2 xs:mt-0'>
+          <button
+            className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'
+            hidden={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            Prev
+          </button>
+          &nbsp; &nbsp;
+          {currentPage !== totalPages && (
+            <button
+              className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'
+              hidden={currentPage === totalPages}
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage(currentPage + 1)}
+            >
+              Next
+            </button>
+          )}
+        </div>
+      </div>
+      {/* PAGINATION */}
 
       {/* Footer */}
       <footer className='py-6  bg-gray-200 text-gray-900'>

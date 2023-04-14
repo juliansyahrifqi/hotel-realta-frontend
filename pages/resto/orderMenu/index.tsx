@@ -190,8 +190,11 @@ const orderMenu = () => {
                 <p className='mb-1 text-lg font-bold'></p>
               </div>
             </div>
-            <button className='mt-4 bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600'>
-              Checkout
+            <button className='mt-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded w-full'>
+              Get Coupon Discount
+            </button>
+            <button className='mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded w-full'>
+              Check Out
             </button>
           </div>
         </div>

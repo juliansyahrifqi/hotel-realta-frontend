@@ -113,7 +113,7 @@ const listMenu = [
       {
         to: '/resto/restoMenuPhotos',
         path: 'restoPhoto',
-        title: 'Resto Photo',
+        title: 'Order Menu',
       },
       {
         to: '/resto/orderMenu',

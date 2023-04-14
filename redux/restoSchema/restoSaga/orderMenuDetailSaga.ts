@@ -19,6 +19,7 @@ function* handleGetAllOrdet(): any {
 
 function* handleAddOrdet(action: any): any {
   try {
+    console.log(action.payload)
     const result = yield call(apiMethodReme.createOrdet, action.payload)
     yield put(doAddOrdetResponse(result.data))
   } catch (error) {
