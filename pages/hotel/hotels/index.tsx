@@ -15,6 +15,8 @@ import EditHotels from './editHotels'
 import SwitchStatus from './switchStatus'
 import Link from 'next/link'
 import { Pagination } from '@/components/hotel/Pagination'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Hotels = () => {
   let { hotels, message, refresh } = useSelector(
@@ -47,6 +49,7 @@ const Hotels = () => {
       return { ...prev, status: true, hotel_id: hotel_id }
     })
   }
+
   //===========ICON Star========================
   const renderStars = (rating: number) => {
     const stars = []
@@ -321,6 +324,8 @@ const Hotels = () => {
           setPage={setPageNumber}
         />
       </div>
+      <ToastContainer autoClose={5000} />
+
       {isOpen ? (
         <AddHotels isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       ) : null}

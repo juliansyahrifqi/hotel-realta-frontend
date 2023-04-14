@@ -1,10 +1,6 @@
-import { Menu, Transition } from '@headlessui/react'
-import React, { Fragment, useEffect, useState } from 'react'
-import { FaRegEdit } from 'react-icons/fa'
-import { BsThreeDotsVertical } from 'react-icons/bs'
+import React, { useEffect, useState } from 'react'
 import { MdAddBox } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import { useRouter } from 'next/router'
 import {
   doDeleteFacilitySupportHotel,
   doRequestGetFacilitiesSupport,
@@ -13,15 +9,14 @@ import {
 import Image from 'next/image'
 import { FaStar, FaRegStar, FaStarHalfAlt, FaTrashAlt } from 'react-icons/fa'
 import AddSupportHotel from './addSupportHotel'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Facilities = () => {
   let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
-
   const [hotel, setHotels] = useState<any>({})
 
-  console.log(hotel)
   const dispatch = useDispatch()
-  const router = useRouter().query
 
   const renderStars = (rating: number) => {
     const stars = []
@@ -49,13 +44,18 @@ const Facilities = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const deleteOpen = async (fsh_id: number) => {
-    // console.log('id_facility', fsh_id)
-    dispatch(doDeleteFacilitySupportHotel(fsh_id))
+    const confirmed = window.confirm(`هل أنت متأكد أنك تريد حذف ؟ `)
+    if (confirmed) {
+      dispatch(doDeleteFacilitySupportHotel(fsh_id))
+      toast.success(`Berhasil Dihapus`)
+    }
   }
+
   //===Pagination===
   const [pageNumber, setPageNumber] = useState(1)
   const [pageSize, setPageSize] = useState(7)
-  //============Search================
+
+  //====Search======
   const [search, setSearch] = useState('')
   const handleSearch = (event: any): void => {
     setSearch(event.target.value)
@@ -164,6 +164,8 @@ const Facilities = () => {
           setPage={setPageNumber}
         /> */}
       </div>
+      <ToastContainer autoClose={5000} />
+
       {isOpen ? (
         <AddSupportHotel isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       ) : null}

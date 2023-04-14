@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Image from 'next/image'
 import AddSupport from './addSupport'
 import EditSupport from './editSupport'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const FacilitiesSupport = () => {
   let { fasupp, message, refresh } = useSelector(
@@ -34,7 +36,11 @@ const FacilitiesSupport = () => {
     })
   }
   const deleteOpen = async (fs_id: number) => {
-    dispatch(doDeleteFacilitiesSupport(fs_id))
+    const confirmed = window.confirm(`هل أنت متأكد أنك تريد حذف ؟ `)
+    if (confirmed) {
+      dispatch(doDeleteFacilitiesSupport(fs_id))
+      toast.success(`Berhasil Dihapus`)
+    }
   }
 
   useEffect(() => {
@@ -175,6 +181,7 @@ const FacilitiesSupport = () => {
           setPage={setPageNumber}
         /> */}
       </div>
+      <ToastContainer autoClose={5000} />
       {isOpen ? (
         <AddSupport isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       ) : null}

@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { doAddFacilitiesSupport } from '@/redux/hotel/action/actionReducer'
 import Select from 'react-select'
+import { toast } from 'react-toastify'
 
 export default function AddSupport(props: any) {
   //===============For Registration==================
@@ -43,6 +44,7 @@ export default function AddSupport(props: any) {
     }
     console.log('ini form Data', formData)
     dispatch(doAddFacilitiesSupport(formData))
+    toast.success(`Berhasil Menambahkan Facility Support ${data.fs_name}`)
     props.closeModal()
   }
   const handleError = (errors: any) => {}

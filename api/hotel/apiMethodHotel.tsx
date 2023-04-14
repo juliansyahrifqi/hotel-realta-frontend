@@ -21,18 +21,7 @@ const updateHotels = (hotel_id: number, city_name: any, data: any) => {
 const updateStatusHotels = (hotel_id: number, data: any) => {
   return axios.put(`/hotels/switch-status/${hotel_id}`, data)
 }
-// const getHotelIncludeReviews = () => {
-//   return axios.get('/hotels/hotel-reviews')
-// } //Reviews
-// const getHotelIncludeFacilities = () => {
-//   return axios.get('/hotels/hotel-room')
-// } //Facilities
-// const getHotelIncludeAddress = () => {
-//   return axios.get('/hotels/hotel-address')
-// } //Address
-// const getHotelIncludeSupport = () => {
-//   return axios.get('/hotels/hotel-support')
-// } //Support
+
 const removeHotels = (hotel_id: number) => {
   return axios.delete(`/hotels/${hotel_id}`)
 }
@@ -66,6 +55,7 @@ const updateFacilities = (faci_id: number, data: any) => {
 const removeFacilities = (faci_id: number) => {
   return axios.delete(`/facilities/${faci_id}`)
 }
+
 //=============apiMethod HotelReviews=================
 // const getAllHotelReviews = () => {
 //   return axios.get('/hotel-reviews')
@@ -133,12 +123,6 @@ const removeFacilityPhotos = (fapho_id: number) => {
 const getAllFacilityPriceHistory = () => {
   return axios.get('/facility-price-history')
 }
-// const createFacilityPriceHistory = (data: any) => {
-//   return axios.post('/facility-price-history', data)
-// }
-// const updateFacilityPriceHistory = (faph_id: number, data: any) => {
-//   return axios.put(`/facility-price-history/${faph_id}`, data)
-// }
 const removeFacilityPriceHistory = (faph_id: number) => {
   return axios.delete(`/facility-price-history/${faph_id}`)
 }
@@ -162,10 +146,6 @@ const ApiMethodHotel = {
   createHotels,
   updateHotels,
   removeHotels,
-  // getHotelIncludeReviews,
-  // getHotelIncludeFacilities,
-  // getHotelIncludeAddress,
-  // getHotelIncludeSupport,
   getAllHotelBySearch,
   updateStatusHotels,
   getAllHotelsWhereSupport, // include support
@@ -199,8 +179,6 @@ const ApiMethodHotel = {
   removeFacilityPhotos,
   //===FACILITY PRICE HISTORY===
   getAllFacilityPriceHistory,
-  // createFacilityPriceHistory,
-  // updateFacilityPriceHistory,
   removeFacilityPriceHistory,
   //===FACILITY SUPPORT HOTEL===
   getAllFacilitySupportHotel,

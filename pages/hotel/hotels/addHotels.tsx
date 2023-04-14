@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Dialog, Listbox, Transition } from '@headlessui/react'
+import { Dialog, Transition } from '@headlessui/react'
 import { Controller, useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -7,16 +7,13 @@ import {
   doRequestGetCity,
 } from '@/redux/hotel/action/actionReducer'
 import Select from 'react-select'
-import phoneNumberCode from '@/utils/phoneNumberCode'
-import { MdArrowDropDown } from 'react-icons/md'
+import { toast } from 'react-toastify'
 
 export default function AddHotels(props: any) {
   //================Data Redux Saga================
   let { cityHotel, message, refresh } = useSelector(
     (state: any) => state.cityHotelReducers
   )
-
-  const [selected, setSelected] = useState(phoneNumberCode[0].value)
 
   //=====================City Var===================
   const [options, setOptions] = useState([])
@@ -63,6 +60,7 @@ export default function AddHotels(props: any) {
     }
     dispatch(doAddHotels(formData))
     props.closeModal()
+    toast.success(`Berhasil Menambahkan Data ${data.hotel_name}`)
   }
   const handleError = (errors: any) => {}
 
@@ -229,12 +227,12 @@ export default function AddHotels(props: any) {
                         </label>
                       </div>
                       <div className=' flex-row space-x-4 mt-4'>
-                        <button className='text-white bg-secondary  hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800'>
+                        <button className='text-white bg-primary/90 hover:bg-primary focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800'>
                           Submit
                         </button>
 
                         <button
-                          className='text-white bg-danger  hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800'
+                          className='text-white bg-danger  hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800'
                           onClick={props.closeModal}
                         >
                           Cancel
