@@ -1,4 +1,7 @@
-import { doRequestGetPriceItems } from "@/redux/masterSchema/action/priceitemAction";
+import {
+  doDeletePriceItems,
+  doRequestGetPriceItems,
+} from "@/redux/masterSchema/action/priceitemAction";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Modal from "./componentmodal";
@@ -6,6 +9,7 @@ import Button from "@/components/Button/button";
 import AddPriceMaster from "./addPriceItems";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdEdit, MdDelete } from "react-icons/md";
+import EditPriceMaster from "./editPriceItems";
 
 export default function PriceMaster() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,24 +21,64 @@ export default function PriceMaster() {
     (state: any) => state.priceitemsReducer
   );
 
+  const totalArr = Array.apply(null, Array(priceitems?.totalPages)).map(
+    function (x, i) {
+      return i;
+    }
+  );
+
+  const handleIncPage = () => {
+    if (page >= totalArr.length) {
+      setPage(page);
+    } else {
+      setPage(page + 1);
+    }
+  };
+
+  const handleDecPage = () => {
+    if (page <= 1) {
+      setPage(1);
+    } else {
+      setPage(page - 1);
+    }
+  };
+
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState({
+    status: false,
+    id: 0,
+  });
 
   const columns = [
     { name: "ID" },
     { name: "Item Name" },
-    { name: "Description" },
+    { name: "            " },
     { name: "Price" },
     { name: "Type" },
     { name: "Action" },
   ];
+
+  const editOpen = (id: number) => {
+    setIsEdit((prev) => {
+      return { ...prev, status: true, id: id };
+    });
+  };
+
+  const deleteOpen = (id: number) => {
+    const confirmDelete = window.confirm(`Anda yakin ingin mengahpus data ini`);
+    if (confirmDelete) {
+      dispatch(doDeletePriceItems(id));
+    }
+  };
 
   // console.log("data", priceitems);
 
   useEffect(() => {
     dispatch(doRequestGetPriceItems(searchQuery, searchType, page, limit));
   }, [limit, page, dispatch, refresh, searchQuery, searchType]);
+
   return (
     <div className="relative overflow-x-auto shadow-md mt-5 rounded-xl bg-white p-4">
       {/* search */}
@@ -66,7 +110,8 @@ export default function PriceMaster() {
                     type="text"
                     id="simple-search"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Employee Name"
+                    placeholder="Item Name"
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     required
                   />
                 </div>
@@ -96,13 +141,18 @@ export default function PriceMaster() {
                     id="status"
                     name="status"
                     className="block w-full py-2.5 px-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    onChange={(e: any) =>
+                      e.target.value === "Type"
+                        ? setSearchType("")
+                        : setSearchType(e.target.value)
+                    }
                   >
                     <option selected>Type</option>
-                    <option value="SNACK">SNACK</option>
-                    <option value="FACILITY">FACILITY</option>
-                    <option value="FOOD">FOOD</option>
-                    <option value="SOFTDRINK">SOFTDRINK</option>
-                    <option value="SERVICE">SERVICE</option>
+                    <option value="Snack">Snack</option>
+                    <option value="Facility">Facility</option>
+                    <option value="Food">Food</option>
+                    <option value="Softdrink">Softdrink</option>
+                    <option value="Service">Service</option>
                   </select>
                 </div>
               </div>
@@ -145,7 +195,7 @@ export default function PriceMaster() {
           </tr>
         </thead>
         <tbody>
-          {(priceitems.data || []).map((dt: any, index: number) => (
+          {(priceitems?.data || []).map((dt: any, index: number) => (
             <tr
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               key={dt.id}
@@ -170,14 +220,14 @@ export default function PriceMaster() {
                 <a
                   href="#"
                   className="border-2 border-primary hover:bg-primary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-primary"
-                  // onClick={() => editOpen(dt.poli_id)}
+                  onClick={() => editOpen(dt.prit_id)}
                 >
                   <MdEdit className="text-xl" />
                 </a>
                 <a
                   href="#"
                   className="border-2 border-danger-secondary hover:bg-danger-secondary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-danger-secondary"
-                  // onClick={() => deleteOpen(dt.poli_id)}
+                  onClick={() => deleteOpen(dt.prit_id)}
                 >
                   <MdDelete className="text-xl" />
                 </a>
@@ -192,9 +242,9 @@ export default function PriceMaster() {
       >
         <ul className="inline-flex items-center -space-x-px">
           <li>
-            <a
-              href="#"
+            <button
               className="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={handleDecPage}
             >
               <span className="sr-only">Previous</span>
               <svg
@@ -210,53 +260,24 @@ export default function PriceMaster() {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-            </a>
+            </button>
           </li>
+          {totalArr.map((total, index) => (
+            <li key={index}>
+              <button
+                className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                onClick={() => setPage(total + 1)}
+              >
+                {total + 1}
+              </button>
+            </li>
+          ))}
+
           <li>
-            <a
-              href="#"
-              className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              1
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              2
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              aria-current="page"
-              className="z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-            >
-              3
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              4
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-            >
-              5
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              className="block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+            <button
+              className="block px-3 py-2 leading-tight text-gray-500 bg-white border 
+            border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+              onClick={handleIncPage}
             >
               <span className="sr-only">Next</span>
               <svg
@@ -272,7 +293,7 @@ export default function PriceMaster() {
                   clip-rule="evenodd"
                 ></path>
               </svg>
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
@@ -281,8 +302,8 @@ export default function PriceMaster() {
         <AddPriceMaster isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       ) : null}
 
-      {/* {isEdit.status ? (
-        <EditPolicyMaster
+      {isEdit.status ? (
+        <EditPriceMaster
           isEdit={isEdit}
           closeModal={() =>
             setIsEdit((prev) => {
@@ -290,7 +311,7 @@ export default function PriceMaster() {
             })
           }
         />
-      ) : null} */}
+      ) : null}
     </div>
   );
 }
