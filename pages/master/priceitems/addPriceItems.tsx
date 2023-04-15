@@ -19,6 +19,7 @@ export default function AddPriceMaster(props: any) {
   } = useForm<FormValues>();
   const dispatch = useDispatch();
 
+
   const handleRegistration = async (data: any) => {
     dispatch(doAddPriceItems(data));
     props.closeModal();
@@ -128,10 +129,12 @@ export default function AddPriceMaster(props: any) {
                             )}
                             className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-200"
                           >
-                            <option selected>Choose a type</option>
-                            <option value="Facility">Facility</option>
-                            <option value="Service">Service</option>
-                            <option value="Room">Room</option>
+                            <option selected>Type</option>
+                            <option value="Snack">SNACK</option>
+                            <option value="Facilty">FACILITY</option>
+                            <option value="Food">FOOD</option>
+                            <option value="Softdrink">SOFTDRINK</option>
+                            <option value="Service">SERVICE</option>
                           </select>
 
                           <small className="text-danger">
@@ -153,9 +156,7 @@ export default function AddPriceMaster(props: any) {
                           </small>
                         </div>
                         <div className="col-span-1">
-                          <label className="block text-gray-700">
-                            price
-                          </label>
+                          <label className="block text-gray-700">price</label>
                           <input
                             type="text"
                             {...register(
