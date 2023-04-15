@@ -1,12 +1,12 @@
 import Button from "@/components/Button/button";
 import { doUpdatePriceItems } from "@/redux/masterSchema/action/priceitemAction";
 import { Transition, Dialog } from "@headlessui/react";
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function EditPriceMaster(props: any) {
-  let {} = useSelector((state: any) => state.priceitemsReducer);
+  let { priceitems } = useSelector((state: any) => state.priceitemsReducer);
   type FormValues = {
     prit_name: string;
     prit_price: string;
@@ -19,6 +19,22 @@ export default function EditPriceMaster(props: any) {
     formState: { errors },
     // eslint-disable-next-line react-hooks/rules-of-hooks
   } = useForm<FormValues>();
+
+  const [priceItemData, setPriceItemData] = useState({
+    prit_id: 0,
+    prit_name: "",
+    prit_description: "",
+    prit_price: "",
+    prit_type: "",
+  });
+
+  useEffect(() => {
+    const filter = priceitems?.data.filter((price: any) => {
+      return price.prit_id === props.isEdit.id;
+    })[0];
+
+    setPriceItemData(filter);
+  }, [priceitems, props.isEdit.id]);
 
   const dispatch = useDispatch();
 
@@ -40,7 +56,7 @@ export default function EditPriceMaster(props: any) {
   return (
     <div>
       <Transition appear show={props.isEdit.status} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={props.closeModal}>
+        <Dialog as="div" className="relative z-50" onClose={props.closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -88,6 +104,7 @@ export default function EditPriceMaster(props: any) {
                               "prit_name",
                               registerOptions.prit_name
                             )}
+                            defaultValue={priceItemData.prit_name}
                             className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-200"
                           />
                           <small className="text-danger">
@@ -148,6 +165,7 @@ export default function EditPriceMaster(props: any) {
                               "prit_description",
                               registerOptions.prit_description
                             )}
+                            defaultValue={priceItemData.prit_description}
                             className="description w-full p-5 border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-200"
                           />
                           <small className="text-danger">
@@ -163,6 +181,7 @@ export default function EditPriceMaster(props: any) {
                               "prit_price",
                               registerOptions.prit_price
                             )}
+                            defaultValue={priceItemData.prit_price}
                             className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-200"
                           />
                           <small className="text-danger">
