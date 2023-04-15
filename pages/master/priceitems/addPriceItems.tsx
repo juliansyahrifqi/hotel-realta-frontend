@@ -1,3 +1,4 @@
+import Button from "@/components/Button/button";
 import { doAddPriceItems } from "@/redux/masterSchema/action/priceitemAction";
 import { doAddServiceTask } from "@/redux/masterSchema/action/servicetaskAction";
 import { Transition, Dialog } from "@headlessui/react";
@@ -38,7 +39,7 @@ export default function AddPriceMaster(props: any) {
   return (
     <div>
       <Transition appear show={props.isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={props.closeModal}>
+        <Dialog as="div" className="relative z-50" onClose={props.closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -170,21 +171,18 @@ export default function AddPriceMaster(props: any) {
                           </small>
                         </div>
                       </div>
-                      <div className="flex-row space-x-4 mt-4 text-rigt">
+                      <div className="flex flex-row space-x-4 mt-4 text-right">
                         <button
-                          className="inline-flex justify-center rounded-md border border-transparent 
-                                    bg-blug-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none 
-                                    focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blug-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         >
-                          Submit
+                          Save
                         </button>
+
                         <button
-                          className="inline-flex justify-center rounded-md border border-transparent bg-blug-100 px-4 py-2 text-sm 
-                        font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blug-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                           onClick={props.closeModal}
-                        >
-                          Cancel
-                        </button>
+                        />
                       </div>
                     </form>
                   </div>
