@@ -70,8 +70,7 @@ const reducer = combineReducers({
   membersFaciReducers,
   facilitiesSupportReducers,
   hotelReviewsReducers,
-  ///=====================
-
+  ///========================
   deptReducers,
   empReducers,
   workOrdersReducers,

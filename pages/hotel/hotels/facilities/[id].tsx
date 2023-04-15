@@ -2,7 +2,7 @@ import { Menu, Transition } from '@headlessui/react'
 import React, { Fragment, useEffect, useState } from 'react'
 import { FaRegEdit, FaTrashAlt } from 'react-icons/fa'
 import { BsFillCloudUploadFill, BsThreeDotsVertical } from 'react-icons/bs'
-import { MdAddBox } from 'react-icons/md'
+import { MdAddBox, MdDelete, MdEdit } from 'react-icons/md'
 import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import Image from 'next/image'
@@ -11,7 +11,6 @@ import EditFacilities from './editFacilities'
 import Link from 'next/link'
 import {
   doDeleteFacilities,
-  doDeleteFacilitySupportHotel,
   doRequestGetFacilities,
   doRequestGetHotels,
 } from '@/redux/hotel/action/actionReducer'
@@ -19,6 +18,7 @@ import UploadPhotosFacilities from './uploadPhotosFacilities'
 import { ImPriceTags } from 'react-icons/im'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { AiOutlinePlus } from 'react-icons/ai'
 
 const Facilities = (props: any) => {
   let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
@@ -66,7 +66,6 @@ const Facilities = (props: any) => {
     const confirmed = window.confirm(`هل أنت متأكد أنك تريد حذف ؟ `)
     if (confirmed) {
       dispatch(doDeleteFacilities(faci_id))
-
       toast.success(`Berhasil Dihapus`)
     }
   }
@@ -117,60 +116,63 @@ const Facilities = (props: any) => {
   }, [refresh])
 
   return (
-    <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-      {/* Header */}
-      <div className='bg-white text-black py-2 px-6 flex border-2 items-center justify-between'>
-        <div className='mb-4 mt-4 ml-10'>
-          <div className='text-xl font-bold'>{hotel.hotel_name}</div>
-          <div className='text-xs font-semibold'>
-            {` ${hotel.address && hotel.address.addr_line1}, ${
-              hotel.address && hotel.address.addr_line2
-            }`}
+    <div className='relative overflow-x-auto sm:rounded-lg shadow-md mt-5 rounded-xl bg-white p-4 '>
+      <div className='pb-4 bg-white flex items-center gap-4 justify-between'>
+        <div className='flex items-center gap-4'>
+          <div className='mb-4 mt-4 ml-10'>
+            <div className='text-4xl font-bold'>{hotel.hotel_name}</div>
+            <div className='text-xs text-gray-500'>
+              {` ${hotel.address && hotel.address.addr_line1}, ${
+                hotel.address && hotel.address.addr_line2
+              }`}
+            </div>
+            <div className='text-xs font-semibold'>
+              {hotel.hotel_description}
+            </div>
           </div>
-        </div>
-
-        <div className='mr-52'>
-          <div className='mr-4'>{hotel.hotel_phonenumber}</div>
-          <div className='display flex'>
-            {renderStars(hotel.hotel_rating_star)}
+          <div className='ml-96'>
+            <div className='mr-4'>{hotel.hotel_phonenumber}</div>
+            <div className='display flex'>
+              {renderStars(hotel.hotel_rating_star)}
+            </div>
           </div>
         </div>
       </div>
-      <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-        <table className='w-full text-xs text-left text-gray-500 dark:text-gray-400'>
-          <thead className='text-sm text-white bg-primary dark:bg-black dark:text-black'>
+      <div className='flex items-center gap-4'>
+        <div className='text-base font-bold ml-6'>{`${hotel.hotel_name} Facilities`}</div>
+        <button
+          className='bg-primary hover:bg-primary-hover transition-colors ease-in duration-100 p-2 rounded text-white flex items-center gap-2 border border-primary ml-auto mb-4'
+          onClick={() => setIsOpen(true)}
+        >
+          <AiOutlinePlus className='text-xl' />
+          Add
+        </button>
+      </div>
+      <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-80'>
+        <table className='w-full text-sm text-left text-black'>
+          <thead className='text-xs text-gray-700 uppercase bg-gray-100'>
             <tr>
               {(columns || []).map((col) => (
-                <th key={col.name} style={{ whiteSpace: 'nowrap' }}>
-                  <span className='px-6 py-3'>{col.name}</span>
+                <th
+                  scope='col'
+                  className='px-6 py-3'
+                  key={col.name}
+                  style={{ whiteSpace: 'nowrap' }}
+                >
+                  {col.name}
                 </th>
               ))}
-              <th className='px-6 py-3 '>
-                <button
-                  className='flex items-center'
-                  onClick={() => setIsOpen(true)}
-                >
-                  <MdAddBox className='mr-1' />
-                  <span
-                    className='mr-2 hover:text-secondary'
-                    style={{ whiteSpace: 'nowrap' }}
-                  >
-                    Add Facilities
-                  </span>
-                </button>
-              </th>
+              <th scope='col' className='px-6 py-3'></th>
             </tr>
           </thead>
           <tbody>
             {(hotel.facilitiesHotels || []).map((dt: any, index: number) => (
               <tr
+                className='bg-white border-b border-gray-200'
                 key={dt.faci_id}
-                className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
               >
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                  {index + 1}
-                </td>
-                <td className='px-5 py-5 border-b text-sm'>
+                <td className='px-6 py-4'>{index + 1}</td>
+                <td className='px-6 py-4'>
                   <div className='flex items-center'>
                     {dt.facility_photos
                       .filter((photo: any) => photo.fapho_primary === '1')
@@ -190,19 +192,19 @@ const Facilities = (props: any) => {
                       ))}
                   </div>
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white '>
+                <td className='px-6 py-4'>
                   {dt.faci_name}
                   <br />
                   {dt.category_group.cagro_name}
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center'>
+                <td className='px-6 py-4'>
                   {dt.faci_room_number.split('-')[1]}
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center'>
+                <td className='px-6 py-4'>
                   {`${dt.faci_max_number} `}
                   {dt.faci_measure_unit}
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-6 py-4'>
                   {new Date(dt.faci_startdate).toLocaleDateString('en-GB', {
                     day: 'numeric',
                     month: 'short',
@@ -215,7 +217,7 @@ const Facilities = (props: any) => {
                     year: 'numeric',
                   })}
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-6 py-4'>
                   {new Intl.NumberFormat('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
@@ -234,11 +236,11 @@ const Facilities = (props: any) => {
                     )
                   )}
                 </td>
-
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-center'>
+                <td className='px-6 py-4'>
                   {(dt.faci_discount * 100).toFixed(0)}%
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-6 py-4'>
+                  {' '}
                   {new Intl.NumberFormat('id-ID', {
                     style: 'currency',
                     currency: 'IDR',
@@ -248,10 +250,11 @@ const Facilities = (props: any) => {
                     )
                   )}
                 </td>
-                <td className='px-8 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-6 py-4'>
+                  {' '}
                   {(dt.faci_tax_rate * 100).toFixed(0)}%
                 </td>
-                <td className='px-10 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-6 py-4'>
                   <Menu as='div' className='relative inline-block text-left'>
                     <div>
                       <Menu.Button className='inline-flex w-full justify-center rounded-md bg-none px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
@@ -391,6 +394,78 @@ const Facilities = (props: any) => {
           </tbody>
         </table>
       </div>
+
+      <nav
+        className='flex items-center justify-between pt-4'
+        aria-label='Table navigation'
+      >
+        <span className='text-sm font-normal text-gray-500'>
+          Showing <span className='font-semibold text-gray-900'>1-10</span> of{' '}
+          <span className='font-semibold text-gray-900'>1000</span>
+        </span>
+        <ul className='inline-flex items-center -space-x-px'>
+          <li>
+            <a
+              href='#'
+              className='block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l hover:bg-gray-100 hover:text-gray-700 '
+            >
+              <span className='sr-only'>Previous</span>
+              <svg
+                className='w-5 h-5'
+                aria-hidden='true'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'
+                  clip-rule='evenodd'
+                ></path>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a
+              href='#'
+              className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700'
+            >
+              1
+            </a>
+          </li>
+          <li>
+            <a
+              href='#'
+              className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+            >
+              2
+            </a>
+          </li>
+
+          <li>
+            <a
+              href='#'
+              className='block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700'
+            >
+              <span className='sr-only'>Next</span>
+              <svg
+                className='w-5 h-5'
+                aria-hidden='true'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z'
+                  clip-rule='evenodd'
+                ></path>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <ToastContainer autoClose={5000} />
       {isOpen ? (
         <AddFacilities isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       ) : null}
