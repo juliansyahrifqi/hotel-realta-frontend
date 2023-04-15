@@ -52,7 +52,7 @@ export default function PriceMaster() {
   const columns = [
     { name: "ID" },
     { name: "Item Name" },
-    { name: "Description" },
+    { name: "            " },
     { name: "Price" },
     { name: "Type" },
   ];

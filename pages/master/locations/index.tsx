@@ -32,6 +32,9 @@ import AddProvinceMaster from "./addProvince";
 import EditProvinceMaster from "./editProvince";
 import AddCityMaster from "./addCity";
 import EditCityMaster from "./editCity";
+import { AiOutlinePlus } from "react-icons/ai";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 
 export default function Locations() {
   const [regionID, setRegionID] = useState<any>({
@@ -204,9 +207,6 @@ export default function Locations() {
   return (
     <>
       <>
-        <div className="bg-white text-black py-2 px-6 flex  font-bold border-2 items-center justify-between">
-          REGION
-        </div>
         <>
           <div className="relative overflow-y-auto max-h-[400px] shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -222,12 +222,13 @@ export default function Locations() {
                   ))}
                   <td className="py-2 flex pl-6 border-black bg-gray-50 text-left text-xs font-medium text-black uppercase tracking-wider ">
                     <Button
-                      variant="variant"
+                      variant="primary"
                       label="Add"
                       size="small"
                       type="secondary"
                       className="ml-0"
                       onClick={() => setIsOpen(true)}
+                      icon={AiOutlinePlus}
                     />
                   </td>
                 </tr>
@@ -270,17 +271,17 @@ export default function Locations() {
                     <td className="flex items-center px-6 py-4 space-x-3">
                       <a
                         href="#"
-                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                        className="border-2 border-primary hover:bg-primary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-primary"
                         onClick={() => editOpen(dt.region_code)}
                       >
-                        Edit
+                        <MdEdit className="text-xl" />
                       </a>
                       <a
                         href="#"
-                        className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                        className="border-2 border-danger-secondary hover:bg-danger-secondary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-danger-secondary"
                         onClick={() => deleteOpen(dt.region_code)}
                       >
-                        Remove
+                        <MdDelete className="text-xl" />
                       </a>
                     </td>
                   </tr>
@@ -320,12 +321,13 @@ export default function Locations() {
                     ))}
                     <td className="py-2 flex pl-6 border-black bg-gray-50 text-left text-xs font-medium text-black uppercase tracking-wider ">
                       <Button
-                        variant="variant"
+                        variant="primary"
                         label="Add"
                         size="small"
                         type="secondary"
                         className="ml-0"
                         onClick={() => setIsOpenC(true)}
+                        icon={AiOutlinePlus}
                       />
                     </td>
                   </tr>
@@ -368,17 +370,17 @@ export default function Locations() {
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <a
                           href="#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          className="border-2 border-primary hover:bg-primary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-primary"
                           onClick={() => editOpenC(ct.country_id)}
                         >
-                          Edit
+                          <MdEdit className="text-xl" />
                         </a>
                         <a
                           href="#"
-                          className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                          className="border-2 border-danger-secondary hover:bg-danger-secondary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-danger-secondary"
                           onClick={() => deleteOpenC(ct.country_id)}
                         >
-                          Remove
+                          <MdDelete className="text-xl" />
                         </a>
                       </td>
                     </tr>
@@ -427,6 +429,7 @@ export default function Locations() {
                         type="secondary"
                         className="ml-0"
                         onClick={() => setIsOpenP(true)}
+                        icon={AiOutlinePlus}
                       />
                     </td>
                   </tr>
@@ -462,17 +465,17 @@ export default function Locations() {
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <a
                           href="#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          className="border-2 border-primary hover:bg-primary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-primary"
                           onClick={() => editOpenP(pt.prov_id)}
                         >
-                          Edit
+                          <MdEdit className="text-xl" />
                         </a>
                         <a
                           href="#"
-                          className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                          className="border-2 border-danger-secondary hover:bg-danger-secondary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-danger-secondary"
                           onClick={() => deleteOpenP(pt.prov_id)}
                         >
-                          Remove
+                          <MdDelete className="text-xl" />
                         </a>
                       </td>
                     </tr>
@@ -521,6 +524,7 @@ export default function Locations() {
                         type="secondary"
                         className="ml-0"
                         onClick={() => setIsOpenT(true)}
+                        icon={AiOutlinePlus}
                       />
                     </td>
                   </tr>
@@ -554,17 +558,17 @@ export default function Locations() {
                       <td className="flex items-center px-6 py-4 space-x-3">
                         <a
                           href="#"
-                          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                          className="border-2 border-primary hover:bg-primary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-primary"
                           onClick={() => editOpenT(tt.city_id)}
                         >
-                          Edit
+                          <MdEdit className="text-xl" />
                         </a>
                         <a
                           href="#"
-                          className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                          className="border-2 border-danger-secondary hover:bg-danger-secondary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-danger-secondary"
                           onClick={() => deleteOpenT(tt.city_id)}
                         >
-                          Remove
+                          <MdDelete className="text-xl" />
                         </a>
                       </td>
                     </tr>
