@@ -3,9 +3,10 @@ import { call, put } from 'redux-saga/effects'
 import {
   doAddFacilityPhotosResponse,
   doAddFacilitySupportHotelResponse,
-  doAddHotelsResponse,
   doDeleteFacilitySupportHotelResponse,
   doGetFacilitySupportHotelResponse,
+  doAddHotelsResponse,
+  doDeleteHotelsResponse,
   doGetHotelsResponse,
   doSwitchHotelsResponse,
   doUpdateHotelsResponse,
@@ -52,8 +53,8 @@ function* handleUpdateHotels(action: any): any {
     yield put(doUpdateHotelsResponse({ message: error }))
   }
 }
+
 function* handleSwitchHotels(action: any): any {
-  console.log(action)
   try {
     const result = yield call(
       ApiMethodHotel.updateStatusHotels,
@@ -63,6 +64,19 @@ function* handleSwitchHotels(action: any): any {
     yield put(doSwitchHotelsResponse(result.data))
   } catch (error) {
     yield put(doSwitchHotelsResponse({ message: error }))
+  }
+}
+
+function* handleDeleteHotels(action: any): any {
+  try {
+    const result = yield call(ApiMethodHotel.removeHotels, action.payload)
+    yield put(doDeleteHotelsResponse(result.data))
+  } catch (error) {
+    yield put(
+      doDeleteHotelsResponse({
+        message: error,
+      })
+    )
   }
 }
 
@@ -95,6 +109,7 @@ function* handleAddFacilitiesSupportHotel(action: any): any {
     )
   }
 }
+
 function* handleDeleteFacilitiesSupportHotel(action: any): any {
   try {
     const result = yield call(
@@ -110,9 +125,9 @@ function* handleDeleteFacilitiesSupportHotel(action: any): any {
     )
   }
 }
+
 //====FACILITY PHOTOS===
 function* handleAddFacilityPhotos(action: any): any {
-  console.log(action)
   try {
     const result = yield call(
       ApiMethodHotel.createFacilityPhotos,
@@ -129,8 +144,11 @@ export {
   handleAddHotels,
   handleUpdateHotels,
   handleSwitchHotels,
+  handleDeleteHotels,
+  //===FACILITY SUPPORT HOTELS===
   handleGetFacilitiesSupportHotels,
   handleAddFacilitiesSupportHotel,
   handleDeleteFacilitiesSupportHotel,
+  //===FACILITY PHOTOS===
   handleAddFacilityPhotos,
 }

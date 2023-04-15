@@ -1,6 +1,6 @@
 import { Menu, Transition } from '@headlessui/react'
 import React, { Fragment, useEffect, useState } from 'react'
-import { FaRegEdit } from 'react-icons/fa'
+import { FaRegEdit, FaTrashAlt } from 'react-icons/fa'
 import { BsFillCloudUploadFill, BsThreeDotsVertical } from 'react-icons/bs'
 import { MdAddBox } from 'react-icons/md'
 import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa'
@@ -10,12 +10,15 @@ import AddFacilities from './addFacilities'
 import EditFacilities from './editFacilities'
 import Link from 'next/link'
 import {
+  doDeleteFacilities,
   doDeleteFacilitySupportHotel,
   doRequestGetFacilities,
   doRequestGetHotels,
 } from '@/redux/hotel/action/actionReducer'
 import UploadPhotosFacilities from './uploadPhotosFacilities'
 import { ImPriceTags } from 'react-icons/im'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Facilities = (props: any) => {
   let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
@@ -57,6 +60,15 @@ const Facilities = (props: any) => {
     setIsUpload((prev) => {
       return { ...prev, status: true, faci_id: faci_id }
     })
+  }
+
+  const deleteOpen = async (faci_id: number) => {
+    const confirmed = window.confirm(`هل أنت متأكد أنك تريد حذف ؟ `)
+    if (confirmed) {
+      dispatch(doDeleteFacilities(faci_id))
+
+      toast.success(`Berhasil Dihapus`)
+    }
   }
 
   const columns = [
@@ -126,7 +138,7 @@ const Facilities = (props: any) => {
       </div>
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
         <table className='w-full text-xs text-left text-gray-500 dark:text-gray-400'>
-          <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black'>
+          <thead className='text-sm text-white bg-primary dark:bg-black dark:text-black'>
             <tr>
               {(columns || []).map((col) => (
                 <th key={col.name} style={{ whiteSpace: 'nowrap' }}>
@@ -265,7 +277,7 @@ const Facilities = (props: any) => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-secondary/75 text-white'
+                                    ? 'bg-primary text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 onClick={() => editOpen(dt.faci_id)}
@@ -292,7 +304,34 @@ const Facilities = (props: any) => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-secondary/75 text-white'
+                                    ? 'bg-danger text-white'
+                                    : 'text-gray-900'
+                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                onClick={() => deleteOpen(dt.faci_id)}
+                              >
+                                {active ? (
+                                  <FaTrashAlt
+                                    className='mr-2 h-5 w-5'
+                                    aria-hidden='true'
+                                  />
+                                ) : (
+                                  <FaTrashAlt
+                                    className='mr-2 h-5 w-5'
+                                    aria-hidden='true'
+                                  />
+                                )}
+                                Delete
+                              </button>
+                            )}
+                          </Menu.Item>
+                        </div>
+                        <div className='px-1 py-1 '>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                className={`${
+                                  active
+                                    ? 'bg-primary text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 onClick={() => UploadOpen(dt.faci_id)}
@@ -322,7 +361,7 @@ const Facilities = (props: any) => {
                                 <button
                                   className={`${
                                     active
-                                      ? 'bg-secondary/75 text-white'
+                                      ? 'bg-primary text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >

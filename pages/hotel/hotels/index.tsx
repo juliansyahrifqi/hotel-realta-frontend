@@ -1,21 +1,27 @@
 import {
+  doDeleteHotels,
   doRequestGetCity,
   doRequestGetHotels,
 } from '../../../redux/hotel/action/actionReducer'
 import { Menu, Transition } from '@headlessui/react'
 import React, { Fragment, useEffect, useState } from 'react'
-import { FaRegEdit } from 'react-icons/fa'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { HiOutlineSwitchHorizontal } from 'react-icons/hi'
 import { MdAddBox } from 'react-icons/md'
-import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa'
+import {
+  FaStar,
+  FaRegStar,
+  FaStarHalfAlt,
+  FaTrashAlt,
+  FaRegEdit,
+} from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import AddHotels from './addHotels'
 import EditHotels from './editHotels'
 import SwitchStatus from './switchStatus'
 import Link from 'next/link'
 import { Pagination } from '@/components/hotel/Pagination'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Hotels = () => {
@@ -48,6 +54,15 @@ const Hotels = () => {
     setIsSwitch((prev) => {
       return { ...prev, status: true, hotel_id: hotel_id }
     })
+  }
+
+  const deleteOpen = async (hotel_id: number) => {
+    const confirmed = window.confirm(`هل أنت متأكد أنك تريد حذف ؟ `)
+    if (confirmed) {
+      dispatch(doDeleteHotels(hotel_id))
+
+      toast.success(`Berhasil Dihapus`)
+    }
   }
 
   //===========ICON Star========================
@@ -124,11 +139,11 @@ const Hotels = () => {
       {/* Columns */}
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
         <table className='w-full tex-xs text-left text-gray-500 dark:text-gray-400'>
-          <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black '>
+          <thead className='text-sm text-white bg-primary dark:bg-black dark:text-black '>
             <tr>
               {(columns || []).map((col) => (
                 <th key={col.name} style={{ whiteSpace: 'nowrap' }}>
-                  <span className='px-4'>{col.name}</span>
+                  <span className='px-5'>{col.name}</span>
                 </th>
               ))}
 
@@ -154,19 +169,19 @@ const Hotels = () => {
                 key={dt.hotel_id}
                 className='bg-white border-b hover:bg-primary/5'
               >
-                <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-6 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
                   {index + 1}
                 </td>
-                <td className='px-4 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
+                <td className='px-6 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
                   {dt.hotel_name}
                 </td>
-                <td className='px-4 py-4 ml-5 mt-2 font-medium text-xs text-gray-900 dark:text-white text-center display flex'>
+                <td className='px-6 py-4 ml-2 mt-2 font-medium text-xs text-gray-900 dark:text-white display flex'>
                   {renderStars(dt.hotel_rating_star)}
                 </td>
-                <td className='px-4 py-4 font-medium text-xs text-gray-900 dark:text-white'>
+                <td className='px-6 py-4 font-medium text-xs text-gray-900 dark:text-white'>
                   {dt.hotel_phonenumber}
                 </td>
-                <td className='px-4 py-4 font-medium text-xs text-gray-900 dark:text-white'>
+                <td className='px-6 py-4 font-medium text-xs text-gray-900 dark:text-white'>
                   {new Date(dt.hotel_modified_date).toLocaleDateString(
                     'en-GB',
                     {
@@ -176,7 +191,7 @@ const Hotels = () => {
                     }
                   )}
                 </td>
-                <td className='px-4 py-4 text-sm text-gray-900'>
+                <td className='px-6 py-4 text-sm text-gray-900'>
                   <Menu as='div' className='relative inline-block text-left'>
                     <div>
                       <Menu.Button className='inline-flex w-full justify-center rounded-md bg-none px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none ml-4 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
@@ -202,7 +217,7 @@ const Hotels = () => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-secondary/75 text-white'
+                                    ? 'bg-primary text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 onClick={() => editOpen(dt.hotel_id)}
@@ -223,6 +238,33 @@ const Hotels = () => {
                             )}
                           </Menu.Item>
                         </div>
+                        <div className='px-1 py-1'>
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                className={`${
+                                  active
+                                    ? 'bg-danger text-white'
+                                    : 'text-gray-900'
+                                } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                                onClick={() => deleteOpen(dt.hotel_id)}
+                              >
+                                {active ? (
+                                  <FaTrashAlt
+                                    className='mr-2 h-5 w-5'
+                                    aria-hidden='true'
+                                  />
+                                ) : (
+                                  <FaTrashAlt
+                                    className='mr-2 h-5 w-5'
+                                    aria-hidden='true'
+                                  />
+                                )}
+                                Delete
+                              </button>
+                            )}
+                          </Menu.Item>
+                        </div>
                         <div className='px-1 py-1 '>
                           <Menu.Item>
                             {({ active }) => (
@@ -232,7 +274,7 @@ const Hotels = () => {
                                 <button
                                   className={`${
                                     active
-                                      ? 'bg-secondary/75 text-white'
+                                      ? 'bg-primary text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
@@ -263,7 +305,7 @@ const Hotels = () => {
                                 <button
                                   className={`${
                                     active
-                                      ? 'bg-secondary/75 text-white'
+                                      ? 'bg-primary text-white'
                                       : 'text-gray-900'
                                   } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 >
@@ -290,7 +332,7 @@ const Hotels = () => {
                               <button
                                 className={`${
                                   active
-                                    ? 'bg-secondary/75 text-white'
+                                    ? 'bg-primary text-white'
                                     : 'text-gray-900'
                                 } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                 onClick={() => switchOpen(dt.hotel_id)}

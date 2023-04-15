@@ -2,6 +2,7 @@ import ApiMethodHotel from '@/api/hotel/apiMethodHotel'
 import { call, put } from 'redux-saga/effects'
 import {
   doAddFacilitiesResponse,
+  doDeleteFacilitiesResponse,
   doGetFacilitiesResponse,
   doUpdateFacilitiesResponse,
 } from '../action/actionReducer'
@@ -15,7 +16,6 @@ function* handleGetAllFacilities(): any {
   }
 }
 function* handleAddFacilities(action: any): any {
-  console.log('ini datanya si action', action.payload)
   try {
     const result = yield call(ApiMethodHotel.createFacilities, action.payload)
     yield put(doAddFacilitiesResponse(result.data))
@@ -24,7 +24,6 @@ function* handleAddFacilities(action: any): any {
   }
 }
 function* handleUpdateFacilities(action: any): any {
-  console.log('ini datanya si action', action.payload)
   try {
     const result = yield call(
       ApiMethodHotel.updateFacilities,
@@ -36,4 +35,22 @@ function* handleUpdateFacilities(action: any): any {
     yield put(doUpdateFacilitiesResponse({ message: error }))
   }
 }
-export { handleGetAllFacilities, handleAddFacilities, handleUpdateFacilities }
+
+function* handleDeleteFacilities(action: any): any {
+  try {
+    const result = yield call(ApiMethodHotel.removeFacilities, action.payload)
+    yield put(doDeleteFacilitiesResponse(result.data))
+  } catch (error) {
+    yield put(
+      doDeleteFacilitiesResponse({
+        message: error,
+      })
+    )
+  }
+}
+export {
+  handleGetAllFacilities,
+  handleAddFacilities,
+  handleUpdateFacilities,
+  handleDeleteFacilities,
+}

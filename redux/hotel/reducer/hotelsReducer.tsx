@@ -17,6 +17,8 @@ function hotelsReducers(state = initialState, action: any) {
       return { ...state, message: payload.message, refresh: false }
     case ActionTypeHotel.SWITCH_STATUS_HOTELS_RESPONSE:
       return { ...state, message: payload.message, refresh: false }
+    case ActionTypeHotel.DEL_HOTELS_RESPONSE:
+      return { ...state, message: payload.message, refresh: false }
 
     //FACILITY SUPPORT HOTEL
     case ActionTypeHotel.GET_FACILITY_SUPPORT_HOTEL_RESPONSE:
@@ -31,6 +33,8 @@ function hotelsReducers(state = initialState, action: any) {
       return { ...state, message: payload.message, refresh: false }
     case ActionTypeHotel.UPDATE_FACILITIES_RESPONSE:
       return { ...state, message: payload.message, refresh: false } //[id] facilities
+    case ActionTypeHotel.DEL_FACILITIES_RESPONSE:
+      return { ...state, message: payload.message, refresh: false }
 
     //========FACILITY PHOTOS
     case ActionTypeHotel.ADD_FACILITY_PHOTOS_RESPONSE:

@@ -5,6 +5,7 @@ import {
   handleAddFacilityPhotos,
   handleAddHotels,
   handleDeleteFacilitiesSupportHotel,
+  handleDeleteHotels,
   handleGetAllHotels,
   handleGetFacilitiesSupportHotels,
   handleSwitchHotels,
@@ -12,6 +13,7 @@ import {
 } from './hotelsSaga'
 import {
   handleAddFacilities,
+  handleDeleteFacilities,
   handleGetAllFacilities,
   handleUpdateFacilities,
 } from './facilitiesSaga'
@@ -31,6 +33,7 @@ function* watchAll() {
     takeEvery(ActionTypeHotel.ADD_HOTELS, handleAddHotels),
     takeEvery(ActionTypeHotel.UPDATE_HOTELS, handleUpdateHotels),
     takeEvery(ActionTypeHotel.SWITCH_STATUS_HOTELS, handleSwitchHotels),
+    takeEvery(ActionTypeHotel.DEL_HOTELS, handleDeleteHotels),
     //====MASTER MODULE====
     takeEvery(ActionTypeHotel.REQ_GET_CITY, handleGetAllCityHotels),
     takeEvery(ActionTypeHotel.REQ_GET_CATEGORY, handleGetAllCategoryFaci),
@@ -39,6 +42,7 @@ function* watchAll() {
     takeEvery(ActionTypeHotel.REQ_GET_FACILITIES, handleGetAllFacilities),
     takeEvery(ActionTypeHotel.ADD_FACILITIES, handleAddFacilities),
     takeEvery(ActionTypeHotel.UPDATE_FACILITIES, handleUpdateFacilities),
+    takeEvery(ActionTypeHotel.DEL_FACILITIES, handleDeleteFacilities),
     //=====FACILITITES SUPPORT=====
     takeEvery(
       ActionTypeHotel.REQ_GET_FACILITIES_SUPPORT,

@@ -15,8 +15,8 @@ function* handleGetAllFacilitiesSupport(): any {
     yield put(doGetFacilitiesSupportResponse({ message: error }))
   }
 }
+
 function* handleAddFacilitiesSupport(action: any): any {
-  console.log('action payload', action.payload)
   try {
     const result = yield call(
       ApiMethodHotel.createFacilitiesSupport,
@@ -27,8 +27,8 @@ function* handleAddFacilitiesSupport(action: any): any {
     yield put(doAddFacilitiesSupportResponse({ message: error }))
   }
 }
+
 function* handleUpdateFacilitiesSupport(action: any): any {
-  console.log(action.payload)
   try {
     const result = yield call(
       ApiMethodHotel.updateFacilitiesSupport,
@@ -40,8 +40,8 @@ function* handleUpdateFacilitiesSupport(action: any): any {
     yield put(doUpdateFacilitiesSupportResponse({ message: error }))
   }
 }
+
 function* handleDeleteFacilitiesSupport(action: any): any {
-  console.log(action.payload)
   try {
     const result = yield call(
       ApiMethodHotel.removeFacilitiesSupport,
