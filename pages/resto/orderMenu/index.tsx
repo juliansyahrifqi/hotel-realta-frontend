@@ -96,6 +96,7 @@ const orderMenu = () => {
     }
     toast.success('PAID')
   }
+
   const router = useRouter()
   const handleBayar = () => {
     const storedData = localStorage.getItem('loginData')
@@ -113,6 +114,21 @@ const orderMenu = () => {
     router.push('/resto/invoice')
   }
 
+  const handleBack = () => {
+    const storedData = localStorage.getItem('loginData')
+    console.log(storedData)
+    if (storedData) {
+      const parsedData = JSON.parse(storedData)
+      if (
+        parsedData.user_full_name === formData.fullname &&
+        parsedData.user_email === formData.email &&
+        parsedData.user_phone_number === formData.mobileNumber
+      ) {
+      }
+    }
+    router.push('/resto/restoMenuPhotos')
+  }
+
   return (
     <div
       className='bg-white'
@@ -125,10 +141,31 @@ const orderMenu = () => {
     >
       {/* Component Start */}
       <ToastContainer />
-      <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8 w max-w-screen-lg'>
+      <div className='grid lg:grid-cols-3 md:grid-cols-2 gap-8 max-w-screen-lg'>
         <div className='lg:col-span-2'>
           {/* Title */}
-          <h1 className='text-sm font-medium'>Checkout Cart</h1>
+          <div>
+            <button
+              type='button'
+              className='text-primary border border-primary hover:bg-primary hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-2.5 text-center inline-flex items-center mr-2 dark:border-primary dark:text-primary dark:hover:text-white dark:focus:ring-primary dark:hover:bg-primary'
+              onClick={handleBack}
+            >
+              <svg
+                aria-hidden='true'
+                className='w-5 h-5'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L4.414 9h11.586a1 1 0 010 2H4.414l4.293 4.293a1 1 0 11-1.414 1.414z'
+                  clipRule='evenodd'
+                />
+              </svg>
+              <span className='sr-only'>Icon description</span>
+            </button>
+          </div>
           <div className='bg-white rounded mt-4 shadow-lg'>
             <div className='flex items-center px-8 py-5 bg-slate-200'>
               <label className='text-sm font-medium ml-4'>
@@ -206,7 +243,8 @@ const orderMenu = () => {
           </div>
         </div>
         {/* CARD CHECKOUT */}
-        <div className='mt-6 h-full rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-md md:mt-0 md:w-3/3'>
+
+        <div className='mt-16 h-full rounded-lg border border-gray-200 bg-gray-50 p-6 shadow-md md:mt-0 md:w-3/3'>
           {cartItems.map((item, index) => (
             <div key={item.name} className='flex justify-between items-center'>
               <p className='text-gray-700'>{item.name}</p>
