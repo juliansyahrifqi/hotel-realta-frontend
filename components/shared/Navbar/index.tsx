@@ -39,22 +39,8 @@ export default function Navbar({
           <div className='h-6 w-full pt-1'>
             <Breadcrumb />
           </div>
-          <p className='shrink text-sm capitalize text-navy-700 dark:text-white mt-6'>
-            {pathnames.map((name, index) => {
-              const capitalizeRoute =
-                name[0].toUpperCase() + name.slice(1) + ' '
-              const routeTo = `/${pathnames.slice(0, index + 1).join(' ')}`
-
-              return (
-                <Link
-                  key={routeTo}
-                  href='/dashboard'
-                  className='font-bold capitalize hover:text-navy-700'
-                >
-                  {capitalizeRoute}
-                </Link>
-              )
-            })}
+          <p className='shrink text-3xl capitalize text-navy-700 dark:text-white mt-5 font-bold hover:text-navy-700'>
+            {pathnames[0]} {pathnames[pathnames.length - 1]}
           </p>
         </div>
       </div>
