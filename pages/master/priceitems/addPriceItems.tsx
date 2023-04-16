@@ -1,3 +1,4 @@
+import Button from "@/components/Button/button";
 import { doAddPriceItems } from "@/redux/masterSchema/action/priceitemAction";
 import { doAddServiceTask } from "@/redux/masterSchema/action/servicetaskAction";
 import { Transition, Dialog } from "@headlessui/react";
@@ -19,6 +20,7 @@ export default function AddPriceMaster(props: any) {
   } = useForm<FormValues>();
   const dispatch = useDispatch();
 
+
   const handleRegistration = async (data: any) => {
     dispatch(doAddPriceItems(data));
     props.closeModal();
@@ -37,7 +39,7 @@ export default function AddPriceMaster(props: any) {
   return (
     <div>
       <Transition appear show={props.isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={props.closeModal}>
+        <Dialog as="div" className="relative z-50" onClose={props.closeModal}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -128,10 +130,12 @@ export default function AddPriceMaster(props: any) {
                             )}
                             className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-200"
                           >
-                            <option selected>Choose a type</option>
-                            <option value="Facility">Facility</option>
-                            <option value="Service">Service</option>
-                            <option value="Room">Room</option>
+                            <option selected>Type</option>
+                            <option value="Snack">SNACK</option>
+                            <option value="Facilty">FACILITY</option>
+                            <option value="Food">FOOD</option>
+                            <option value="Softdrink">SOFTDRINK</option>
+                            <option value="Service">SERVICE</option>
                           </select>
 
                           <small className="text-danger">
@@ -153,9 +157,7 @@ export default function AddPriceMaster(props: any) {
                           </small>
                         </div>
                         <div className="col-span-1">
-                          <label className="block text-gray-700">
-                            price
-                          </label>
+                          <label className="block text-gray-700">price</label>
                           <input
                             type="text"
                             {...register(
@@ -169,17 +171,16 @@ export default function AddPriceMaster(props: any) {
                           </small>
                         </div>
                       </div>
-                      <div className="flex-row space-x-4 mt-4 text-rigt">
+                      <div className="flex flex-row space-x-4 mt-4 text-right">
                         <button
-                          className="inline-flex justify-center rounded-md border border-transparent 
-                                    bg-blug-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none 
-                                    focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blug-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         >
-                          Submit
+                          Save
                         </button>
+
                         <button
-                          className="inline-flex justify-center rounded-md border border-transparent bg-blug-100 px-4 py-2 text-sm 
-                        font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blug-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                           onClick={props.closeModal}
                         >
                           Cancel

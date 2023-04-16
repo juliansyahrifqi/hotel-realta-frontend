@@ -5,6 +5,13 @@ atur konfig sistem
 buat folder untuk redux semua table di mockup(action, reducer, saga, store) 
 
 --VENDOR--
+atur konfig sistem
+
+- config/endpoint.ts
+
+buat folder untuk redux semua table di mockup(action, reducer, saga, store) 
+
+--VENDOR--
 
 ~ api/apiMethodVendor.ts
 ~ action/actionType.ts
