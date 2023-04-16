@@ -58,8 +58,8 @@ const listMenu = [
         title: 'Policy',
       },
       {
-        to: '/master/category',
-        path: '/master/category',
+        to: '/master/categorygroup',
+        path: '/master/categorygroup',
         title: 'Category Group',
       },
       {
@@ -84,7 +84,7 @@ const listMenu = [
       {
         to: '/hotel/hotels',
         path: '/hotel/hotels',
-        title: 'Hotel',
+        title: 'Hotels',
       },
       {
         to: '/hotel/facilities-support',
@@ -122,7 +122,7 @@ const listMenu = [
     path: '/payment',
     icon: MdPayment,
     name: 'Payment',
-    role: [4],
+    role: [1, 4],
     submenu: [
       {
         to: '/payment/bank',
@@ -193,8 +193,8 @@ const listMenu = [
         title: 'Stock',
       },
       {
-        to: '/purchasing/purchasingOrder',
-        path: '/purchasing/purchasingOrder',
+        to: '/purchasing/order',
+        path: '/purchasing/order',
         title: 'Purchasing Order',
       },
     ],
