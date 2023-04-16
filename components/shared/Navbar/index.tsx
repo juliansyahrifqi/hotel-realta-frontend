@@ -36,10 +36,10 @@ export default function Navbar({
     <nav className='sticky top-4 z-40 flex flex-row flex-wrap items-center justify-between rounded-xl bg-white/10 p-2 backdrop-blur-xl dark:bg-[#0b14374d]'>
       <div className=''>
         <div className=''>
-          <div className='h-6 w-[224px] pt-1'>
+          <div className='h-6 w-full pt-1'>
             <Breadcrumb />
           </div>
-          <p className='shrink text-3xl capitalize text-navy-700 dark:text-white mt-5'>
+          <p className='shrink text-sm capitalize text-navy-700 dark:text-white mt-6'>
             {pathnames.map((name, index) => {
               const capitalizeRoute =
                 name[0].toUpperCase() + name.slice(1) + ' '

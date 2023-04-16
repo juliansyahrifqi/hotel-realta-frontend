@@ -78,11 +78,13 @@ const Hotels = () => {
   }
 
   const deleteOpen = async (hotel_id: number) => {
-    const confirmed = window.confirm(`هل أنت متأكد أنك تريد حذف ؟ `)
+    const confirmed = window.confirm(
+      `Are you sure, you want to delete this hotel ?`
+    )
     if (confirmed) {
       dispatch(doDeleteHotels(hotel_id))
 
-      toast.success(`Berhasil Dihapus`)
+      toast.success(`Successfully removed`)
     }
   }
 

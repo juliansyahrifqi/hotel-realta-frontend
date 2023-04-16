@@ -45,10 +45,12 @@ const Facilities = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const deleteOpen = async (fsh_id: number) => {
-    const confirmed = window.confirm(`هل أنت متأكد أنك تريد حذف ؟ `)
+    const confirmed = window.confirm(
+      `Are you sure, you want to delete this facilities support hotel ?`
+    )
     if (confirmed) {
       dispatch(doDeleteFacilitySupportHotel(fsh_id))
-      toast.success(`Berhasil Dihapus`)
+      toast.success(`Successfully removed`)
     }
   }
 
@@ -83,104 +85,6 @@ const Facilities = () => {
   }, [refresh])
 
   return (
-    // <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-    //   {/* Header */}
-    //   <div className='bg-white text-black py-2 px-6 flex border-2 items-center justify-between'>
-    //     <div className='mb-4 mt-4 ml-10'>
-    //       <div className='text-xl font-bold'>{hotel.hotel_name}</div>
-    //       <div className='text-xs font-semibold'>
-    //         {` ${hotel.address && hotel.address.addr_line1}, ${
-    //           hotel.address && hotel.address.addr_line2
-    //         }`}
-    //       </div>
-    //     </div>
-
-    //     <div className='mr-52'>
-    //       <div className='mr-4'>{hotel.hotel_phonenumber}</div>
-    //       <div className='display flex'>
-    //         {renderStars(hotel.hotel_rating_star)}
-    //       </div>
-    //     </div>
-    //   </div>
-    //   {/* Columns */}
-    //   <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-    //     <table className='w-full tex-xs text-left text-gray-500 dark:text-gray-400'>
-    //       <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black '>
-    //         <tr className=''>
-    //           {(columns || []).map((col) => (
-    //             <th key={col.name}>
-    //               <span className='px-8'>{col.name}</span>
-    //             </th>
-    //           ))}
-
-    //           <th className='px- py-3 '>
-    //             <button
-    //               className='flex items-center'
-    //               onClick={() => setIsOpen(true)}
-    //             >
-    //               <MdAddBox className='mr-1' />
-    //               <span className='mr-2 whitespace-nowrap hover:text-secondary'>
-    //                 Add Facility Support
-    //               </span>
-    //             </button>
-    //           </th>
-    //         </tr>
-    //       </thead>
-    //       <tbody>
-    //         {(hotel.facilities_support || []).map((dt: any, index: number) => (
-    //           <tr
-    //             key={dt.fs_id}
-    //             className='bg-white border-b hover:bg-primary/5'
-    //           >
-    //             <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
-    //               {index + 1}
-    //             </td>
-    //             <td className='flex px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
-    //               <Image
-    //                 src={dt.fs_icon_url}
-    //                 alt={dt.fs_icon}
-    //                 width={50}
-    //                 height={50}
-    //               />
-    //               <span className='mt-4 ml-3'>{dt.fs_name}</span>
-    //             </td>
-    //             <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white items-center'>
-    //               {dt.fs_description}
-    //             </td>
-    //             <td className='px-20 py-3 text-sm text-gray-900 '>
-    //               <button
-    // onClick={() =>
-    //   deleteOpen(dt?.facility_support_hotels?.fsh_id)
-    // }
-    //               >
-    //                 <FaTrashAlt className='mr-2 h-5 w5 hover:text-danger' />
-    //               </button>
-    //             </td>
-    //           </tr>
-    //         ))}
-    //       </tbody>
-    //     </table>
-    //     {/* <Pagination
-    //       pagination={{ totalPage: hotels?.totalPage, page: hotels?.page }}
-    //       setPage={setPageNumber}
-    //     /> */}
-    //   </div>
-    //   <ToastContainer autoClose={5000} />
-
-    //   {isOpen ? (
-    //     <AddSupportHotel isOpen={isOpen} closeModal={() => setIsOpen(false)} />
-    //   ) : null}
-    //   {/* {isEdit.status ? (
-    //     <EditSupport
-    //       isEdit={isEdit}
-    //       closeModal={() =>
-    //         setIsEdit((prev) => {
-    //           return { ...prev, status: false }
-    //         })
-    //       }
-    //     />
-    //   ) : null} */}
-    // </div>
     <div className='relative overflow-x-auto shadow-md mt-5 rounded-xl bg-white p-4'>
       <div className='pb-4 bg-white flex items-center gap-4 justify-between'>
         <div className='flex items-center gap-4'>

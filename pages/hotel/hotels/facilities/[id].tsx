@@ -63,10 +63,12 @@ const Facilities = (props: any) => {
   }
 
   const deleteOpen = async (faci_id: number) => {
-    const confirmed = window.confirm(`هل أنت متأكد أنك تريد حذف ؟ `)
+    const confirmed = window.confirm(
+      `Are you sure, you want to delete this facilities hotel ?`
+    )
     if (confirmed) {
       dispatch(doDeleteFacilities(faci_id))
-      toast.success(`Berhasil Dihapus`)
+      toast.success(`Successfully removed`)
     }
   }
 

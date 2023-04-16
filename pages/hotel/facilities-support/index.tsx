@@ -2,12 +2,8 @@ import {
   doDeleteFacilitiesSupport,
   doRequestGetFacilitiesSupport,
 } from '../../../redux/hotel/action/actionReducer'
-import { Menu, Transition } from '@headlessui/react'
-import React, { Fragment, useEffect, useState } from 'react'
-import { FaRegEdit } from 'react-icons/fa'
-import { BsThreeDotsVertical } from 'react-icons/bs'
-import { FaTrashAlt } from 'react-icons/fa'
-import { MdAddBox, MdDelete, MdEdit } from 'react-icons/md'
+import React, { useEffect, useState } from 'react'
+import { MdDelete, MdEdit } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import Image from 'next/image'
 import AddSupport from './addSupport'
@@ -38,7 +34,9 @@ const FacilitiesSupport = () => {
     toast.success(`Berhasil Dirubah`)
   }
   const deleteOpen = async (fs_id: number) => {
-    const confirmed = window.confirm(`هل أنت متأكد أنك تريد حذف ؟ `)
+    const confirmed = window.confirm(
+      `Are you sure, you want to delete this facilities support hotel ?`
+    )
     if (confirmed) {
       dispatch(doDeleteFacilitiesSupport(fs_id))
       toast.success(`Berhasil Dihapus`)
