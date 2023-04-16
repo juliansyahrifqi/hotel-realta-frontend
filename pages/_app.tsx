@@ -21,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     router.pathname !== '/' &&
     !router.pathname.startsWith('/resto/restoMenuPhotos') &&
     !router.pathname.startsWith('/resto/orderMenu') &&
+    !router.pathname.startsWith('/resto/invoice') &&
     !router.pathname.startsWith('/booking/detail-booking-final') &&
     !router.pathname.startsWith('/booking/list-booking-final') &&
     !router.pathname.startsWith('/users/loginEmployee') &&

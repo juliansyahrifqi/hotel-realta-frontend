@@ -269,13 +269,13 @@ export default function UploadPhotos(props: any) {
                       <div className='flex justify-between'>
                         <button
                           type='submit'
-                          className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800'
+                          className='text-white bg-primary hover:bg-primary focus:ring-4 focus:ring-primary font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-primary dark:hover:bg-primary focus:outline-none dark:focus:ring-primary'
                         >
                           Submit
                         </button>
 
                         <button
-                          className='text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800'
+                          className='text-white bg-danger hover:bg-danger focus:ring-4 focus:ring-danger font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-danger dark:hover:bg-danger focus:outline-none dark:focus:ring-danger'
                           onClick={props.closeModal}
                         >
                           Cancel

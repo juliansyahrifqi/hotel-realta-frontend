@@ -120,6 +120,11 @@ const listMenu = [
         path: 'orderMenu',
         title: 'Bill',
       },
+      {
+        to: '/resto/invoice',
+        path: 'orderMenu',
+        title: 'Invoice',
+      },
     ],
   },
   {

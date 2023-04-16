@@ -179,7 +179,7 @@ const restoMenu = () => {
                 <button
                   onClick={() => setIsOpen(true)}
                   type='button'
-                  className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'
+                  className='bg-primary hover:bg-primary text-white font-bold py-2 px-4 border-b-4 border-primary hover:border-primary rounded'
                 >
                   Add
                 </button>
@@ -299,7 +299,7 @@ const restoMenu = () => {
                                           <button
                                             className={`${
                                               active
-                                                ? 'bg-blue-500 text-white'
+                                                ? 'bg-primary text-white'
                                                 : 'text-gray-900'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                             onClick={() =>
@@ -332,7 +332,7 @@ const restoMenu = () => {
                                           <button
                                             className={`${
                                               active
-                                                ? 'bg-blue-500 text-white'
+                                                ? 'bg-danger text-white'
                                                 : 'text-gray-900'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                             onClick={() =>
@@ -362,7 +362,7 @@ const restoMenu = () => {
                                           <button
                                             className={`${
                                               active
-                                                ? 'bg-blue-500 text-white'
+                                                ? 'bg-primary text-white'
                                                 : 'text-gray-900'
                                             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
                                             onClick={() =>
@@ -414,7 +414,7 @@ const restoMenu = () => {
 
                   <div className='inline-flex mt-2 xs:mt-0'>
                     <button
-                      className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'
+                      className='bg-primary hover:bg-primary text-white font-bold py-2 px-4 border-b-4 border-primary hover:border-primary rounded'
                       disabled={currentPage === 1}
                       onClick={() => setCurrentPage(currentPage - 1)}
                     >
@@ -423,7 +423,7 @@ const restoMenu = () => {
                     &nbsp; &nbsp;
                     {currentPage !== totalPages && (
                       <button
-                        className='bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded'
+                        className='bg-primary hover:bg-primary text-white font-bold py-2 px-4 border-b-4 border-primary hover:border-primary rounded'
                         onClick={() => setCurrentPage(currentPage + 1)}
                       >
                         Next
