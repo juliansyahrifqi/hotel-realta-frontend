@@ -19,9 +19,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
   const hasLayout =
     router.pathname !== '/' &&
+    !router.pathname.startsWith('/booking/detail-pembayaran-invoice-final') &&
+    !router.pathname.startsWith('/booking/detail-booking-pembayaran-final') &&
     !router.pathname.startsWith('/resto/restoMenuPhotos') &&
     !router.pathname.startsWith('/resto/orderMenu') &&
-    !router.pathname.startsWith('/resto/invoice') &&
     !router.pathname.startsWith('/booking/detail-booking-final') &&
     !router.pathname.startsWith('/booking/list-booking-final') &&
     !router.pathname.startsWith('/users/loginEmployee') &&

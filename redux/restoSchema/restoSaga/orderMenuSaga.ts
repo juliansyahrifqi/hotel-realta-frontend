@@ -11,6 +11,7 @@ import {
 function* handleGetAllOrme(): any {
   try {
     const result = yield call(apiMethodReme.getAllOrme)
+
     yield put(doGetOrmeResponse(result.data))
   } catch (error) {
     yield put(doGetOrmeResponse({ message: error }))

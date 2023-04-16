@@ -58,8 +58,8 @@ const listMenu = [
         title: 'Policy',
       },
       {
-        to: '/master/category',
-        path: '/master/category',
+        to: '/master/categorygroup',
+        path: '/master/categorygroup',
         title: 'Category Group',
       },
       {
@@ -84,17 +84,12 @@ const listMenu = [
       {
         to: '/hotel/hotels',
         path: '/hotel/hotels',
-        title: 'Hotel',
+        title: 'Hotels',
       },
       {
-        to: '/hotel/facilities',
-        path: '/hotel/facilities',
-        title: 'Facilities',
-      },
-      {
-        to: '/hotel/reviews',
-        path: '/hotel/reviews',
-        title: 'Reviews',
+        to: '/hotel/facilities-support',
+        path: '/hotel/facilities-support',
+        title: 'Facility Support',
       },
     ],
   },
@@ -132,7 +127,7 @@ const listMenu = [
     path: '/payment',
     icon: MdPayment,
     name: 'Payment',
-    role: [4],
+    role: [1, 4],
     submenu: [
       {
         to: '/payment/bank',
@@ -179,8 +174,8 @@ const listMenu = [
         title: 'Employee',
       },
       {
-        to: '/hr/workorder',
-        path: '/hr/workorder',
+        to: '/hr/work_orders',
+        path: '/hr/work_orders',
         title: 'Work Order',
       },
     ],
@@ -203,8 +198,8 @@ const listMenu = [
         title: 'Stock',
       },
       {
-        to: '/purchasing/purchasingOrder',
-        path: '/purchasing/purchasingOrder',
+        to: '/purchasing/order',
+        path: '/purchasing/order',
         title: 'Purchasing Order',
       },
     ],

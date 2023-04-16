@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,10 +15,19 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "downlevelIteration": true,
     "paths": {
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "pages/resto/invoice"],
+  "include": [
+    "next-env.d.ts",
+
+    "**/*.ts",
+
+    "**/*.tsx",
+    "components/Breadcrumb/index",
+    "pages/resto/orderMenuDetail"
+  ],
   "exclude": ["node_modules"]
 }

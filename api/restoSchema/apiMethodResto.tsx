@@ -9,37 +9,37 @@ const getAll = (searchTerm: any, page: number, limit: number, sort: any) => {
 }
 
 const create = (data: any) => {
-  return axios.post(`resto-menus`, data)
+  return axios.post(`/resto-menus`, data)
 }
 
 const update = (id: number, data: any) => {
-  return axios.put(`resto-menus/${id}`, data)
+  return axios.put(`/resto-menus/${id}`, data)
 }
 
 const remove = (id: number) => {
-  return axios.delete(`resto-menus/${id}`)
+  return axios.delete(`/resto-menus/${id}`)
 }
 
 const get = (id: number) => {
-  return axios.get(`resto-menus/${id}`)
+  return axios.get(`/resto-menus/${id}`)
 }
 
 const search = (searchTerm: any) => {
-  return axios.get(`resto-menus?searchTerm=${searchTerm}`)
+  return axios.get(`/resto-menus?searchTerm=${searchTerm}`)
 }
 
 const sort = (sort: any) => {
-  return axios.get(`resto-menus?sort=${sort}`)
+  return axios.get(`/resto-menus?sort=${sort}`)
 }
 
 // Resto_menu_photos
 
 const getAllPhotos = () => {
-  return axios.get('resto-menu-photos')
+  return axios.get('/resto-menu-photos')
 }
 
 const uploadPhotos = (data: any) => {
-  return axios.post('resto-menu-photos', data, {
+  return axios.post('/resto-menu-photos', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -47,7 +47,7 @@ const uploadPhotos = (data: any) => {
 }
 
 const updatePhotos = (id: number, data: any) => {
-  return axios.put(`resto-menu-photos/${id}`, data, {
+  return axios.put(`/resto-menu-photos/${id}`, data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -55,54 +55,54 @@ const updatePhotos = (id: number, data: any) => {
 }
 
 const removePhotos = (id: number) => {
-  return axios.delete(`resto-menu-photos/${id}`)
+  return axios.delete(`/resto-menu-photos/${id}`)
 }
 
 const getIdPhotos = (id: number) => {
-  return axios.get(`resto-menu-photos/${id}`)
+  return axios.get(`/resto-menu-photos/${id}`)
 }
 
 // ORDER_MENUS
 
 const getAllOrme = () => {
-  return axios.get('order-menus')
+  return axios.get('/order-menus')
 }
 
 const createOrme = (data: any) => {
-  return axios.post(`order-menus`, data)
+  return axios.post(`/order-menus`, data)
 }
 
 const updateOrme = (id: number, data: any) => {
-  return axios.put(`order-menus/${id}`, data)
+  return axios.put(`/order-menus/${id}`, data)
 }
 
 const deleteOrme = (id: number) => {
-  return axios.delete(`order-menus/${id}`)
+  return axios.delete(`/order-menus/${id}`)
 }
 
 const getIdOrme = (id: number) => {
-  return axios.get(`order-menus/${id}`)
+  return axios.get(`/order-menus/${id}`)
 }
 
 // ORDER_MENU_DETAILS
 const getAllOrdet = () => {
-  return axios.get('order-menu-details')
+  return axios.get('/order-menu-details')
 }
 
 const createOrdet = (data: any) => {
-  return axios.post(`order-menu-details`, data)
+  return axios.post(`/order-menu-details`, data)
 }
 
 const updateOrdet = (id: number, data: any) => {
-  return axios.put(`order-menu-details/${id}`, data)
+  return axios.put(`/order-menu-details/${id}`, data)
 }
 
 const deleteOrdet = (id: number) => {
-  return axios.delete(`order-menu-details/${id}`)
+  return axios.delete(`/order-menu-details/${id}`)
 }
 
 const getIdOrdet = (id: number) => {
-  return axios.get(`order-menu-details/${id}`)
+  return axios.get(`/order-menu-details/${id}`)
 }
 
 const apiMethodReme = {

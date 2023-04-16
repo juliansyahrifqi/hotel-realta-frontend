@@ -1,7 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Yeseva+One:wght@400&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Yeseva+One:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -32,7 +32,6 @@
 body {
   @apply leading-[normal] m-0;
 }
-
 
 *,
 ::before,
@@ -73,9 +72,6 @@ body {
   }
 }
 
-
-
-
 .loader {
   width: 65px;
   height: 65px;
@@ -85,7 +81,7 @@ body {
 }
 .loader::before,
 .loader::after {
-  content: "";
+  content: '';
   box-sizing: border-box;
   position: absolute;
   inset: 0px;
@@ -121,9 +117,8 @@ body {
   }
 }
 
-
-[class^="number-slide"],
-[class*=" number-slide"] {
+[class^='number-slide'],
+[class*=' number-slide'] {
   background: grey;
   display: flex;
   align-items: center;
@@ -147,4 +142,18 @@ body {
   border: 2px dashed black;
 }
 
-
+@media print {
+  .component-to-print {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: visible;
+  }
+  .no-print {
+    display: none;
+  }
+  @page {
+    size: tabloid;
+  }
+}
