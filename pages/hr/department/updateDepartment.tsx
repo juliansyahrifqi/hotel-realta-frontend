@@ -1,4 +1,3 @@
-import apiMethodDepartment from "@/api/human_resources/apiMethodDepartment";
 import { doUpdateDepartment } from "@/redux/human_resources/action/departmentActionReducer";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
@@ -24,8 +23,6 @@ export default function UpdateDepartment(props: any) {
     const dataAll = {
       dept_name: data.dept_name,
     };
-    console.log("test", dataAll);
-    console.log('tes',props.isEdit.dept_id)
     dispatch(doUpdateDepartment(props.isEdit.dept_id, dataAll));
     props.closeModal();
   };
@@ -33,14 +30,6 @@ export default function UpdateDepartment(props: any) {
   useEffect(() => {
     setDepartment(departments);
   }, [departments]);
-
-  // useEffect(() => {
-  //   setDepartment(departments.filter((department: any) => department.id === props.isEdit.id)[0]);
-  //   const getData = async () => {
-  //       const result = await apiMethodDepartment.get(props.isEdit.id)
-  //       setData(result.data)
-  //   }
-  // }, []);
 
   const registerOptions = {
     dept_name: { required: "update department!" },
@@ -53,6 +42,7 @@ export default function UpdateDepartment(props: any) {
           <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
             <div className="fixed inset-0 bg-black bg-opacity-25" />
           </Transition.Child>
+
           <div className="fixed inset-0 overflow-y-auto">
             <div className="flex min-h-full items-center justify-center p-4 text-center">
               <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
@@ -60,14 +50,29 @@ export default function UpdateDepartment(props: any) {
                   <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                     Edit Department
                   </Dialog.Title>
-                  <div className="mt-3 space-x-7">
+                  <div className="mt-2">
                     <form onSubmit={handleSubmit(handleEdit, handleError)}>
-                      <div className="mb-3 space-x-7">
-                        <label>Department</label>
-                        <input type="text" {...register("dept_name", registerOptions.dept_name)} />
+                      <div className="grid grid-cols-1 gap-4">
+                        <div>
+                          <label className="block text-gray-700"></label>
+                          <input
+                            type="text"
+                            {...register("dept_name", registerOptions.dept_name)}
+                            className="w-full border-gray-300 rounded-md shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-200"
+                          />
+                        </div>
                       </div>
-                      <button>Submit</button>
-                      <button onClick={props.closeModal}>Close</button>
+                      <button
+                          type="submit"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blug-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                          Save
+                        </button>
+
+                        <button
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blug-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          onClick={props.closeModal}>
+                          Cancel
+                        </button>
                     </form>
                   </div>
                 </Dialog.Panel>

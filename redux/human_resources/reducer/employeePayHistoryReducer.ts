@@ -12,7 +12,7 @@ function employeePayHistoryReducers(state = initialState, action: any) {
     case ActionTypes.GET_EMPLOYEEPAYHISTORY_RESPONSE:
       return { ...state, employeepayhistorys: payload, refresh: true };
     case ActionTypes.ADD_EMPLOYEEPAYHISTORY_RESPONSE:
-      return { ...state, employeepayhistorys: payload, refresh: false };
+      return { ...state, message: payload.message, refresh: false };
     case ActionTypes.UPDATE_EMPLOYEEPAYHISTORY_RESPONSE:
       return { message: payload.message, refresh: false };
     case ActionTypes.DELETE_EMPLOYEEPAYHISTORY_RESPONSE:

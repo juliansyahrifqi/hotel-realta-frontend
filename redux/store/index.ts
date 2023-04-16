@@ -27,6 +27,8 @@ import workOrdersReducers from "../human_resources/reducer/workOrdersReducer";
 import workOrderDetailReducers from "../human_resources/reducer/workOrderDetailReducer";
 import employeePayHistoryReducers from "../human_resources/reducer/employeePayHistoryReducer";
 import departmentHistoryReducers from "../human_resources/reducer/employeeDepartmentHistoryReducer";
+import jobRoleReducers from "../human_resources/reducer/jobRoleReducer";
+import shiftReducers from "../human_resources/reducer/shiftReducer";
 const logger = createLogger();
 const saga = createSagaMiddleware();
 
@@ -46,6 +48,8 @@ const reducer = combineReducers({
   workOrderDetailReducers,
   employeePayHistoryReducers,
   departmentHistoryReducers,
+  jobRoleReducers,
+  shiftReducers,
   loginReducers,
   registerReducers,
   bookingReducers,

@@ -12,7 +12,7 @@ function departmentHistoryReducers(state = initialState, action: any) {
     case ActionTypes.GET_EMPOLYEEDEPARTMENTHISTORY_RESPONSE:
       return { ...state, departmenthistorys: payload, refresh: true };
     case ActionTypes.ADD_EMPOLYEEDEPARTMENTHISTORY_RESPONSE:
-      return { ...state, departmenthistorys: payload, refresh: false };
+      return { ...state, message: payload.message, refresh: false };
     case ActionTypes.UPDATE_EMPOLYEEDEPARTMENTHISTORY_RESPONSE:
       return { message: payload.message, refresh: false };
     case ActionTypes.DELETE_EMPOLYEEDEPARTMENTHISTORY_RESPONSE:

@@ -1,21 +1,22 @@
 import ActionTypes from "../action/actionType";
 
 const initialState = {
-  departments: [],
+  jobroles: [],
   message: "",
   refresh: "",
 };
 
-function deptReducers(state = initialState, action: any) {
+function jobRoleReducers(state = initialState, action: any) {
   const { type, payload } = action;
+//   console.log("cek1", payload)
   switch (type) {
-    case ActionTypes.GET_DEPARTMENT_RESPONSE:
-      return { ...state, departments: payload, refresh: true };
-    case ActionTypes.ADD_DEPARTMENT_RESPONSE:
+    case ActionTypes.GET_JOBROLE_RESPONSE:
+      return { ...state, jobroles: payload, refresh: true };
+    case ActionTypes.ADD_JOBROLE_RESPONSE:
       return { ...state, message: payload.message, refresh: false };
-    case ActionTypes.UPDATE_DEPARTMENT_RESPONSE:
+    case ActionTypes.UPDATE_JOBROLE_RESPONSE:
       return { message: payload.message, refresh: false };
-    case ActionTypes.DELETE_DEPARTMENT_RESPONSE:
+    case ActionTypes.DELETE_JOBROLE_RESPONSE:
       return {
         message: payload,
         refresh: false,
@@ -25,4 +26,4 @@ function deptReducers(state = initialState, action: any) {
   }
 }
 
-export default deptReducers;
+export default jobRoleReducers;

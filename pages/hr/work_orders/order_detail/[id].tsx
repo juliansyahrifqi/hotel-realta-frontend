@@ -3,10 +3,11 @@ import { doDeleteWorkOrderDetail, doGetWorkOrderDetail } from "@/redux/human_res
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import CreateOrderDetail from "./createOrderDetail";
+import UpdateOrderDetail from "./updateOrderDetail";
 
 export default function OrderDetail() {
   let { workorders, refresh } = useSelector((state: any) => state.workOrdersReducers);
-  console.log("tes1", workorders);
   const dispatch = useDispatch();
   const [orderdetail, setIsOrderDetail] = useState<any>({});
   console.log("od", orderdetail);
@@ -37,7 +38,6 @@ export default function OrderDetail() {
     })[0];
     setIsOrderDetail(filterdetail);
   }, [refresh]);
-  console.log("cekID ", router.id);
 
   return (
     <div>
@@ -52,21 +52,19 @@ export default function OrderDetail() {
                     <span className="lg:pl-1 font-bold">{col.name}</span>
                   </td>
                 ))}
-
                 <td className="py-2 flex pl-6 border-black bg-gray-50 text-left text-xs font-medium text-black uppercase tracking-wider ">
                   <Button onClick={() => setIsOpen(true)} variant="variant" label="Add" size="small" type="secondary" className="ml-0" />
                 </td>
               </tr>
             </thead>
             <tbody>
-              {(orderdetail.work_order_details|| []).map((dt: any, index: number) => (
-                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={dt.woro_id}>
+              {(orderdetail.work_order_details || []).map((dt: any, index: number) => (
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={dt.wode_id}>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
-                  {/* <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dt.woro_id}</td> */}
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dt.service_task.seta_name}</td>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dt.wode_notes}</td>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dt.wode_status}</td>
-                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dt.users && dt.users.users.user_full_name}</td>
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{orderdetail?.user?.user_full_name}</td>
                   <td className="flex items-center px-6 py-4 space-x-3">
                     <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => editOpen(dt.woro_id)}>
                       Edit
@@ -82,6 +80,19 @@ export default function OrderDetail() {
         </div>
       </div>
       {/* tabel */}
+      {isOpen ? <CreateOrderDetail isOpen={isOpen} closeModal={() => setIsOpen(false)} /> : null}
+
+      {isEdit.status ? (
+              <UpdateOrderDetail
+                isEdit={isEdit}
+                closeModal={() =>
+                  setIsEdit((prev) => {
+                    return { ...prev, status: false };
+                  })
+                }
+              />
+            ) : null}
+
     </div>
   );
 }

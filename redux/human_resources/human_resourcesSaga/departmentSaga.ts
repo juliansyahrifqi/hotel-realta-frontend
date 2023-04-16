@@ -17,7 +17,6 @@ function* handleGetAllDepartment(action: any): any {
 function* handleAddDepartment(action: any): any {
   try {
     const result = yield call(ApiMethodDept.create, action.payload);
-    // console.log(result)
     yield put(doAddDepartmentResponse(result.data));
   } catch (error) {
     yield put(doAddDepartmentResponse({ message: error }));
@@ -29,7 +28,6 @@ function* handleUpdateDepartment(action: any): any {
   try {
     const result = yield call(ApiMethodDept.update, action.payload[0], action.payload[1]);
     yield put(doUpdateDepartmentResponse(result.data));
-    // console.log(result.data)
   } catch (error) {
     yield put(doUpdateDepartmentResponse({ message: error }));
   }

@@ -7,6 +7,7 @@ import { Dialog, Transition } from "@headlessui/react";
 export default function CreateWorkOrders(props: any) {
   type FormValues = {
     woro_start_date: Date;
+    woro_status: string;
   };
 
   const {
@@ -20,9 +21,10 @@ export default function CreateWorkOrders(props: any) {
   const handleRegistration = async (data: any) => {
     const dataForm = {
       woro_start_date: data.woro_start_date,
+      woro_status: data.woro_status,
     };
     dispatch(doAddWorkOrders(dataForm));
-    console.log(dataForm)
+    // console.log(dataForm)
     props.closeModal();
   };
 
@@ -30,6 +32,7 @@ export default function CreateWorkOrders(props: any) {
 
   const registerOptions = {
     woro_start_date: { required: "Tanggal harus diisi!" },
+    woro_status: { required: "OPEN, CLOSED, CANCELLED" },
   };
 
   return (
@@ -49,11 +52,21 @@ export default function CreateWorkOrders(props: any) {
                   </Dialog.Title>
                   <div className="mt-2">
                     <form onSubmit={handleSubmit(handleRegistration, handleError)}>
-                      <div>
+                      <div className="flex justify-between items-center mb-2">
                         <label htmlFor="tanggal">Tanggal:</label>
-                        <input type="date" {...register("woro_start_date", registerOptions.woro_start_date)} />
+                        <input className="w-[15rem]" type="date" {...register("woro_start_date", registerOptions.woro_start_date)} />
                         {errors.woro_start_date && <span>{errors.woro_start_date.message}</span>}
                       </div>
+                      <div className="flex justify-between items-center mb-2">
+                        <label>Status</label>
+                        <input className="border-2" list="status-options" {...register("woro_status", registerOptions.woro_status)} />
+                      </div>
+                      <datalist id="status-options">
+                        <option value="OPEN" />
+                        <option value="CLOSED" />
+                        <option value="CANCELLED" />
+                      </datalist>
+                      {errors.woro_status && <span>Status harus diisi dengan OPEN, CLOSED, atau CANCELLED.</span>}
                       <button type="submit" className="flex-row space-x-4 mt-4 text-rigt">
                         Tambahkan Tanggal
                       </button>

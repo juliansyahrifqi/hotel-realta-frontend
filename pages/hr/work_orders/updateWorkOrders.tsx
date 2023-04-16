@@ -14,10 +14,10 @@ export default function UpdateWorkOrders(props: any) {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  let { workOrders } = useSelector((state: any) => state.workOrdersReducers);
+  let { workorders } = useSelector((state: any) => state.workOrdersReducers);
   const [workorder, setWorkorder] = useState({});
   const dispatch = useDispatch();
-  const [isEdit, setIsEdit] = useState(false);
+
   const handleError = (errors: any) => [];
 
   const handleEdit = async (data: any) => {
@@ -25,15 +25,15 @@ export default function UpdateWorkOrders(props: any) {
       woro_start_date: data.woro_start_date,
       woro_status: data.woro_status,
     };
-    // const formData = new FormData();
-    // formData.append("workorder", data.workorder);
-    dispatch(doUpdateWorkOrders({ id: props.isEdit.id, dataAll }));
+    dispatch(doUpdateWorkOrders(props.isEdit.woro_id, dataAll));
     props.closeModal();
+    console.log("cekcok", dataAll);
   };
+  console.log("cekID2", props.isEdit.woro_id);
 
   useEffect(() => {
-    setWorkorder(workOrders);
-  }, [workOrders]);
+    setWorkorder(workorders);
+  }, [workorders]);
 
   const registerOptions = {
     woro_start_date: { required: "update department!" },
@@ -53,23 +53,32 @@ export default function UpdateWorkOrders(props: any) {
                   <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                     Edit Tanggal
                   </Dialog.Title>
-                  <div className="mt-3 space-x-7">
+                  <div className="mt-2">
                     <form onSubmit={handleSubmit(handleEdit, handleError)}>
-                      <div className="mb-3 space-x-7">
-                        <label>Tanggal</label>
-                        <input type="date" {...register("woro_start_date", registerOptions.woro_start_date)} />
-                        {errors.woro_start_date && <span>Tanggal harus diisi.</span>}
-                        <label>Status</label>
-                        <input list="status-options" {...register("woro_status", registerOptions.woro_status)} />
-                        <datalist id="status-options">
-                          <option value="OPEN" />
-                          <option value="CLOSED" />
-                          <option value="CANCELLED" />
-                        </datalist>
-                        {errors.woro_status && <span>Status harus diisi dengan OPEN, CLOSED, atau CANCELLED.</span>}
+                      <div className="flex justify-between items-center mb-2">
+                        <label htmlFor="tanggal">Tanggal:</label>
+                        <input className="w-[15rem]" type="date" {...register("woro_start_date", registerOptions.woro_start_date)} />
+                        {errors.woro_start_date && <span>{errors.woro_start_date.message}</span>}
                       </div>
-                      <button disabled={isEdit}>Submit</button>
-                      <button onClick={props.closeModal}>Close</button>
+                      <div className="flex justify-between items-center mb-2">
+                        <label>Status</label>
+                        <input className="border-2" list="status-options" {...register("woro_status", registerOptions.woro_status)} />
+                      </div>
+                      <datalist id="status-options">
+                        <option value="OPEN" />
+                        <option value="CLOSED" />
+                        <option value="CANCELLED" />
+                      </datalist>
+                      {errors.woro_status && <span>Status harus diisi dengan OPEN, CLOSED, atau CANCELLED.</span>}
+                      <button type="submit" className="flex-row space-x-4 mt-4 text-rigt">
+                        Tambahkan Tanggal
+                      </button>
+
+                      <button
+                        className="inline-flex justify-center rounded-md border border-transparent bg-blug-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        onClick={props.closeModal}>
+                        Cancel
+                      </button>
                     </form>
                   </div>
                 </Dialog.Panel>

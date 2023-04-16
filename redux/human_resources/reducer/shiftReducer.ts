@@ -1,21 +1,21 @@
 import ActionTypes from "../action/actionType";
 
 const initialState = {
-  departments: [],
+  shifts: [],
   message: "",
   refresh: "",
 };
 
-function deptReducers(state = initialState, action: any) {
+function shiftReducers(state = initialState, action: any) {
   const { type, payload } = action;
   switch (type) {
-    case ActionTypes.GET_DEPARTMENT_RESPONSE:
-      return { ...state, departments: payload, refresh: true };
-    case ActionTypes.ADD_DEPARTMENT_RESPONSE:
+    case ActionTypes.GET_SHIFT_RESPONSE:
+      return { ...state, shifts: payload, refresh: true };
+    case ActionTypes.ADD_SHIFT_RESPONSE:
       return { ...state, message: payload.message, refresh: false };
-    case ActionTypes.UPDATE_DEPARTMENT_RESPONSE:
+    case ActionTypes.UPDATE_SHIFT_RESPONSE:
       return { message: payload.message, refresh: false };
-    case ActionTypes.DELETE_DEPARTMENT_RESPONSE:
+    case ActionTypes.DELETE_SHIFT_RESPONSE:
       return {
         message: payload,
         refresh: false,
@@ -25,4 +25,4 @@ function deptReducers(state = initialState, action: any) {
   }
 }
 
-export default deptReducers;
+export default shiftReducers;

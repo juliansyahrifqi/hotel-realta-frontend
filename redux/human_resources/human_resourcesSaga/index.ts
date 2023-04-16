@@ -6,6 +6,8 @@ import { handleAddWorkOrders, handleDeleteWorkOrders, handleGetAllWorkOrders, ha
 import { handleAddWorkOrderDetail, handleDeleteWorkOrderDetail, handleGetAllWorkOrderDetail, handleUpdateWorkOrderDetail } from "./workOrderDetailSaga";
 import { handleAddEmployeePayHistory, handleDeleteEmployeePayHistory, handleGetAllEmployeePayHistory, handleUpdateEmployeePayHistory } from "./employeePayHistorySaga";
 import { handleAddDepartmentHistory, handleDeleteDepartmentHistory, handleGetAllDepartmentHistory, handleUpdateDepartmentHistory } from "./employeeDepartmentHistorySaga";
+import { handleAddJobRole, handleDeleteJobRole, handleGetAllJobRole, handleUpdateJobRole } from "./jobRoleSaga.";
+import { handleAddShift, handleDeleteShift, handleGetAllShift, handleUpdateShift } from "./shiftSaga";
 
 function* watchAll() {
   yield all([
@@ -38,6 +40,16 @@ function* watchAll() {
     takeEvery(ActionTypes.REQUEST_ADD_EMPOLYEEDEPARTMENTHISTORY, handleAddDepartmentHistory),
     takeEvery(ActionTypes.REQUEST_UPDATE_EMPOLYEEDEPARTMENTHISTORY, handleUpdateDepartmentHistory),
     takeEvery(ActionTypes.REQUEST_DELETE_EMPOLYEEDEPARTMENTHISTORY, handleDeleteDepartmentHistory),
+
+    takeEvery(ActionTypes.REQUEST_GET_JOBROLE, handleGetAllJobRole),
+    takeEvery(ActionTypes.REQUEST_ADD_JOBROLE, handleAddJobRole),
+    takeEvery(ActionTypes.REQUEST_UPDATE_JOBROLE, handleUpdateJobRole),
+    takeEvery(ActionTypes.REQUEST_DELETE_JOBROLE, handleDeleteJobRole),
+
+    takeEvery(ActionTypes.REQUEST_GET_SHIFT, handleGetAllShift),
+    takeEvery(ActionTypes.REQUEST_ADD_SHIFT, handleAddShift),
+    takeEvery(ActionTypes.REQUEST_UPDATE_SHIFT, handleUpdateShift),
+    takeEvery(ActionTypes.REQUEST_DELETE_SHIFT, handleDeleteShift),
   ]);
 }
 

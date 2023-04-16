@@ -15,7 +15,6 @@ export const doGetDepartmentResponse = (payload: any) => {
 };
 
 export const doAddDepartment = (payload: any) => {
-  // console.log(payload)
   return {
     type: ActionTypes.REQUEST_ADD_DEPARTMENT,
     payload,

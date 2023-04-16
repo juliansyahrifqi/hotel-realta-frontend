@@ -28,7 +28,7 @@ export const doAddWorkOrdersResponse = (payload: any) => {
   };
 };
 
-export const doUpdateWorkOrders = (payload: any) => {
+export const doUpdateWorkOrders = (...payload: any) => {
   return {
     type: ActionTypes.REQUEST_UPDATE_WORKORDERS,
     payload,

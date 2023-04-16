@@ -1,23 +1,17 @@
 import ActionTypes from "./actionType";
 
-// == doGetEmployee menggunakan pagination
-export const doGetEmployee = (page: number, limit: number) => {
+export const doGetEmployee = (page: number, limit: number, search: string, status: string) => {
   const payload = {
-    page, limit
-  }
+    page,
+    limit,
+    search,
+    status,
+  };
   return {
     type: ActionTypes.REQUEST_GET_EMPLOYEE,
     payload,
   };
 };
-
-// == doGetEmployee tanpa pagination
-
-// export const doGetEmployee = () => {
-//   return {
-//     type: ActionTypes.REQUEST_GET_EMPLOYEE,
-//   };
-// };
 
 export const doGetEmployeeResponse = (payload: any) => {
   return {
@@ -33,14 +27,14 @@ export const doAddEmployee = (payload: any) => {
   };
 };
 
-export const doAddEmployeeResponse = (payload: any) => {
+export const doAddEmployeeResponse = (...payload: any) => {
   return {
     type: ActionTypes.ADD_EMPLOYEE_RESPONSE,
     payload,
   };
 };
 
-export const doUpdateEmployee = (payload: any) => {
+export const doUpdateEmployee = (...payload: any) => {
   return {
     type: ActionTypes.REQUEST_UPDATE_EMPLOYEE,
     payload,
@@ -62,6 +56,7 @@ export const doDeleteEmployee = (payload: any) => {
 };
 
 export const doDeleteEmployeeResponse = (payload: any) => {
+  console.log("respon", payload);
   return {
     type: ActionTypes.DELETE_EMPLOYEE_RESPONSE,
     payload,

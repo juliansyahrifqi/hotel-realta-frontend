@@ -31,7 +31,6 @@ export default function Department() {
   const handleSearchChange = (e: any) => {
     setSearch(e.target.value);
   };
-// console.log("tess", search)
 
   useEffect(() => {
     dispatch(doGetDepartment(search));
@@ -84,7 +83,7 @@ export default function Department() {
                 </tr>
               </thead>
               <tbody>
-                {(departments && departments.data ? departments.data : []).map((dt: any, index: number) => (
+                {(departments?.data || []).map((dt: any, index: number) => (
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={dt.dept_id}>
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dt.dept_name}</td>

@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function DepartmentHistory() {
   let { employees, refresh } = useSelector((state: any) => state.empReducers);
-  console.log("EMP", employees);
   const dispatch = useDispatch();
   const [deptHistory, setIsDeptHistory] = useState<any>({});
+
   const columns = [{ name: "Employee ID" }, { name: "Full Name" }, { name: "Start Date" }, { name: "End Date" }];
 
   const router = useRouter().query;
-  // const employeesArr = Object.values(employees);
+
   useEffect(() => {
     const filterDept = employees.data.filter((data: any) => {
       if (data.emp_id === Number(router.id)) {
@@ -34,17 +34,13 @@ export default function DepartmentHistory() {
                     <span className="lg:pl-1 font-bold">{col.name}</span>
                   </td>
                 ))}
-                {/* <td className="py-2 flex pl-6 border-black bg-gray-50 text-left text-xs font-medium text-black uppercase tracking-wider ">
-                  <Button onClick={() => setIsOpen(true)} variant="variant" label="Add" size="small" type="secondary" className="ml-0" />
-                </td> */}
               </tr>
             </thead>
             <tbody>
               {(deptHistory.employee_department_histories || []).map((dt: any, index: number) => (
                 <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={dt.emp_id}>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{index + 1}</td>
-                  {/* <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dt.woro_id}</td> */}
-                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{dt.user_full_name}</td>
+                  <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{deptHistory?.user?.user_full_name}</td>
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{new Date(dt.edhi_start_date).toLocaleDateString("en-GB", {
                     day: "numeric",
                     month: "long",
@@ -55,14 +51,6 @@ export default function DepartmentHistory() {
                     month: "long",
                     year: "numeric",
                   })}</td>
-                  {/* <td className="flex items-center px-6 py-4 space-x-3">
-                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => editOpen(dt.woro_id)}>
-                      Edit
-                    </a>
-                    <a href="#" className="font-medium text-red-600 dark:text-red-500 hover:underline" onClick={() => deleteOpen(dt.woro_id)}>
-                      Remove
-                    </a>
-                  </td> */}
                 </tr>
               ))}
             </tbody>

@@ -12,7 +12,7 @@ function workOrderDetailReducers(state = initialState, action: any) {
     case ActionTypes.GET_WORKORDERDETAIL_RESPONSE:
       return { ...state, workorderdetails: payload, refresh: true };
     case ActionTypes.ADD_WORKORDERDETAIL_RESPONSE:
-      return { ...state, workorderdetails: payload, refresh: false };
+      return { ...state, message: payload.message, refresh: false };
     case ActionTypes.UPDATE_WORKORDERDETAIL_RESPONSE:
       return { message: payload.message, refresh: false };
     case ActionTypes.DELETE_WORKORDERDETAIL_RESPONSE:

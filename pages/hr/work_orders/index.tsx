@@ -12,7 +12,7 @@ export default function Workorders(props: any) {
   const { workorders, refresh } = useSelector((state: any) => state.workOrdersReducers);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [status, setStatus] = useState("");
@@ -34,17 +34,24 @@ export default function Workorders(props: any) {
     dispatch(doDeleteWorkOrders(woro_id));
   };
 
-  const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
+  const totalArr = Array.apply(null, Array(workorders?.pagination?.totalPages)).map(function (x, i) {
+    return i;
+  });
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => prevPage - 1);
+  const handleIncPage = () => {
+    if (page >= totalArr.length) {
+      setPage(page);
+    } else {
+      setPage(page + 1);
+    }
   };
 
-  const totalPages = workorders ? Math.ceil(workorders.data / itemsPerPage) : 0;
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+  const handleDecPage = () => {
+    if (page <= 1) {
+      setPage(1);
+    } else {
+      setPage(page - 1);
+    }
   };
 
   const columns = [{ name: "Work Order Date" }, { name: "Status" }, { name: "Created By" }];
@@ -58,7 +65,7 @@ export default function Workorders(props: any) {
   };
 
   const handleStatusChange = (e: any) => {
-    setStatus(e.target.value);
+    e.target.value === "ALL" ? setStatus("") : setStatus(e.target.value);
   };
 
   useEffect(() => {
@@ -126,8 +133,12 @@ export default function Workorders(props: any) {
                     <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd"></path>
                   </svg>
                 </div>
-                <select id="status" name="status" className="block w-full py-2.5 px-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                  <option value="">ALL STATUS</option>
+                <select
+                  id="status"
+                  name="status"
+                  className="block w-full py-2.5 px-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  onChange={handleStatusChange}>
+                  <option value="ALL">ALL STATUS</option>
                   <option value="OPEN">OPEN</option>
                   <option value="CLOSED">CLOSED</option>
                   <option value="CANCELLED">CANCELLED</option>
@@ -152,7 +163,7 @@ export default function Workorders(props: any) {
                 </tr>
               </thead>
               <tbody>
-                {(workorders && workorders.data ? workorders.data : []).map((dt: any, index: number) => (
+                {(workorders?.data || []).map((dt: any, index: number) => (
                   <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" key={dt.woro_id}>
                     <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {new Date(dt.woro_start_date).toLocaleDateString("en-GB", {
@@ -231,19 +242,40 @@ export default function Workorders(props: any) {
           {/* batas bawah tampilan tabel */}
 
           {/* batas atas pagination */}
-          <div className="flex justify-between mt-4">
-            <div className="flex">
-              <button onClick={handlePreviousPage} disabled={currentPage === 1} className="p-2.5 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg hover:bg-gray-300 focus:ring-4 focus:outline-none">
-                Previous
-              </button>
-              <button onClick={handleNextPage} disabled={currentPage === totalPages} className="p-2.5 ml-2 text-sm font-medium text-gray-500 bg-gray-200 rounded-lg hover:bg-gray-300 focus:ring-4 focus:outline-none">
-                Next
-              </button>
-            </div>
-            <p className="text-gray-500 text-sm">
-              Page {currentPage} of {totalPages}
-            </p>
-          </div>
+          <nav aria-label="Page navigation example">
+            <ul className="inline-flex items-center -space-x-px">
+              <li>
+                <button
+                  className="block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  onClick={handleDecPage}>
+                  <span className="sr-only">Previous</span>
+                  <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </li>
+              {totalArr.map((total, index) => (
+                <li key={index}>
+                  <button
+                    className="px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    onClick={() => setPage(total + 1)}>
+                    {total + 1}
+                  </button>
+                </li>
+              ))}
+              <li>
+                <button
+                  className="block px-3 py-2 leading-tight text-gray-500 bg-white border 
+            border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                  onClick={handleIncPage}>
+                  <span className="sr-only">Next</span>
+                  <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </li>
+            </ul>
+          </nav>
           {/* batas atas pagination */}
         </div>
       </div>

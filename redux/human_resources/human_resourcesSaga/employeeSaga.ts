@@ -2,29 +2,16 @@ import { call, put } from "redux-saga/effects";
 import { doAddEmployeeResponse, doDeleteEmployeeResponse, doGetEmployeeResponse, doUpdateEmployeeResponse } from "../action/employeeActionReducer";
 import ApiMethodEmployee from "@/api/human_resources/apiMethodEmployee";
 
-// fungsi untuk menampilkan data employee menggunakan pagination
+// fungsi untuk menampilkan data employee 
 function* handleGetAllEmployee(action: any): any {
-  // console.log(action);
   try {
-    const { page, limit } = action.payload;
-    const result = yield call(ApiMethodEmployee.getAll, page, limit);
+    const { page, limit, search, status } = action.payload;
+    const result = yield call(ApiMethodEmployee.getAll, page, limit, search, status);
     yield put(doGetEmployeeResponse(result.data));
   } catch (error) {
     yield put(doGetEmployeeResponse({ message: error }));
   }
 }
-
-// fungsi untuk menampilkan data employee tanpa pagination
-// function* handleGetAllEmployee(): any {
-//   try {
-//     const result = yield call(ApiMethodEmployee.getAll);
-//     yield put(doGetEmployeeResponse(result.data));
-//   } catch (error) {
-//     yield put(doGetEmployeeResponse({ message: error }));
-//   }
-// }
-
-// fungsi untuk menambahkan data employee
 
 function* handleAddEmployee(action: any): any {
   try {
@@ -47,6 +34,7 @@ function* handleUpdateEmployee(action: any): any {
 
 // fungsi untuk delete data employee
 function* handleDeleteEmployee(action: any): any {
+  console.log("sagaID", action.payload)
   try {
     const result = yield call(ApiMethodEmployee.remove, action.payload);
     yield put(doDeleteEmployeeResponse(result.data));

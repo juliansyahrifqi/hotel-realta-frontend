@@ -169,8 +169,8 @@ const listMenu = [
         title: 'Employee',
       },
       {
-        to: '/hr/workorder',
-        path: '/hr/workorder',
+        to: '/hr/work_orders',
+        path: '/hr/work_orders',
         title: 'Work Order',
       },
     ],

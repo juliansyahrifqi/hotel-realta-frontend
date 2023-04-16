@@ -1,12 +1,17 @@
+import { AnyAction } from "@reduxjs/toolkit";
 import axios from "../../config/endpoint";
 
-// == getAll menggunakan Pagination
-const getAll = (page: any, limit: any) => {
-  return axios.get(`/hr/employee/?page=${page}&limit=${limit}`);
+const getAll = (page: any, limit: any, search: any, status: AnyAction) => {
+  return axios.get(`/hr/employee/?page=${page}&limit=${limit}&search=${search}&status=${status}`);
+};
+
+const getAllUser = () => {
+  return axios.get(`/hr/employee/users`);
 };
 
 const create = (data: any) => {
-  return axios.post("/hr/employee", data);
+  console.log("data", data);
+  return axios.post("/hr/employee", data, { headers: { "Content-Type": "multipart/form-data" } });
 };
 
 const update = (id: number, data: any) => {
@@ -22,6 +27,7 @@ const ApiMethodEmployee = {
   create,
   update,
   remove,
+  getAllUser,
 };
 
 export default ApiMethodEmployee;

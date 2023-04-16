@@ -1,22 +1,11 @@
-import apiMethodShift from "@/api/human_resources/apiMethodShift";
-import { doAddDepartment, doGetDepartment } from "@/redux/human_resources/action/departmentActionReducer";
-import { doAddEmployee } from "@/redux/human_resources/action/employeeActionReducer";
-import { doGetJobRole } from "@/redux/human_resources/action/jobRoleActionReducer";
-import { doGetShift } from "@/redux/human_resources/action/shiftActionReducer";
+import { doUpdateEmployee } from "@/redux/human_resources/action/employeeActionReducer";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import ApiMethodEmployee from "@/api/human_resources/apiMethodEmployee";
 
-export default function CreateEmployee(props: any) {
-  let { departments, refreshDept } = useSelector((state: any) => state.deptReducers);
-  let { jobroles, refreshJobRole } = useSelector((state: any) => state.jobRoleReducers);
-  let { shifts, refreshShift } = useSelector((state: any) => state.shiftReducers);
-
-  const dispatch = useDispatch();
-
-  type FromValues = {
+export default function UpdateDepartment(props: any) {
+  type FormValues = {
     emp_national_id: number;
     emp_birth_date: Date;
     emp_marital_status: string;
@@ -30,6 +19,7 @@ export default function CreateEmployee(props: any) {
     emp_user_id: string;
     emp_emp_id: string;
     emp_joro_id: number;
+    ephi_rate_change_date: string; //
     ephi_rate_salary: string;
     ephi_pay_frequence: number;
     edhi_start_date: Date;
@@ -38,77 +28,54 @@ export default function CreateEmployee(props: any) {
     edhi_shift_id: number;
   };
 
-  const [departmentID, setDepartmentID] = useState(0);
-  const [jobRoleID, setjobRoleID] = useState(0);
-  const [shiftID, setShiftID] = useState(0);
-
-  const [shift, setShift] = useState({
-    shiftID: 0,
-    shiftStartTime: "00:00",
-    shiftEndTime: "00:00",
-  });
-
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FromValues>();
+  } = useForm<FormValues>();
 
-  const handleRegistration = async (data: any) => {
-    data.emp_photo = data.emp_photo[0];
-    // console.log("tes", data);
+  let { employees, refresh } = useSelector((state: any) => state.empReducers);
+  const [employee, setEmployee] = useState({});
+  const dispatch = useDispatch();
 
-    dispatch(doAddEmployee(data));
-    props.closeModal();
-  };
   const handleError = (errors: any) => [];
 
-  const registerOptions = {
-    dept_name: { required: "create department!" },
-  };
-
-  useEffect(() => {
-    dispatch(doGetDepartment(""));
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(doGetJobRole(""));
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(doGetShift(""));
-  }, [dispatch]);
-
-  const [users, setUsers] = useState([]);
-
-  useEffect(() => {
-    const getUserData = async () => {
-      const result: any = await ApiMethodEmployee.getAllUser();
-
-      setUsers(result.data);
+  const handleEdit = async (data: any) => {
+    const dataAll = {
+      emp_national_id: data.emp_national_id,
+      user_full_name: data.user_full_name,
+      emp_photo: data.emp_photo,
+      emp_birth_date: data.emp_birth_date,
+      emp_hire_date: data.emp_hire_date,
+      emp_marital_status: data.emp_marital_status,
+      emp_gender: data.emp_gender,
+      emp_salaried_flag: data.emp_salaried_flag,
+      emp_current_flag: data.emp_current_flag,
+      emp_vacation_hours: data.emp_vacation_hours,
+      emp_sickleave_hours: data.emp_sickleave_hours,
+      joro_name: data.joro_name,
+      ephi_rate_salary: data.ephi_rate_salary,
+      ephi_pay_frequence: data.ephi_pay_frequence,
+      dept_name: data.dept_name,
+      edhi_start_date: data.edhi_start_date,
+      edhi_end_date: data.edhi_end_date,
+      shift_name: data.shift_name,
+      shift_start_time: data.shift_start_time,
+      shift_end_time: data.shift_end_time,
     };
-
-    getUserData();
-  }, []);
-
-  console.log(users);
-
-  const handleChangeShift = async (e: any) => {
-    const result = await apiMethodShift.getById(e.target.value);
-
-    // console.log(new Date(result.data.data.shift_start_time).toLocaleTimeString("en-US", { hour12: false, hour: "numeric", minute: "numeric" }));
-
-    // console.log(new Date(result.data.data.shift_end_time).toLocaleTimeString("en-US", { hour12: false, hour: "numeric", minute: "numeric" }));
-    setShift({
-      shiftID: result.data.data.shift_id,
-      shiftStartTime: new Date(result.data.data.shift_start_time).toLocaleTimeString("en-US", { hour12: false, hour: "numeric", minute: "numeric" }),
-      shiftEndTime: new Date(result.data.data.shift_end_time).toLocaleTimeString("en-US", { hour12: false, hour: "numeric", minute: "numeric" }),
-    });
+    dispatch(doUpdateEmployee(props.isEdit.woro_id, dataAll));
+    props.closeModal();
   };
+
+  useEffect(() => {
+    setEmployee(employees);
+  }, [employees]);
+
+  const registerOptions = {};
 
   return (
     <div>
-      <Transition appear show={props.isOpen} as={Fragment}>
+      <Transition appear show={props.isEdit.status} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={props.closeModal}>
           <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
             <div className="fixed inset-0 bg-black bg-opacity-30" />
@@ -119,23 +86,23 @@ export default function CreateEmployee(props: any) {
               <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
                 <Dialog.Panel
                   className="w-full max-w-2xl transform overflow-hidden rounded-2xl
-                 bg-white p-6 text-left align-middle shadow-xl transition-all">
+                   bg-white p-6 text-left align-middle shadow-xl transition-all">
                   <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
                     Create Department
                   </Dialog.Title>
-                  <form onSubmit={handleSubmit(handleRegistration, handleError)}>
+                  <form onSubmit={handleSubmit(handleEdit, handleError)}>
                     <div className="grid gap-4 sm:grid-cols-1 sm:gap-6 p-8 m-3" style={{ border: "3px solid #000", borderRadius: "10px" }}>
                       <div className="sm:col-span-2">
                         <label htmlFor="FullName" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                           Full Name
                         </label>
-                        <select {...register("emp_user_id")}>
-                          {users.map((user: any, index: number) => (
-                            <option key={index} value={user.user_id}>
-                              {user.user_full_name}
-                            </option>
-                          ))}
-                        </select>
+                        <input
+                          type="text"
+                          name="user_full_name"
+                          id="user_full_name"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                          placeholder="Full Name"
+                        />
                       </div>
 
                       <div className="w-full">
@@ -144,8 +111,8 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <input
                           type="text"
+                          name="emp_national_id"
                           id="emp_national_id"
-                          {...register("emp_national_id")}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="National ID"
                         />
@@ -157,8 +124,8 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <input
                           type="date"
+                          name="emp_birth_date"
                           id="emp_birth_date"
-                          {...register("emp_birth_date")}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="Birth Date"
                         />
@@ -170,9 +137,9 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <input
                           type="file"
+                          name="emp_photo"
                           id="emp_photo"
                           accept="image/*"
-                          {...register("emp_photo")}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         />
                       </div>
@@ -183,8 +150,8 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <input
                           type="date"
+                          name="emp_hire_date"
                           id="emp_hire_date"
-                          {...register("emp_hire_date")}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="Hire Date"
                         />
@@ -196,8 +163,7 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <select
                           id="emp_marital_status"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          {...register("emp_marital_status")}>
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Marital Status</option>
                           <option value="M">Marired</option>
                           <option value="S">Single</option>
@@ -210,8 +176,7 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <select
                           id="emp_gender"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          {...register("emp_gender")}>
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Gender</option>
                           <option value="M">Male</option>
                           <option value="F">Female</option>
@@ -224,8 +189,7 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <select
                           id="emp_salaried_flag"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          {...register("emp_salaried_flag")}>
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Salary Flag</option>
                           <option value="0">Hourly</option>
                           <option value="1">Monthly</option>
@@ -238,11 +202,8 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <select
                           id="emp_current_flag"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          {...register("emp_current_flag")}>
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Current Flag</option>
-                          <option value="0">Active</option>
-                          <option value="1">In Active</option>
                         </select>
                       </div>
 
@@ -252,8 +213,8 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <input
                           type="number"
+                          name="emp_vacation_hours"
                           id="emp_vacation_hours"
-                          {...register("emp_vacation_hours")}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="00"
                         />
@@ -265,8 +226,8 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <input
                           type="number"
+                          name="emp_sickleave_hours"
                           id="emp_sickleave_hours"
-                          {...register("emp_sickleave_hours")}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="00"
                         />
@@ -278,15 +239,10 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <select
                           id="joro_name"
-                        //   {...register("emp_joro_id")}
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          onChange={(e: any) => setjobRoleID(e.target.value)}>
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Job Role</option>
-                          {jobroles?.data?.map((jobrole: any, index: number) => (
-                            <option key={index} value={jobrole.joro_id}>
-                              {jobrole.joro_name}
-                            </option>
-                          ))}
+                          <option value="0">InActive</option>
+                          <option value="1">Active</option>
                         </select>
                       </div>
                     </div>
@@ -298,8 +254,8 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <input
                           type="number"
+                          name="ephi_rate_salary"
                           id="ephi_rate_salary"
-                          {...register("ephi_rate_salary")}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="00"
                         />
@@ -311,30 +267,23 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <select
                           id="ephi_pay_frequence"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          {...register("ephi_pay_frequence")}>
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Frequency</option>
-                          <option value="1">Hourly</option>
-                          <option value="2">Monthly</option>
+                          <option value="0">Hourly</option>
+                          <option value="1">Monthly</option>
                         </select>
                       </div>
                     </div>
 
-                    <div className="grid gap-4 sm:grid-cols-3 sm:gap-6 p-4 m-3" style={{ border: "3px solid #000", borderRadius: "10px" }}>
+                    <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 p-4 m-3" style={{ border: "3px solid #000", borderRadius: "10px" }}>
                       <div>
                         <label htmlFor="Department" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                           Department
                         </label>
                         <select
                           id="dept_name"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          onChange={(e: any) => setDepartmentID(e.target.value)}>
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Department</option>
-                          {departments?.data?.map((department: any, index: number) => (
-                            <option key={index} value={department.dept_id}>
-                              {department.dept_name}
-                            </option>
-                          ))}
                         </select>
                       </div>
 
@@ -344,8 +293,8 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <input
                           type="date"
+                          name="edhi_start_date"
                           id="edhi_start_date"
-                          {...register("edhi_start_date")}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="Start Date"
                         />
@@ -357,29 +306,23 @@ export default function CreateEmployee(props: any) {
                         </label>
                         <input
                           type="date"
+                          name="edhi_end_date"
                           id="edhi_end_date"
-                          {...register("edhi_end_date")}
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="End Date"
                         />
                       </div>
                     </div>
 
-                    <div className="grid gap-4 sm:grid-cols-3 sm:gap-6 p-4 m-3" style={{ border: "3px solid #000", borderRadius: "10px" }}>
+                    <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 p-4 m-3" style={{ border: "3px solid #000", borderRadius: "10px" }}>
                       <div>
                         <label htmlFor="Shift" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                           Shift
                         </label>
                         <select
                           id="shift_name"
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                          onChange={handleChangeShift}>
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                           <option value="">Shift</option>
-                          {shifts?.data?.map((shift: any, index: number) => (
-                            <option key={index} value={shift.shift_id}>
-                              {shift.shift_name}
-                            </option>
-                          ))}
                         </select>
                       </div>
 
@@ -388,11 +331,11 @@ export default function CreateEmployee(props: any) {
                           Start Time
                         </label>
                         <input
-                          type="text"
+                          type="time"
+                          name="shift_start_time"
                           id="shift_start_time"
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="Start Time"
-                          value={shift.shiftStartTime}
                         />
                       </div>
 
@@ -401,11 +344,11 @@ export default function CreateEmployee(props: any) {
                           End Time
                         </label>
                         <input
-                          type="text"
+                          type="time"
+                          name="shift_end_time"
                           id="shift_end_time"
                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                           placeholder="End Time"
-                          value={shift.shiftEndTime}
                         />
                       </div>
                     </div>
