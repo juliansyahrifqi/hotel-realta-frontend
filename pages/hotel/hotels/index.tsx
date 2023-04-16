@@ -33,8 +33,29 @@ const Hotels = () => {
 
   //===Pagination===
   const [pageNumber, setPageNumber] = useState(1)
-  const [pageSize, setPageSize] = useState(7)
+  const [pageSize, setPageSize] = useState(5)
 
+  const totalArr = Array.apply(null, Array(hotels?.totalPage)).map(function (
+    x,
+    i
+  ) {
+    return i
+  })
+  const handleIncPage = () => {
+    if (pageNumber >= totalArr.length) {
+      setPageNumber(pageNumber)
+    } else {
+      setPageNumber(pageNumber + 1)
+    }
+  }
+
+  const handleDecPage = () => {
+    if (pageNumber <= 1) {
+      setPageNumber(1)
+    } else {
+      setPageNumber(pageNumber - 1)
+    }
+  }
   //======Open, Edit, Switch========
   const [isOpen, setIsOpen] = useState(false)
   const [isEdit, setIsEdit] = useState({
@@ -346,23 +367,19 @@ const Hotels = () => {
         </tbody>
       </table>
       <nav
-        className='flex items-center justify-between pt-4'
-        aria-label='Table navigation'
+        aria-label='Page navigation example'
+        className='flex items-center justify-end pt-4'
       >
-        <span className='text-sm font-normal text-gray-500'>
-          Showing <span className='font-semibold text-gray-900'>1-10</span> of{' '}
-          <span className='font-semibold text-gray-900'>1000</span>
-        </span>
         <ul className='inline-flex items-center -space-x-px'>
           <li>
-            <a
-              href='#'
-              className='block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l hover:bg-gray-100 hover:text-gray-700 '
+            <button
+              className='block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+              onClick={handleDecPage}
             >
               <span className='sr-only'>Previous</span>
               <svg
-                className='w-5 h-5'
                 aria-hidden='true'
+                className='w-5 h-5'
                 fill='currentColor'
                 viewBox='0 0 20 20'
                 xmlns='http://www.w3.org/2000/svg'
@@ -373,34 +390,29 @@ const Hotels = () => {
                   clip-rule='evenodd'
                 ></path>
               </svg>
-            </a>
+            </button>
           </li>
-          <li>
-            <a
-              href='#'
-              className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700'
-            >
-              1
-            </a>
-          </li>
-          <li>
-            <a
-              href='#'
-              className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-            >
-              2
-            </a>
-          </li>
+          {totalArr.map((total, index) => (
+            <li key={index}>
+              <button
+                className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+                onClick={() => setPageNumber(total + 1)}
+              >
+                {total + 1}
+              </button>
+            </li>
+          ))}
 
           <li>
-            <a
-              href='#'
-              className='block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700'
+            <button
+              className='block px-3 py-2 leading-tight text-gray-500 bg-white border 
+            border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+              onClick={handleIncPage}
             >
               <span className='sr-only'>Next</span>
               <svg
-                className='w-5 h-5'
                 aria-hidden='true'
+                className='w-5 h-5'
                 fill='currentColor'
                 viewBox='0 0 20 20'
                 xmlns='http://www.w3.org/2000/svg'
@@ -411,7 +423,7 @@ const Hotels = () => {
                   clip-rule='evenodd'
                 ></path>
               </svg>
-            </a>
+            </button>
           </li>
         </ul>
       </nav>

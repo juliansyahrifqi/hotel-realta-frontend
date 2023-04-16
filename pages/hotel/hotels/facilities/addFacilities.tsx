@@ -153,7 +153,7 @@ export default function AddFacilities(props: any) {
                 <Dialog.Panel className='w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-medium leading-6 text-primary'
+                    className='text-lg font-bold leading-6 text-primary'
                   >
                     ADD FACILITIES
                   </Dialog.Title>
@@ -177,11 +177,11 @@ export default function AddFacilities(props: any) {
                           </label>
                         </div>
                         <div className='flex items-center mb-6 group space-x-4'>
-                          <label className='peer-focus:font-medium text-sm text-gray-500 '>
+                          <label className='peer-focus:font-medium text-xs text-gray-500 '>
                             Category
                           </label>
                           <select
-                            className='w-full px-2 py-2 border rounded-md text-sm focus:outline-none focus:shadow-outline-primary'
+                            className='w-full px-2 py-2 border rounded-md text-xs focus:outline-none focus:shadow-outline-primary'
                             {...register(
                               'faci_cagro_id',
                               registerOptions.faci_cagro_id
@@ -226,11 +226,11 @@ export default function AddFacilities(props: any) {
                           </div>
                         </div>
                         <div className='flex items-center mb-6 group space-x-4'>
-                          <label className='peer-focus:font-medium text-sm text-gray-500 '>
+                          <label className='peer-focus:font-medium text-xs text-gray-500 '>
                             Members
                           </label>
                           <select
-                            className='w-full px-2 py-2 border rounded-md text-sm focus:outline-none focus:shadow-outline-primary'
+                            className='w-full px-2 py-2 border rounded-md text-xs focus:outline-none focus:shadow-outline-primary'
                             {...register(
                               'faci_memb_name',
                               registerOptions.faci_memb_name
@@ -258,7 +258,7 @@ export default function AddFacilities(props: any) {
                               registerOptions.faci_low_price
                             )}
                           />
-                          <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+                          <label className='peer-focus:font-medium absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
                             Low Price
                           </label>
                         </div>
@@ -306,7 +306,7 @@ export default function AddFacilities(props: any) {
                       </div>
                       <div className='grid md:grid-cols-2 md:gap-6'>
                         <div className='relative z-0 w-full mb-6 group'>
-                          <label className='text-sm text-gray-500'>
+                          <label className='text-xs text-gray-500'>
                             Start Date
                           </label>
                           <DatePicker
@@ -317,7 +317,7 @@ export default function AddFacilities(props: any) {
                           />
                         </div>
                         <div className='relative z-0 w-full mb-6 group'>
-                          <label className='text-sm text-gray-500'>
+                          <label className='text-xs text-gray-500'>
                             End Date
                           </label>
                           <DatePicker
@@ -341,14 +341,12 @@ export default function AddFacilities(props: any) {
                           Description
                         </label>
                       </div>
-
-                      <div className=' flex-row space-x-4 mt-4'>
-                        <button className='text-white bg-secondary  hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800'>
+                      <div className=' flex-row space-x-6 mt-4'>
+                        <button className='text-[#2563EB] border-2 border-[#2563EB] hover:text-white hover:bg-[#2563EB] font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'>
                           Submit
                         </button>
-
                         <button
-                          className='text-white bg-danger  hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800'
+                          className='text-[#D51A52] border-2 border-[#D51A52] hover:text-white hover:bg-[#D51A52] font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
                           onClick={props.closeModal}
                         >
                           Cancel

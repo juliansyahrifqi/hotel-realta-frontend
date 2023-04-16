@@ -82,7 +82,7 @@ const UploadPhotosFacilities = (props: any) => {
                 <Dialog.Panel className='w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all'>
                   <Dialog.Title
                     as='h3'
-                    className='text-lg font-medium leading-6 text-primary'
+                    className='text-lg font-bold leading-6 text-primary'
                   >
                     UPLOADS PHOTOS
                   </Dialog.Title>
@@ -90,12 +90,11 @@ const UploadPhotosFacilities = (props: any) => {
                   <div className='mt-2'>
                     <form
                       onSubmit={handleSubmit(handleRegistration, handleError)}
-                      // encType='multipart/form-data'
                     >
                       <div className='flex items-center justify-center w-full'>
                         <label
                           htmlFor='dropzone-file'
-                          className='flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600'
+                          className='flex flex-col items-center justify-center w-full h-64 border-2 border-[#2563EB] border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600'
                         >
                           {selectedPhotos.length === 0 ? (
                             <div className='flex flex-col items-center justify-center pt-5 pb-6'>
@@ -145,13 +144,12 @@ const UploadPhotosFacilities = (props: any) => {
                           />
                         </label>
                       </div>
-                      <div className=' flex-row space-x-4 mt-4'>
-                        <button className='text-white bg-secondary  hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800'>
+                      <div className=' flex-row space-x-6 mt-4'>
+                        <button className='text-[#2563EB] border-2 border-[#2563EB] hover:text-white hover:bg-[#2563EB] font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'>
                           Submit
                         </button>
-
                         <button
-                          className='text-white bg-danger  hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800'
+                          className='text-[#D51A52] border-2 border-[#D51A52] hover:text-white hover:bg-[#D51A52] font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center'
                           onClick={props.closeModal}
                         >
                           Cancel

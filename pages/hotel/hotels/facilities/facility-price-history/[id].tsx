@@ -33,7 +33,6 @@ const Facilities = () => {
     { name: 'Rate Price' },
     { name: 'Tax' },
   ]
-  const dispatch = useDispatch()
   const router = useRouter().query
 
   useEffect(() => {
@@ -46,66 +45,6 @@ const Facilities = () => {
   }, [refresh])
 
   return (
-    // <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-    //   {/* Header */}
-    //   <div className='bg-white text-black py-2 px-6 flex border-2 items-center justify-between'>
-
-    // {/* <div className='mr-52'>
-    //   <div className='text-sm font-bold'>Room Number</div>
-    //   <div className='text-xs font-semibold'>
-    //     {faci.faci_room_number && faci.faci_room_number.split('-')[1]}
-    //   </div>
-    //   <div className='text-xl font-bold'>{faci.faci_memb_name}</div>
-    // </div> */}
-    //   </div>
-    //   <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-    //     <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
-    //       <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black'>
-    //         {(columns || []).map((col) => (
-    //           <th key={col.name} style={{ whiteSpace: 'nowrap' }}>
-    //             <span className='px-4 py-3'>{col.name}</span>
-    //           </th>
-    //         ))}
-    //       </thead>
-    //       <tbody>
-    // {(faci.facility_price_history || []).map(
-    //   (dt: any, index: number) => (
-    //             <tr
-    //               key={dt.faph_id}
-    //               className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
-    //             >
-    //               <td className='px-4 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white'>
-    //                 {index + 1}
-    //               </td>
-    //               <td className='px-4 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white'>
-    //                 {dt.users.user_full_name}
-    //               </td>
-    //               <td className='px-4 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
-
-    //               </td>
-    //               <td className='px-4 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
-
-    //               </td>
-    //               <td className='px-4 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white'>
-
-    //               </td>
-
-    //               <td className='px-4 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
-    //                 {(dt.faph_discount * 100).toFixed(0)}%
-    //               </td>
-    //               <td className='px-4 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
-
-    //               </td>
-    //               <td className='px-4 py-4 text-xs text-gray-900 whitespace-nowrap dark:text-white'>
-    //                 {(dt.faph_tax_rate * 100).toFixed(0)}%
-    //               </td>
-    //             </tr>
-    //           )
-    //         )}
-    //       </tbody>
-    //     </table>
-    //   </div>
-    // </div>
     <div className='relative overflow-x-auto sm:rounded-lg shadow-md mt-5 rounded-xl bg-white p-4 '>
       <div className='pb-4 bg-white flex items-center gap-4 justify-between'>
         <div className='flex items-center gap-4'>
@@ -149,7 +88,7 @@ const Facilities = () => {
         <span className='text-base font-bold ml-6'>{`${faci.faci_name} History Price`}</span>
       </div>
 
-      <table className='w-full text-sm text-left text-gray-500'>
+      <table className='w-full text-sm text-left text-black'>
         <thead className='text-xs text-gray-700 uppercase bg-gray-100'>
           <tr>
             {(columns || []).map((col) => (

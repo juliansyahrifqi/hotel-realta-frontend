@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MdAddBox } from 'react-icons/md'
+import { MdAddBox, MdDelete } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   doDeleteFacilitySupportHotel,
@@ -11,6 +11,7 @@ import { FaStar, FaRegStar, FaStarHalfAlt, FaTrashAlt } from 'react-icons/fa'
 import AddSupportHotel from './addSupportHotel'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { AiOutlinePlus } from 'react-icons/ai'
 
 const Facilities = () => {
   let { hotels, refresh } = useSelector((state: any) => state.hotelsReducers)
@@ -82,103 +83,249 @@ const Facilities = () => {
   }, [refresh])
 
   return (
-    <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-      {/* Header */}
-      <div className='bg-white text-black py-2 px-6 flex border-2 items-center justify-between'>
-        <div className='mb-4 mt-4 ml-10'>
-          <div className='text-xl font-bold'>{hotel.hotel_name}</div>
-          <div className='text-xs font-semibold'>
-            {` ${hotel.address && hotel.address.addr_line1}, ${
-              hotel.address && hotel.address.addr_line2
-            }`}
-          </div>
-        </div>
+    // <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
+    //   {/* Header */}
+    //   <div className='bg-white text-black py-2 px-6 flex border-2 items-center justify-between'>
+    //     <div className='mb-4 mt-4 ml-10'>
+    //       <div className='text-xl font-bold'>{hotel.hotel_name}</div>
+    //       <div className='text-xs font-semibold'>
+    //         {` ${hotel.address && hotel.address.addr_line1}, ${
+    //           hotel.address && hotel.address.addr_line2
+    //         }`}
+    //       </div>
+    //     </div>
 
-        <div className='mr-52'>
-          <div className='mr-4'>{hotel.hotel_phonenumber}</div>
-          <div className='display flex'>
-            {renderStars(hotel.hotel_rating_star)}
+    //     <div className='mr-52'>
+    //       <div className='mr-4'>{hotel.hotel_phonenumber}</div>
+    //       <div className='display flex'>
+    //         {renderStars(hotel.hotel_rating_star)}
+    //       </div>
+    //     </div>
+    //   </div>
+    //   {/* Columns */}
+    //   <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
+    //     <table className='w-full tex-xs text-left text-gray-500 dark:text-gray-400'>
+    //       <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black '>
+    //         <tr className=''>
+    //           {(columns || []).map((col) => (
+    //             <th key={col.name}>
+    //               <span className='px-8'>{col.name}</span>
+    //             </th>
+    //           ))}
+
+    //           <th className='px- py-3 '>
+    //             <button
+    //               className='flex items-center'
+    //               onClick={() => setIsOpen(true)}
+    //             >
+    //               <MdAddBox className='mr-1' />
+    //               <span className='mr-2 whitespace-nowrap hover:text-secondary'>
+    //                 Add Facility Support
+    //               </span>
+    //             </button>
+    //           </th>
+    //         </tr>
+    //       </thead>
+    //       <tbody>
+    //         {(hotel.facilities_support || []).map((dt: any, index: number) => (
+    //           <tr
+    //             key={dt.fs_id}
+    //             className='bg-white border-b hover:bg-primary/5'
+    //           >
+    //             <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
+    //               {index + 1}
+    //             </td>
+    //             <td className='flex px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
+    //               <Image
+    //                 src={dt.fs_icon_url}
+    //                 alt={dt.fs_icon}
+    //                 width={50}
+    //                 height={50}
+    //               />
+    //               <span className='mt-4 ml-3'>{dt.fs_name}</span>
+    //             </td>
+    //             <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white items-center'>
+    //               {dt.fs_description}
+    //             </td>
+    //             <td className='px-20 py-3 text-sm text-gray-900 '>
+    //               <button
+    // onClick={() =>
+    //   deleteOpen(dt?.facility_support_hotels?.fsh_id)
+    // }
+    //               >
+    //                 <FaTrashAlt className='mr-2 h-5 w5 hover:text-danger' />
+    //               </button>
+    //             </td>
+    //           </tr>
+    //         ))}
+    //       </tbody>
+    //     </table>
+    //     {/* <Pagination
+    //       pagination={{ totalPage: hotels?.totalPage, page: hotels?.page }}
+    //       setPage={setPageNumber}
+    //     /> */}
+    //   </div>
+    //   <ToastContainer autoClose={5000} />
+
+    //   {isOpen ? (
+    //     <AddSupportHotel isOpen={isOpen} closeModal={() => setIsOpen(false)} />
+    //   ) : null}
+    //   {/* {isEdit.status ? (
+    //     <EditSupport
+    //       isEdit={isEdit}
+    //       closeModal={() =>
+    //         setIsEdit((prev) => {
+    //           return { ...prev, status: false }
+    //         })
+    //       }
+    //     />
+    //   ) : null} */}
+    // </div>
+    <div className='relative overflow-x-auto shadow-md mt-5 rounded-xl bg-white p-4'>
+      <div className='pb-4 bg-white flex items-center gap-4 justify-between'>
+        <div className='flex items-center gap-4'>
+          <div className='mb-4 mt-4 ml-10'>
+            <div className='text-2xl font-bold'>{hotel.hotel_name}</div>
+            <div className='text-xs text-gray-500'>
+              {` ${hotel.address && hotel.address.addr_line1}, ${
+                hotel.address && hotel.address.addr_line2
+              }`}
+            </div>
+            <div className='text-xs font-semibold'>
+              {hotel.hotel_description}
+            </div>
+          </div>
+          <div className='ml-96'>
+            <div className='mr-4'>{hotel.hotel_phonenumber}</div>
+            <div className='display flex'>
+              {renderStars(hotel.hotel_rating_star)}
+            </div>
           </div>
         </div>
       </div>
-      {/* Columns */}
-      <div className='relative overflow-x-auto shadow-md sm:rounded-lg h-screen'>
-        <table className='w-full tex-xs text-left text-gray-500 dark:text-gray-400'>
-          <thead className='text-sm text-white uppercase bg-primary dark:bg-black dark:text-black '>
-            <tr className=''>
-              {(columns || []).map((col) => (
-                <th key={col.name}>
-                  <span className='px-8'>{col.name}</span>
-                </th>
-              ))}
-
-              <th className='px- py-3 '>
-                <button
-                  className='flex items-center'
-                  onClick={() => setIsOpen(true)}
-                >
-                  <MdAddBox className='mr-1' />
-                  <span className='mr-2 whitespace-nowrap hover:text-secondary'>
-                    Add Facility Support
-                  </span>
-                </button>
+      <div className='flex items-center gap-4'>
+        <div className='text-base font-bold ml-6'>{`${hotel.hotel_name} Facilities`}</div>
+        <button
+          className='bg-primary hover:bg-primary-hover transition-colors ease-in duration-100 p-2 rounded text-white flex items-center gap-2 border border-primary ml-auto mb-4'
+          onClick={() => setIsOpen(true)}
+        >
+          <AiOutlinePlus className='text-xl' />
+          Add
+        </button>
+      </div>
+      <table className='w-full text-sm text-left text-gray-500'>
+        <thead className='text-xs text-gray-700 uppercase bg-gray-100'>
+          <tr className=''>
+            {(columns || []).map((col) => (
+              <th key={col.name}>
+                <span className='px-8'>{col.name}</span>
               </th>
-            </tr>
-          </thead>
-          <tbody>
-            {(hotel.facilities_support || []).map((dt: any, index: number) => (
-              <tr
-                key={dt.fs_id}
-                className='bg-white border-b hover:bg-primary/5'
-              >
-                <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white'>
-                  {index + 1}
-                </td>
-                <td className='flex px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
-                  <Image
-                    src={dt.fs_icon_url}
-                    alt={dt.fs_icon}
-                    width={50}
-                    height={50}
-                  />
-                  <span className='mt-4 ml-3'>{dt.fs_name}</span>
-                </td>
-                <td className='px-8 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white items-center'>
-                  {dt.fs_description}
-                </td>
-                <td className='px-20 py-3 text-sm text-gray-900 '>
-                  <button
-                    onClick={() =>
-                      deleteOpen(dt?.facility_support_hotels?.fsh_id)
-                    }
-                  >
-                    <FaTrashAlt className='mr-2 h-5 w5 hover:text-danger' />
-                  </button>
-                </td>
-              </tr>
             ))}
-          </tbody>
-        </table>
-        {/* <Pagination
-          pagination={{ totalPage: hotels?.totalPage, page: hotels?.page }}
-          setPage={setPageNumber}
-        /> */}
-      </div>
-      <ToastContainer autoClose={5000} />
+            <th scope='col' className='px-6 py-3'></th>
+          </tr>
+        </thead>
+        <tbody>
+          {(hotel.facilities_support || []).map((dt: any, index: number) => (
+            <tr className='bg-white border-b border-gray-200' key={dt.fs_id}>
+              <td className='px-6 py-4'>{index + 1}</td>
+              <td className='flex px-6 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white text-center'>
+                <Image
+                  src={dt.fs_icon_url}
+                  alt={dt.fs_icon}
+                  width={50}
+                  height={50}
+                />
+                <span className='mt-4 ml-3'>{dt.fs_name}</span>
+              </td>
+              <td className='px-6 py-4'>{dt.fs_description}</td>
+              <td className='px-6 py-4 flex gap-2'>
+                <button
+                  className='border-2 border-danger-secondary hover:bg-danger-secondary hover:text-white transition-colors ease-in duration-100 p-2 rounded text-danger-secondary'
+                  onClick={() =>
+                    deleteOpen(dt?.facility_support_hotels?.fsh_id)
+                  }
+                >
+                  <MdDelete className='text-xl' />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <nav
+        className='flex items-center justify-between pt-4'
+        aria-label='Table navigation'
+      >
+        <span className='text-sm font-normal text-gray-500'>
+          Showing <span className='font-semibold text-gray-900'>1-10</span> of{' '}
+          <span className='font-semibold text-gray-900'>1000</span>
+        </span>
+        <ul className='inline-flex items-center -space-x-px'>
+          <li>
+            <a
+              href='#'
+              className='block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l hover:bg-gray-100 hover:text-gray-700 '
+            >
+              <span className='sr-only'>Previous</span>
+              <svg
+                className='w-5 h-5'
+                aria-hidden='true'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'
+                  clip-rule='evenodd'
+                ></path>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a
+              href='#'
+              className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700'
+            >
+              1
+            </a>
+          </li>
+          <li>
+            <a
+              href='#'
+              className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+            >
+              2
+            </a>
+          </li>
 
+          <li>
+            <a
+              href='#'
+              className='block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700'
+            >
+              <span className='sr-only'>Next</span>
+              <svg
+                className='w-5 h-5'
+                aria-hidden='true'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fill-rule='evenodd'
+                  d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z'
+                  clip-rule='evenodd'
+                ></path>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <ToastContainer autoClose={5000} />
       {isOpen ? (
         <AddSupportHotel isOpen={isOpen} closeModal={() => setIsOpen(false)} />
       ) : null}
-      {/* {isEdit.status ? (
-        <EditSupport
-          isEdit={isEdit}
-          closeModal={() =>
-            setIsEdit((prev) => {
-              return { ...prev, status: false }
-            })
-          }
-        />
-      ) : null} */}
     </div>
   )
 }

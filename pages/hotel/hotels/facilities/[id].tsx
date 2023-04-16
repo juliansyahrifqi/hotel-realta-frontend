@@ -120,7 +120,7 @@ const Facilities = (props: any) => {
       <div className='pb-4 bg-white flex items-center gap-4 justify-between'>
         <div className='flex items-center gap-4'>
           <div className='mb-4 mt-4 ml-10'>
-            <div className='text-4xl font-bold'>{hotel.hotel_name}</div>
+            <div className='text-2xl font-bold'>{hotel.hotel_name}</div>
             <div className='text-xs text-gray-500'>
               {` ${hotel.address && hotel.address.addr_line1}, ${
                 hotel.address && hotel.address.addr_line2
