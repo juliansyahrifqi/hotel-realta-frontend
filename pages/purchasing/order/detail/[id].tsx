@@ -5,7 +5,8 @@ import { Fragment, useEffect, useState } from "react";
 import { BsFillPencilFill, BsThreeDotsVertical, BsTrashFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { doDeleteProdVendor } from "@/redux/purchasing/action/prodVendorActionReducer";
-import { doGetOrderDetailResponse, doRequestGetOrderDetail } from "@/redux/purchasing/action/orderActionReducer";
+import { doRequestGetOrderDetail } from "@/redux/purchasing/action/orderActionReducer";
+import EditOrderDet from "./editOrderDet";
 // import { toast, ToastContainer } from 'react-toastify';
 
 const Detail = () => {
@@ -23,7 +24,7 @@ const Detail = () => {
     data: [{}],
   });
 
-  const columns = [{ name: "Barcode" }, { name: "Status" }, { name: "Notes" }, { name: "PO Number" }, { name: "Used In" }, { name: "Action" }];
+  const columns = [{ name: "Stock Name" }, { name: "Qty" }, { name: "Price" }, { name: "Receive Qty" }, { name: "Reject Qty" }, { name: "Total" }, { name: "Action" }];
 
   const editOpen = (id: number, data: any[]) => {
     setIsEdit((prev) => {
@@ -52,15 +53,6 @@ const Detail = () => {
     }
   }, [orders, refresh, router.id]);
 
-  //   SAMPAI SINI
-  //   useEffect(() => {
-  //     dispatch(doRequestGetOrderDetail());
-  //   }, []);
-
-  //   const handleGetOrderDetail = () => {
-  //     dispatch(doRequestGetOrderDetail());
-  //   };
-
   return (
     <div className="bg-white">
       <>
@@ -77,15 +69,38 @@ const Detail = () => {
                   year: "numeric",
                 })}
               </span>
-              {order.vendor && <h1 className="text-gray-600 font-semibold">{order.vendor.vendor_name}</h1>} <span className="text-gray-600 font-semibold">{order.pohe_status}</span>
+              {order.vendor && <h1 className="text-gray-600 font-semibold">{order.vendor.vendor_name}</h1>}
+              <span className="text-gray-600 font-semibold">
+                <p className="text-gray-900 whitespace-no-wrap">
+                  {(() => {
+                    let status = "";
+                    switch (parseInt(order.pohe_status)) {
+                      case 1:
+                        status = "Pending";
+                        break;
+                      case 2:
+                        status = "Approve";
+                        break;
+                      case 3:
+                        status = "Rejected";
+                        break;
+                      case 4:
+                        status = "Received";
+                      case 5:
+                        status = "Completed";
+                        break;
+                      default:
+                        status = "";
+                    }
+                    return status;
+                  })()}
+                </p>
+              </span>
               <h1 className="text-gray-600 font-semibold">{order.pohe_subtotal}</h1>
               <span className="text-gray-600 font-semibold">{order.pohe_total_amount}</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex bg-gray-50 items-center p-2 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                </svg>
                 {/* <input
                   className="bg-gray-50 outline-none ml-1 block "
                   type="text"
@@ -100,14 +115,14 @@ const Detail = () => {
                 {/* <button className='bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer'>
                   New Report
                 </button> */}
-                <button
+                {/* <button
                   onClick={() => setIsOpen(true)}
                   type="button"
                   className="order-0 inline-flex items-center px-4 py-2 border border-transparent rounded-md
             bg-purple-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500
             sm:order-1">
                   Add
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
@@ -125,7 +140,7 @@ const Detail = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {(order.stock_details || []).map((dt: any) => (
+                    {(order.purchase_order_details || []).map((dt: any) => (
                       <>
                         <tr>
                           {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -135,57 +150,37 @@ const Detail = () => {
                               </div>
                             </div>
                           </td> */}
-
+                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap">{dt.stock.stock_name}</p>
+                          </td>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap">{dt.pode_order_qty}</p>
+                          </td>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap">
+                              {new Intl.NumberFormat("id-ID", {
+                                style: "currency",
+                                currency: "IDR",
+                                minimumFractionDigits: 0,
+                              }).format(parseInt(dt.pode_price.replace(/\D/g, "")))}
+                            </p>
+                          </td>
+                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                            <p className="text-gray-900 whitespace-no-wrap">{dt.pode_received_qty}</p>
+                          </td>
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">{dt.pode_rejected_qty}</p>
                           </td>
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
-                              {(() => {
-                                let status = "";
-                                switch (parseInt(dt.stod_status)) {
-                                  case 1:
-                                    status = "Stocked";
-                                    break;
-                                  case 2:
-                                    status = "Expired";
-                                    break;
-                                  case 3:
-                                    status = "Broken";
-                                    break;
-                                  case 4:
-                                    status = "Used";
-                                    break;
-                                  default:
-                                    status = "";
-                                }
-                                return status;
-                              })()}
-                            </p>
-                          </td>
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">{dt.stod_notes}</p>
-                          </td>
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">{dt.purchase_order_header.pohe_number}</p>
-                          </td>
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">{dt.stod_faci_id}</p>
-                          </td>
-                          {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">
                               {new Intl.NumberFormat("id-ID", {
                                 style: "currency",
                                 currency: "IDR",
-                              }).format(parseInt(restoMenu.reme_price.replace(/\D/g, "")))}
+                                minimumFractionDigits: 0,
+                              }).format(parseInt(dt.pode_line_total.replace(/\D/g, "")))}
                             </p>
-                          </td> */}
-                          {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <span className={`absolute insert-0 ${restoMenu.reme_status === "empty" ? "relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight" : "relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"}`}>
-                              <span className={`absolute inset-0 ${restoMenu.reme_status === "empty" ? "bg-red-200" : "bg-green-200"} opacity-50 rounded-full`} />
-                              <span className="relative">{restoMenu.reme_status}</span>
-                            </span>
-                          </td> */}
+                          </td>
+
                           <td className="px-6 py-3 text-sm text-gray-900">
                             <Menu as="div" className="relative inline-block text-left">
                               <div>
@@ -199,7 +194,7 @@ const Detail = () => {
                                   {/* <div className="px-1 py-1 ">
                                     <Menu.Item>
                                       {({ active }) => (
-                                        <button className={`${active ? "bg-violet-500 text-white" : "text-gray-900"} group flex w-full items-center rounded-md px-2 py-2 text-sm`} onClick={() => editOpen(prodData.vepro_id, prodData)}>
+                                        <button className={`${active ? "bg-violet-500 text-white" : "text-gray-900"} group flex w-full items-center rounded-md px-2 py-2 text-sm`} onClick={() => editOpen(dt.pode_id, dt)}>
                                           {active ? <BsFillPencilFill className="mr-2 h-5 w-5" aria-hidden="true" /> : <BsFillPencilFill className="mr-2 h-5 w-5" aria-hidden="true" />}
                                           Edit
                                         </button>
@@ -245,10 +240,10 @@ const Detail = () => {
         </div>
       </>
       {/* {/* <ToastContainer autoClose={5000} /> */}
-      {/* {isOpen ? <AddProduct isOpen={isOpen} closeModal={() => setIsOpen(false)} /> : null}
-      {isEdit.status ? (
-        <EditProduct
-          dataProdVendor={isEdit.data}
+      {/* {isOpen ? <AddProduct isOpen={isOpen} closeModal={() => setIsOpen(false)} /> : null} */}
+      {/* {isEdit.status ? (
+        <EditOrderDet
+          dataStockDet={isEdit.data}
           isEdit={isEdit}
           closeModal={() =>
             setIsEdit((prev) => {

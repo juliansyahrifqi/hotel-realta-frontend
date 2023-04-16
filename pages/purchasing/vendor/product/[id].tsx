@@ -64,11 +64,10 @@ const Product = () => {
         <div className="bg-white p-8 rounded-md w-full">
           <div className=" flex items-center justify-between pb-6">
             <div>
-              <h2 className="text-gray-600 font-semibold">Data Product Vendor</h2>
-              <span className="text-xs">{vendor?.vendor_name}</span>
+              {/* <h2 className="text-gray-600 font-semibold">Data Product Vendor</h2> */}
+              <h2 className="text-xl">Vendor {vendor?.vendor_name}</h2>
             </div>
             <div className="flex items-center justify-between">
-              
               <div className="lg:ml-40 ml-10 space-x-8">
                 {/* <button className='bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer'>
                   New Report
@@ -119,7 +118,13 @@ const Product = () => {
                             <p className="text-gray-900 whitespace-no-wrap">{prodData.vepro_qty_remaining}</p>
                           </td>
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">{prodData.vepro_price}</p>
+                            <p className="text-gray-900 whitespace-no-wrap">
+                              {new Intl.NumberFormat("id-ID", {
+                                style: "currency",
+                                currency: "IDR",
+                                minimumFractionDigits: 0,
+                              }).format(parseInt(prodData.vepro_price.replace(/\D/g, "")))}
+                            </p>
                           </td>
                           {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">

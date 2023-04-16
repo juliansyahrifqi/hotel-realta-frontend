@@ -96,13 +96,14 @@ export default function EditVendor(props: any) {
                             id="vendor_active"
                             {...register("vendor_active", {
                               ...registerOptions.vendor_active,
-                              setValueAs: (value) => (value === "active" ? 1 : 0),
+                              setValueAs: (value) => (value === "inactive" ? 0 : 1),
                               shouldUnregister: true,
-                            })}>
-                            <option value="">Choose status</option>
+                            })}
+                            defaultValue={data.vendor_active === 1 ? "active" : "inactive"}>
                             <option value="active">Active</option>
                             <option value="inactive">Inactive</option>
                           </select>
+
                           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
@@ -122,13 +123,14 @@ export default function EditVendor(props: any) {
                             id="vendor_priority"
                             {...register("vendor_priority", {
                               ...registerOptions.vendor_priority,
-                              setValueAs: (value) => (value === "highest" ? 1 : 0),
+                              setValueAs: (value) => (value === "lowest" ? 0 : 1),
                               shouldUnregister: true,
-                            })}>
-                            <option value="">Choose priority</option>
+                            })}
+                            defaultValue={data.vendor_priority === 1 ? "highest" : "lowest"}>
                             <option value="highest">Highest</option>
                             <option value="lowest">Lowest</option>
                           </select>
+
                           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M6.293 6.293a1 1 0 011.414 0L10 8.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />

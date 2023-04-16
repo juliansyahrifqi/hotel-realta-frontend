@@ -1,0 +1,113 @@
+import { doAddStockImg } from "@/redux/purchasing/action/stockActionReducer";
+import { Dialog, Transition } from "@headlessui/react";
+import React, { Fragment, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
+import { useForm } from "react-hook-form";
+import { FaTrash } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+
+export default function AddStockImg(props: any) {
+  const dispatch = useDispatch();
+  type FormValues = {
+    photos: FileList;
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+  const [data, setData] = useState<any>({ dataStock: props.dataStock });
+
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
+
+  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const selectedPhotosArray: File[] = Array.from(files);
+      setSelectedImages(selectedPhotosArray);
+    }
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setSelectedImages((prevImages) => {
+      const newImages = [...prevImages];
+      newImages.splice(index, 1);
+      return newImages;
+    });
+  };
+
+  const handleRegistration = () => {
+    const dataForm = new FormData();
+
+    dataForm.append("spho_stock_id", props.isUpload.id);
+    selectedImages.map((photo) => {
+      dataForm.append("photos", photo);
+    });
+
+    const formData = {
+      spho_stock_id: props.isUpload.stock_id,
+      photos: selectedImages,
+    };
+
+    dispatch(doAddStockImg(dataForm));
+    props.closeModal();
+    console.log("dataform:", dataForm);
+  };
+
+  const handleError = (errors: any) => {};
+  return (
+    <div>
+      <Transition appear show={props.isUpload.status} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={props.closeModal}>
+          <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child as={Fragment} enter="ease-out duration-300" enterFrom="opacity-0 scale-95" enterTo="opacity-100 scale-100" leave="ease-in duration-200" leaveFrom="opacity-100 scale-100" leaveTo="opacity-0 scale-95">
+                <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title className="text-lg font-bold leading-6 text-gray-900 mb-5">Add Stock Image</Dialog.Title>
+                  <div className="mt-4">
+                    <form onSubmit={handleSubmit(handleRegistration, handleError)}>
+                      <div className="flex items-center justify-center w-full">
+                        <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                          {selectedImages.length === 0 ? (
+                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                              <svg aria-hidden="true" className="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                              </svg>
+                              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                <span className="font-semibold">Click to upload</span> or drag and drop
+                              </p>
+                              <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                            </div>
+                          ) : null}
+                          <div className="grid-rows-2 p-8">
+                            {selectedImages.map((photo, index) => (
+                              <img className="w-[7rem] h-[7rem] rounded-lg mx-2 my-2 ml-4 bg-cover inline-block" key={index} src={URL.createObjectURL(photo)} alt={`Selected photo ${index}`} />
+                            ))}
+                          </div>
+
+                          <input id="dropzone-file" type="file" className="hidden" multiple onChange={handleFileInputChange} />
+                        </label>
+                      </div>
+                      <div className=" flex-row space-x-4 mt-4">
+                        <button className="text-white bg-secondary  hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800">Submit</button>
+
+                        <button className="text-white bg-danger  hover:bg-pink-800 focus:ring-4 focus:outline-none focus:ring-pink-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-pink-600 dark:hover:bg-pink-700 dark:focus:ring-pink-800" onClick={props.closeModal}>
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+    </div>
+  );
+}

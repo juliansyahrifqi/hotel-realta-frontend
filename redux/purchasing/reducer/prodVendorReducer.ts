@@ -10,7 +10,7 @@ export function vendorProdReducers(state = initialState, action: any) {
   const { type, payload } = action;
   switch (type) {
     case ActionTypes.GET_VENDOR_PROD:
-      return { state, vendorProd: payload.data, refresh: true };
+      return { ...state, vendorProd: payload.data, refresh: true };
     case ActionTypes.GET_VENDOR_PROD_RESPONSE:
       return { state, vendorProd: payload.data, refresh: false };
     case ActionTypes.UPDATE_VENDOR_PROD_RESPONSE:

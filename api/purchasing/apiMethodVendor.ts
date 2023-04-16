@@ -1,6 +1,6 @@
 import axios from "../../config/endpoint";
 
-const getAll = (search: any, page: number, limit: number) => {
+const getAll = (search: any, priority: string, page: number, limit: number) => {
   return axios.get(`purchasing/vendor/?search=${search}&pageNumber=${page}&pageSize=${limit}`);
 };
 

@@ -1,8 +1,9 @@
 import ActionTypes from "./actionType";
 
-export const doGetVendor = (search: string,page: number, limit: number) => {
+export const doGetVendor = (search: string, priority: string, page: number, limit: number) => {
   const payload = {
     search,
+    priority,
     page,
     limit,
   };

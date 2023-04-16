@@ -6,7 +6,7 @@ import orderReducers from "../purchasing/reducer/orderReducer";
 import vendorProdReducers from "../purchasing/reducer/prodVendorReducer";
 import stockReducers from "../purchasing/reducer/stockReducer";
 import vendorReducers from "../purchasing/reducer/vendorReducer";
-
+import galleryReducers from "../purchasing/reducer/galleryReducer";
 import rootSaga from "../saga";
 import { bankReducers } from "../payment/reducer/bankReducer";
 import { fintechReducers } from "../payment/reducer/fintechReducer";
@@ -98,13 +98,17 @@ const reducer = combineReducers({
   priceitemsReducer,
   cityReducer,
   addressReducer,
+  galleryReducers,
 });
 
 const store = configureStore({
   reducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(logger).concat(saga),
+    })
+      .concat(logger)
+      .concat(saga),
 });
 
 saga.run(rootSaga);

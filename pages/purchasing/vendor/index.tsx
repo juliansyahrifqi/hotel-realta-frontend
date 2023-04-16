@@ -13,12 +13,10 @@ import { format } from "date-fns";
 
 export default function Index(props: any) {
   let { vendors = [], refresh } = useSelector((state: any) => state.vendorReducers);
-  console.log("vendors", vendors);
   const router = useRouter();
 
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("");
-  const [sort, setSort] = useState("");
+  const [priority, setPrio] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5);
 
@@ -35,7 +33,6 @@ export default function Index(props: any) {
   const handleSearchChange = (e: any): void => {
     setSearch(e.target.value);
     setCurrentPage(1);
-    handleGetData();
   };
 
   const editOpen = (id: number, data: any[]) => {
@@ -51,41 +48,17 @@ export default function Index(props: any) {
     }
   };
 
-  const handleGetData = () => {
-    dispatch(doGetVendor(search, currentPage, limit));
-  };
+  // const handleGetData = () => {
+  //   dispatch(doGetVendor(search, priority, currentPage, limit));
+  // };
 
   useEffect(() => {
-    handleGetData();
-  }, [refresh, search, currentPage, limit]);
-
-  useEffect(() => {
-    handleGetData();
-  }, [sort]);
-
-  // SORT
-  const handleSortChange = (e: any): void => {
-    setSort(e.target.value);
-    setCurrentPage(1);
-    handleGetData();
-  };
-  console.log("sort", handleSortChange);
-  // SORT
+    dispatch(doGetVendor(search, priority, currentPage, limit));
+  }, [dispatch, search, priority, refresh, currentPage, limit]);
 
   // Calculate Total Pages
   const totalData = vendors ? vendors.length : 0;
   const totalPages = Math.ceil(vendors.length / limit);
-
-  // Fungsi Pagination
-  //   const handlePageChange = (type: string) => {
-  //     if (type === "prev" && page > 1) {
-  //       setPage((prev) => prev - 1);
-  //       handleGetData();
-  //     } else if (type === "next" && page < totalPages) {
-  //       setPage((prev) => prev + 1);
-  //       handleGetData();
-  //     }
-  //   };
 
   // Untuk buat array ke display pagination button
   const pageNumbers = [];
@@ -120,14 +93,13 @@ export default function Index(props: any) {
               </div>
               {/* Filter */}
               <div className="flex-grow">
-                <div className="lg:ml-40 ml-3 space-x-8">
-                  <select className="bg-indigo-500 px-4 py-2 rounded-md text-white font-semibold tracking-wide text-sm cursor-pointer" onChange={handleSortChange}>
-                    <option value="">Choose Status</option>
-                    <option value="0">Lowest</option>
-                    <option value="1">Highest</option>
-                    Filtering
+                {/* <div className="lg:ml-40 ml-3 space-x-8">
+                  <select className="bg-indigo-500 px-4 py-2 rounded-md text-white font-semibold tracking-wide text-sm cursor-pointer" onChange={(e) => (e.target.value === "ALL" ? setPrio("") : setPrio(e.target.value))}>
+                    <option value="ALL">Type</option>
+                    <option value={0}>Lowest</option>
+                    <option value={1}>Highest</option>
                   </select>
-                </div>
+                </div> */}
                 <div className="flex-grow">
                   <div className="lg:ml-40 ml-10 space-x-8">
                     <button

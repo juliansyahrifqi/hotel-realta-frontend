@@ -17,11 +17,11 @@ export function vendorReducers(state = initialState, action: any) {
 
     case ActionTypes.GET_DELETE_VENDOR_RESPONSE:
       return { state, vendors: payload.data, refresh: false };
+
     case ActionTypes.GET_ADD_VENDOR_RESPONSE:
       return { state, vendors: payload.data, refresh: false };
-
     case ActionTypes.GET_VENDOR_PROD:
-      return { state, vendors: payload.data, refresh: true };
+      return { ...state, vendors: payload.data, refresh: true };
     case ActionTypes.SEARCH_VENDOR_RESPONSE:
       return { state, vendors: payload.data, refresh: true };
 

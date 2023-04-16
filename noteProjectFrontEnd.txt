@@ -10,7 +10,7 @@ buat folder untuk redux semua table di mockup(action, reducer, saga, store)
 ~ action/actionType.ts
 ~ action/vendorActionReducer.ts
 ~ purchasingSaga/vendorSaga.ts
-~ saga/index
+~ purchasingSaga/index
 ~ reducer/departmentReducer.ts
 ~ store/index
 ~ pages/purchasing/vendor/index.jsx

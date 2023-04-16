@@ -7,6 +7,7 @@ import { doDeleteStock, doGetStock } from "@/redux/purchasing/action/stockAction
 import AddStock from "./addStock";
 import EditStock from "./editStock";
 import Link from "next/link";
+import AddStockImg from "./addStockImg";
 // import { toast, ToastContainer } from 'react-toastify';
 
 export default function Index() {
@@ -20,6 +21,11 @@ export default function Index() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState({
+    status: false,
+    id: 0,
+    data: [{}],
+  });
+  const [isUpload, setIsUpload] = useState({
     status: false,
     id: 0,
     data: [{}],
@@ -47,13 +53,19 @@ export default function Index() {
     }
   };
 
+  const uploadOpen = (id: number, data: any[]) => {
+    setIsUpload((prev) => {
+      return { ...prev, status: true, id: id, data: data };
+    });
+  };
+
   const handleGetData = () => {
     dispatch(doGetStock(search, currentPage, limit));
   };
 
   useEffect(() => {
     handleGetData();
-  }, [refresh, search, currentPage, limit]);
+  }, [search, currentPage, limit, refresh]);
 
   // Calculate Total Pages
   const totalData = stock ? stock.length : 0;
@@ -76,6 +88,7 @@ export default function Index() {
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }
+  
 
   console.log("stockkks:", stock);
 
@@ -199,7 +212,7 @@ export default function Index() {
                                   <div className="px-1 py-1">
                                     <Menu.Item>
                                       {({ active }) => (
-                                        <button className={`${active ? "bg-violet-500 text-white" : "text-gray-900"} group flex w-full items-center rounded-md px-2 py-2 text-sm`} onClick={() => stockData.stock_id}>
+                                        <button className={`${active ? "bg-violet-500 text-white" : "text-gray-900"} group flex w-full items-center rounded-md px-2 py-2 text-sm`} onClick={() => uploadOpen(stockData.stock_id, stockData)}>
                                           {active ? <BsFillCloudUploadFill className="mr-2 h-5 w-5 " aria-hidden="true" /> : <BsFillCloudUploadFill className="mr-2 h-5 w-5 " aria-hidden="true" />}
                                           Upload Image
                                         </button>
@@ -254,6 +267,17 @@ export default function Index() {
           isEdit={isEdit}
           closeModal={() =>
             setIsEdit((prev) => {
+              return { ...prev, status: false };
+            })
+          }
+        />
+      ) : null}
+      {isUpload.status ? (
+        <AddStockImg
+          dataStock={isUpload.status}
+          isUpload={isUpload}
+          closeModal={() =>
+            setIsUpload((prev) => {
               return { ...prev, status: false };
             })
           }

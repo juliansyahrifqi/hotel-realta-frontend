@@ -98,14 +98,6 @@ export default function Index() {
                 {/* <button className='bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer'>
                   New Report
                 </button> */}
-                <button
-                  onClick={() => setIsOpen(true)}
-                  type="button"
-                  className="order-0 inline-flex items-center px-4 py-2 border border-transparent rounded-md
-            bg-purple-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500
-            sm:order-1">
-                  Add
-                </button>
               </div>
             </div>
           </div>
@@ -238,10 +230,10 @@ export default function Index() {
                                     <Menu.Item>
                                       {({ active }) => (
                                         <Link href={`/purchasing/order/detail/${orderData.pohe_id}`}>
-                                          <button className={`${active ? "bg-violet-500 text-white" : "text-gray-900"} group flex w-full items-center rounded-md px-2 py-2 text-sm`}>
+                                          {/* <button className={`${active ? "bg-violet-500 text-white" : "text-gray-900"} group flex w-full items-center rounded-md px-2 py-2 text-sm`}>
                                             {active ? <BsFillInfoCircleFill className="mr-2 h-5 w-5 " aria-hidden="true" /> : <BsFillInfoCircleFill className="mr-2 h-5 w-5 " aria-hidden="true" />}
                                             Detail
-                                          </button>
+                                          </button> */}
                                         </Link>
                                       )}
                                     </Menu.Item>

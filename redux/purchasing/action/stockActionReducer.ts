@@ -87,3 +87,66 @@ export const doGetStodResponse = (payload: any) => {
     payload,
   };
 };
+
+// STOCK IMG
+
+export const doAddStockImg = (payload: any) => {
+  return {
+    type: ActionTypes.REQUEST_ADD_STOCK_IMG,
+    payload,
+  };
+};
+
+export const doAddStockImgResponse = (payload: any) => {
+  return {
+    type: ActionTypes.ADD_STOCK_IMG_RESPONSE,
+    payload,
+  };
+};
+
+export const doGetStockImg = (search: string, page: number, limit: number) => {
+  const payload = {
+    search,
+    page,
+    limit,
+  };
+  return {
+    type: ActionTypes.REQUEST_GET_STOCK_IMG,
+    payload,
+  };
+};
+
+export const doGetStockImgResponse = (payload: any) => {
+  return {
+    type: ActionTypes.GET_STOCK_IMG_RESPONSE,
+    payload,
+  };
+};
+
+// FIND STOCK DETAIL
+export const doStockDetail = () => {
+  return {
+    type: ActionTypes.REQUEST_GET_DET_STOCK,
+  };
+};
+
+export const doStocDetailResponse = (payload: any) => {
+  return {
+    type: ActionTypes.GET_DET_STOCK_RESPONSE,
+    payload,
+  };
+};
+
+export const doUpdateStockDetail = (...payload: any[]) => {
+  return {
+    type: ActionTypes.REQUEST_UPDATE_DET_STOCK,
+    payload,
+  };
+};
+
+export const doUpdateStockDetailResponse = (...payload: any[]) => {
+  return {
+    type: ActionTypes.UPDATE_DET_STOCK_RESPONSE,
+    payload,
+  };
+};

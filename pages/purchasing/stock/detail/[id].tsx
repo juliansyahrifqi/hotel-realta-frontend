@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { BsFillPencilFill, BsThreeDotsVertical, BsTrashFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { doDeleteProdVendor } from "@/redux/purchasing/action/prodVendorActionReducer";
+import EditStockDet from "./editStockDet";
 // import { toast, ToastContainer } from 'react-toastify';
 
 const Detail = () => {
@@ -22,7 +23,7 @@ const Detail = () => {
     data: [{}],
   });
 
-  const columns = [{ name: "Barcode" }, { name: "Status" }, { name: "Notes" }, { name: "PO Number" }, { name: "Used In" }, { name: "Action" }];
+  const columns = [{ name: "Stock" }, { name: "Status" }, { name: "Notes" }, { name: "PO Number" }, { name: "Used In" }, { name: "Action" }];
 
   const editOpen = (id: number, data: any[]) => {
     setIsEdit((prev) => {
@@ -50,7 +51,7 @@ const Detail = () => {
     setStocks(filter);
   }, [refresh]);
 
-  console.log("datafilter1", stock);
+  console.log("datafilter1", isEdit.data);
   console.log("idnya:", router.id);
   // Calculate Total Pages
   //   const totalData = prodData ? prodData?.length : 0;
@@ -62,6 +63,7 @@ const Detail = () => {
   //   for (let i = 1; i <= totalPages; i++) {
   //     pageNumbers.push(i);
   //   }
+  console.log("datanya disini:", stocks.stock_details);
 
   return (
     <div className="bg-white">
@@ -70,13 +72,13 @@ const Detail = () => {
         <div className="bg-white p-8 rounded-md w-full">
           <div className=" flex items-center justify-between pb-6">
             <div>
-              <h1 className="text-gray-600 font-semibold">{stocks.stock_name}</h1>
+              <h1 className="text-gray-600 font-semibold text-xl">{stocks.stock_name}</h1>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex bg-gray-50 items-center p-2 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                </svg>
+                </svg> */}
                 {/* <input
                   className="bg-gray-50 outline-none ml-1 block "
                   type="text"
@@ -91,14 +93,14 @@ const Detail = () => {
                 {/* <button className='bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer'>
                   New Report
                 </button> */}
-                <button
+                {/* <button
                   onClick={() => setIsOpen(true)}
                   type="button"
                   className="order-0 inline-flex items-center px-4 py-2 border border-transparent rounded-md
             bg-purple-500 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500
             sm:order-1">
                   Add
-                </button>
+                </button> */}
               </div>
             </div>
           </div>
@@ -161,7 +163,7 @@ const Detail = () => {
                             <p className="text-gray-900 whitespace-no-wrap">{dt.purchase_order_header.pohe_number}</p>
                           </td>
                           <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">{dt.stod_faci_id}</p>
+                            <p className="text-gray-900 whitespace-no-wrap">{dt?.facility?.faci_name}</p>
                           </td>
                           {/* <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                             <p className="text-gray-900 whitespace-no-wrap">
@@ -187,16 +189,16 @@ const Detail = () => {
                               <Transition as={Fragment} enter="transition ease-out duration-100" enterFrom="transform opacity-0 scale-95" enterTo="transform opacity-100 scale-100" leave="transition ease-in duration-75" leaveFrom="transform opacity-100 scale-100" leaveTo="transform opacity-0 scale-95">
                                 <Menu.Items className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none z-10">
                                   {/* EDIT */}
-                                  {/* <div className="px-1 py-1 ">
+                                  <div className="px-1 py-1 ">
                                     <Menu.Item>
                                       {({ active }) => (
-                                        <button className={`${active ? "bg-violet-500 text-white" : "text-gray-900"} group flex w-full items-center rounded-md px-2 py-2 text-sm`} onClick={() => editOpen(prodData.vepro_id, prodData)}>
+                                        <button className={`${active ? "bg-violet-500 text-white" : "text-gray-900"} group flex w-full items-center rounded-md px-2 py-2 text-sm`} onClick={() => editOpen(dt.stod_id, dt)}>
                                           {active ? <BsFillPencilFill className="mr-2 h-5 w-5" aria-hidden="true" /> : <BsFillPencilFill className="mr-2 h-5 w-5" aria-hidden="true" />}
                                           Edit
                                         </button>
                                       )}
                                     </Menu.Item>
-                                  </div> */}
+                                  </div>
                                   {/* DELETE */}
                                   {/* <div className="px-1 py-1">
                                     <Menu.Item>
@@ -236,10 +238,10 @@ const Detail = () => {
         </div>
       </>
       {/* {/* <ToastContainer autoClose={5000} /> */}
-      {/* {isOpen ? <AddProduct isOpen={isOpen} closeModal={() => setIsOpen(false)} /> : null}
+      {/* {isOpen ? <AddProduct isOpen={isOpen} closeModal={() => setIsOpen(false)} /> : null} */}
       {isEdit.status ? (
-        <EditProduct
-          dataProdVendor={isEdit.data}
+        <EditStockDet
+          dataStockDet={isEdit.data}
           isEdit={isEdit}
           closeModal={() =>
             setIsEdit((prev) => {
@@ -247,7 +249,7 @@ const Detail = () => {
             })
           }
         />
-      ) : null} */}
+      ) : null}
     </div>
   );
 };

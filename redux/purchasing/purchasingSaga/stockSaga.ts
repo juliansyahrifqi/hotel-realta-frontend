@@ -1,5 +1,5 @@
 import apiMethodStock from "@/api/purchasing/apiMethodStock";
-import { doAddStockResponse, doDeleteStock, doDeleteStockResponse, doGetStockResponse, doGetStodResponse, doStockListResponse, doUpdateStockResponse } from "../action/stockActionReducer";
+import { doAddStockImg, doAddStockImgResponse, doAddStockResponse, doDeleteStock, doDeleteStockResponse, doGetStockImg, doGetStockImgResponse, doGetStockResponse, doGetStodResponse, doStocDetailResponse, doStockListResponse, doUpdateStockDetailResponse, doUpdateStockResponse } from "../action/stockActionReducer";
 import { call, put } from "redux-saga/effects";
 
 // GET ALL STOCK
@@ -53,6 +53,47 @@ function* handleStocVendor(): any {
   }
 }
 
+// GET STOCK IMG
+function* handleGetAllStockImg(action: any): any {
+  try {
+    const { search, page, limit } = action.payload;
+    const result = yield call(apiMethodStock.getImg, search, page, limit);
+    yield put(doGetStockImgResponse(result.data));
+  } catch (error) {
+    yield put(doGetStockImgResponse({ message: error }));
+  }
+}
+
+// ADD STOCK IMG
+function* handleAddStockImg(action: any): any {
+  try {
+    const result = yield call(apiMethodStock.createImg, action.payload);
+    yield put(doAddStockImgResponse(result.data));
+  } catch (error) {
+    yield put(doAddStockImgResponse({ message: error }));
+  }
+}
+
+// GET ALL DETAIL STOCK
+function* handleGetDetStock(action: any): any {
+  try {
+    const result = yield call(apiMethodStock.findStockDet, action.payload);
+    yield put(doStocDetailResponse(result.data));
+  } catch (error) {
+    yield put(doStocDetailResponse({ message: error }));
+  }
+}
+
+// UPDATE DETAIL STOCK
+function* handleUpdateStockDetail(action: any): any {
+  try {
+    const result = yield call(apiMethodStock.updateStockDet, action.payload[0], action.payload[1]);
+    yield put(doUpdateStockDetailResponse(result.data));
+  } catch (error) {
+    yield put(doUpdateStockDetailResponse({ message: error }));
+  }
+}
+
 // function* handleGetAllStod(action: any): any {
 //   try {
 //     const result = yield call(apiMethodStock.getStockDetail, action.payload);
@@ -62,4 +103,4 @@ function* handleStocVendor(): any {
 //   }
 // }
 
-export { handleGetAllStock, handleAddStock, handleUpdateStock, handleDeleteStock, handleStocVendor };
+export { handleGetAllStock, handleAddStock, handleUpdateStock, handleDeleteStock, handleStocVendor, handleAddStockImg, handleGetDetStock, handleGetAllStockImg, handleUpdateStockDetail };

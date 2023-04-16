@@ -193,9 +193,14 @@ const listMenu = [
         title: "Stock",
       },
       {
-        to: "/purchasing/purchasingOrder",
-        path: "/purchasing/purchasingOrder",
+        to: "/purchasing/order",
+        path: "/purchasing/order",
         title: "Purchasing Order",
+      },
+      {
+        to: "/purchasing/stockPhotos",
+        path: "/purchasing/stockPhotos",
+        title: "Gallery",
       },
     ],
   },

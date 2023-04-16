@@ -5,8 +5,8 @@ import { doAddProdVendorResponse, doAddVendorResponse, doDeleteVendor, doDeleteV
 // GET ALL VENDOR
 function* handleGetAllVendor(action: any): any {
   try {
-    const { search, page, limit } = action.payload;
-    const result = yield call(ApiMethodVendor.getAll, search, page, limit);
+    const { search, priority, page, limit } = action.payload;
+    const result = yield call(ApiMethodVendor.getAll, search, priority, page, limit);
     yield put(doGetVendorResponse(result.data));
   } catch (error) {
     yield put(doGetVendorResponse({ message: error }));

@@ -1,7 +1,7 @@
 import { all, takeEvery } from "redux-saga/effects";
 import ActionTypes from "../action/actionType";
 import { handleAddProdVendor, handleDeleteProdVendor, handleUpdateProdVendor } from "../purchasingSaga/prodVendorSaga";
-import { handleAddStock, handleDeleteStock, handleGetAllStock, handleStocVendor, handleUpdateStock } from "../purchasingSaga/stockSaga";
+import { handleAddStock, handleAddStockImg, handleDeleteStock, handleGetAllStock, handleGetAllStockImg, handleGetDetStock, handleStocVendor, handleUpdateStock, handleUpdateStockDetail } from "../purchasingSaga/stockSaga";
 import { handleAddVendor, handleDeleteVendor, handleGetAllVendor, handleGetProdVendor, handleSearchVendor, handleUpdateVendor } from "../purchasingSaga/vendorSaga";
 import { handleDeleteOrderList, handleGetAllOrderDetail, handleGetAllOrderList, handleUpdateOrderList } from "../purchasingSaga/orderSaga";
 
@@ -26,7 +26,10 @@ function* watchAll() {
     takeEvery(ActionTypes.REQUEST_UPDATE_STOCK, handleUpdateStock),
     takeEvery(ActionTypes.REQUEST_DELETE_STOCK, handleDeleteStock),
     takeEvery(ActionTypes.REQUEST_GET_LIST_STOCK, handleStocVendor),
-    // takeEvery(ActionTypes.REQUEST_GET_STOD, handleGetAllStod),
+    takeEvery(ActionTypes.REQUEST_GET_STOCK_IMG, handleGetAllStockImg),
+    takeEvery(ActionTypes.REQUEST_ADD_STOCK_IMG, handleAddStockImg),
+    takeEvery(ActionTypes.REQUEST_GET_ORDER_DETAIL, handleGetDetStock),
+    takeEvery(ActionTypes.REQUEST_UPDATE_DET_STOCK, handleUpdateStockDetail),
 
     // ORDER LIST
     takeEvery(ActionTypes.REQUEST_GET_LIST_ORDER, handleGetAllOrderList),
