@@ -443,7 +443,7 @@ export default function EditProfile({
                         label="Edit"
                         size="small"
                         type="main"
-                        variant="secondary"
+                        variant="primary"
                       />
                     </div>
                   </form>

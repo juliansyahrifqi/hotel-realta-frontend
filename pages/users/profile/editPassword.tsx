@@ -172,7 +172,7 @@ export default function EditPassword({ isEdit, closeModal }: any) {
                           label="Edit"
                           size="small"
                           type="main"
-                          variant="secondary"
+                          variant="primary"
                         />
                       </div>
                     </form>

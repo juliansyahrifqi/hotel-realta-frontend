@@ -28,7 +28,7 @@ export function middleware(request: NextRequest) {
   if (
     (request.nextUrl.pathname.startsWith("/master") ||
       request.nextUrl.pathname.startsWith("/hotel") ||
-      request.nextUrl.pathname.startsWith("/resto") ||
+      request.nextUrl.pathname.startsWith("/resto/restoMenu") ||
       request.nextUrl.pathname.startsWith("/hr") ||
       request.nextUrl.pathname.startsWith("/purchasing") ||
       request.nextUrl.pathname.startsWith("/dashboard")) &&
@@ -49,7 +49,7 @@ export const config = {
     "/dashboard",
     "/master/:path*",
     "/hotel/:path*",
-    "/resto/:path*",
+    "/resto/restoMenu",
     "/payment/:path*",
     "/hr/:path*",
     "/purchasing/:path*",
