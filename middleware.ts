@@ -9,6 +9,7 @@ export function middleware(request: NextRequest) {
       : false;
 
   if (!isLoggedIn) {
+
     return NextResponse.redirect(new URL("/users/loginGuest", request.url));
   }
 
@@ -25,6 +26,8 @@ export function middleware(request: NextRequest) {
     );
   }
 
+
+
   if (
     (request.nextUrl.pathname.startsWith("/master") ||
       request.nextUrl.pathname.startsWith("/hotel") ||
@@ -37,6 +40,12 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(
       new URL(`/users/profile/${loginData.user_id}`, request.url)
     );
+  }
+  if (request.nextUrl.pathname === '/booking/detail-booking-pembayaran-final' && [1, 2, 3, 4, 5].indexOf(loginData.user_role_id) === -1) {
+    return NextResponse.redirect(new URL(`/`));
+  }
+  if (request.nextUrl.pathname === '/booking/detail-booking-pembayaran-final' && [1, 2, 3, 4, 5].indexOf(loginData.user_role_id) === -1) {
+    return NextResponse.redirect(new URL(`/`));
   }
 
   return NextResponse.next();
@@ -53,5 +62,7 @@ export const config = {
     "/payment/:path*",
     "/hr/:path*",
     "/purchasing/:path*",
+    "/booking/detail-booking-pembayaran-final",
+    "/booking/detail-pembayaran-invoice-final",
   ],
 };
