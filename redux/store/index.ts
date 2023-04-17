@@ -50,6 +50,7 @@ import addressReducer from '../masterSchema/reducer/addressReducer'
 import bookingsTemporaryReducers from '../booking/reducer/bookingTemporary'
 import bookingDetailPembayaranReducers from '../booking/reducer/bookingDetailPembayaranReducers'
 
+
 const logger = createLogger()
 const saga = createSagaMiddleware()
 
@@ -105,6 +106,7 @@ const reducer = combineReducers({
 
 const store = configureStore({
   reducer,
+
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,9 +21,7 @@
   },
   "include": [
     "next-env.d.ts",
-
     "**/*.ts",
-
     "**/*.tsx",
     "components/Breadcrumb/index",
     "pages/resto/orderMenuDetail"

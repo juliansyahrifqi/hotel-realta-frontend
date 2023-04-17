@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, Fragment, useCallback } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -26,6 +26,7 @@ import {
 import { doAddOrdet } from '@/redux/restoSchema/action/actionOrdet'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/router'
+import HeaderNavbar from '@/components/ComponentsYudha/header-navbar'
 import { doAddOrme } from '@/redux/restoSchema/action/actionOrme'
 // ini adalah carousel
 
@@ -34,6 +35,8 @@ const restoPhoto = () => {
   const { restoMenus = [], refresh } = useSelector(
     (state: any) => state.remeReducers
   )
+
+  const router = useRouter()
   // REDUCER
 
   const [searchTerm, setSearchTerm] = useState('')
@@ -191,6 +194,14 @@ const restoPhoto = () => {
 
   // HANDLE CHECKOUT
 
+  const onFrameButtonClick = useCallback(() => {
+    router.push('/booking/list-booking-final')
+  }, [router])
+
+  const onFrameButtonClickRestaurant = useCallback(() => {
+    router.push('/resto/restoMenuPhotos')
+  }, [router])
+
   useEffect(() => {
     const data = localStorage.getItem('cartItems')
     if (data) {
@@ -199,7 +210,21 @@ const restoPhoto = () => {
   }, [])
 
   return (
-    <div className='bg-white'>
+    <div className=' bg-gray-100 '>
+      <HeaderNavbar
+        vector='/vector17.svg'
+        vector1='/vector18.svg'
+        vector2='/vector19.svg'
+        vector3='/vector20.svg'
+        vector4='/vector21.svg'
+        vector5='/vector22.svg'
+        vector6='/vector23.svg'
+        vector7='/vector24.svg'
+        vector8='/vector25.svg'
+        vector9='/vector26.svg'
+        onFrameButtonClickRestaurant={onFrameButtonClickRestaurant}
+        onFrameButtonClick={onFrameButtonClick}
+      />
       {/* Title */}
       <div className='pt-8  bg-white'>
         <h1 className='text-center text-2xl font-bold text-gray-800'>
