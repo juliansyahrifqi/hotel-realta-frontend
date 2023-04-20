@@ -33,11 +33,11 @@ const listMenu = [
         path: '/users/booking/',
         title: 'My Booking',
       },
-      {
-        to: '/users/myAccount',
-        path: '/users/myAccount',
-        title: 'My Account',
-      },
+      // {
+      //   to: '/users/myAccount',
+      //   path: '/users/myAccount',
+      //   title: 'My Account',
+      // },
     ],
   },
   {
